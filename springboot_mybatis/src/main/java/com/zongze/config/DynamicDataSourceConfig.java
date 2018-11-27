@@ -1,5 +1,4 @@
 package com.zongze.config;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +64,7 @@ public class DynamicDataSourceConfig {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
+        //需要指定sql的xml的位置
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().
                 getResources("classpath*:mapper/*.xml"));
         return bean.getObject();

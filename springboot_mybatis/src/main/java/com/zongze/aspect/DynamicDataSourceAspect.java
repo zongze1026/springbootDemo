@@ -26,14 +26,14 @@ public class DynamicDataSourceAspect {
 
 
     /**
-     * 使用slave1数据源来查询
+     * 使用slave1数据源来查询，匹配切面
      */
     @Pointcut("execution(* com.zongze.service.slave1..*.*(..))")
     public void slave1() {
     }
 
     /**
-     * 使用slave2数据源来查询
+     * 使用slave2数据源来查询，匹配切面
      */
     @Pointcut("execution(* com.zongze.service.slave2..*.*(..))")
     public void slave2() {
@@ -41,7 +41,7 @@ public class DynamicDataSourceAspect {
 
 
     /**
-     * 使用slave2数据源来查询
+     * 移除数据源匹配的切面
      */
     @Pointcut("execution(* com.zongze.service..*.*(..))")
     public void pointCut() {

@@ -67,8 +67,7 @@ public class DynamicDataSourceAspect {
 
 
     /**
-     * @param:
-     * @return: 如果有注解标注的话优先使用注解的数据源
+     * 如果有注解标注的话优先使用注解的数据源
      * 否则使用默认数据源
      */
     private void selectDataSource(JoinPoint point, DataSourceType dataSourceType) {

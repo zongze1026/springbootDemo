@@ -16,4 +16,8 @@
         select id,userName,age from user
     </select>
 
+    <select id="findAll" resultType="com.zongze.domain.User">
+        select id,userName,age from user
+    </select>
+
 </mapper>

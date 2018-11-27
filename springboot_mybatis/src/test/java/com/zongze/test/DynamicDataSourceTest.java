@@ -27,7 +27,9 @@ public class DynamicDataSourceTest {
         User user = new User();
         user.setUserName("slave1");
         user.setAge(18);
-        slave1Service.add(user);
+        for (int i=1;i<18;i++){
+            slave1Service.add(user);
+        }
     }
 
 
@@ -52,6 +54,11 @@ public class DynamicDataSourceTest {
     }
 
 
+    //pageHelper插件使用
+    @Test
+    public void findAll(){
+        slave1Service.pageHelperTest();
+    }
 
 
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zongze.mapper.UserMapper">
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.zongze.model.User">
+      insert into user(userName,age)VALUES(#{userName},#{age})
+    </insert>
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.zongze.model.User">
+      insert into user(userName,age)VALUES(#{userName},#{age})
+    </insert>
+
+    <select id="find" resultType="com.zongze.model.User">
+        select id,userName,age from user
+    </select>
+
+    <select id="findAll" resultType="com.zongze.model.User">
+        select id,userName,age from user
+    </select>
+
+</mapper>

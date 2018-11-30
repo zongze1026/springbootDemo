@@ -10,6 +10,7 @@
 
     <modules>
         <module>springboot_mybatis</module>
+        <module>springboot_transaction_propagation</module>
     </modules>
 
 

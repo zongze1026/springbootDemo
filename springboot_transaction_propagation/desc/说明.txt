@@ -7,6 +7,7 @@
  PROPAGATION_NEVER    以非事务方式执行，如果当前存在事务，则抛出异常。
 
 
+测试事务的传播行为
 1、测试 PROPAGATION_REQUIRED
 2、测试 PROPAGATION_REQUIRES_NEW
 3、测试 PROPAGATION_NESTED

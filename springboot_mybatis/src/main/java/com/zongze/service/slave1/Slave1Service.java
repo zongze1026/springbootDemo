@@ -7,6 +7,7 @@ import com.zongze.domain.User;
 import com.zongze.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class Slave1Service {
      * db slave1使用主数源插入操作
      */
     @DynamicDatasource("master")
+    @Transactional
     public void add(User user){
         userMapper.add(user);
     }

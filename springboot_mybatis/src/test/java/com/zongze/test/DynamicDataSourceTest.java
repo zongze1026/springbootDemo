@@ -61,4 +61,16 @@ public class DynamicDataSourceTest {
     }
 
 
+    //测试事务,service层出现runTimeException就会促发事务回滚
+    @Test
+    public void testTransaction(){
+        User user = new User();
+        user.setUserName("slave2");
+        user.setAge(28);
+        slave1Service.add(user);
+    }
+
+
+
+
 }

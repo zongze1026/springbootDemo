@@ -27,6 +27,7 @@ public class Slave1Service {
     @Transactional
     public void add(User user){
         userMapper.add(user);
+        throw new RuntimeException();
     }
 
     /**

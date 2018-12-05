@@ -71,6 +71,13 @@ public class DynamicDataSourceTest {
     }
 
 
+    //测试slave1Service调用slave2Service
+    @Test
+    public void test_slave1_2(){
+      slave1Service.slave1_2();
+    }
+
+
 
 
 }

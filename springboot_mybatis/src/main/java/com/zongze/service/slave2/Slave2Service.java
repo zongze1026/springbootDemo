@@ -1,4 +1,5 @@
 package com.zongze.service.slave2;
+
 import com.alibaba.fastjson.JSON;
 import com.zongze.annotation.DynamicDatasource;
 import com.zongze.domain.User;
@@ -17,13 +18,17 @@ public class Slave2Service {
     private UserMapper userMapper;
 
     @DynamicDatasource("master")
-    public void add(User user){
+    public void add(User user) {
         userMapper.add(user);
     }
 
-    public void userInfo(){
+    public void userInfo() {
         User user = userMapper.find();
         System.out.println(JSON.toJSONString(user));
+    }
+
+    public User user() {
+        return userMapper.find();
     }
 
 

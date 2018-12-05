@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zongze.annotation.DynamicDatasource;
 import com.zongze.domain.User;
 import com.zongze.mapper.UserMapper;
+import com.zongze.service.slave2.Slave2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,9 @@ public class Slave1Service {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private Slave2Service service;
 
     /**
      * db slave1使用主数源插入操作
@@ -63,6 +67,19 @@ public class Slave1Service {
         System.out.println("====================总数量："+total+"============================");
 
     }
+
+
+    /**
+     * 从slave1中调用slave2service 看数据源的变化
+     */
+    public void slave1_2(){
+        User user = userMapper.find();
+        System.out.println(JSON.toJSONString(user));
+        User user2 = service.user();
+        System.out.println(JSON.toJSONString(user2));
+    }
+
+
 
 
 

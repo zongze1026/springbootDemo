@@ -1,0 +1,2 @@
+1.redis使用fastJson序列化配置
+2.swagger2的使用

@@ -31,7 +31,9 @@
         </triggeringPolicy>
     </appender>
 
+    <!--打印mybatis的sql语句，name对应dao所在的包-->
     <logger name="com.zongze.mapper" level="DEBUG"/>
+
     <!--fileLogger记录日志到日志文件-->
     <logger name="com.zongze" level="DEBUG">
         <appender-ref ref="FILE"/>

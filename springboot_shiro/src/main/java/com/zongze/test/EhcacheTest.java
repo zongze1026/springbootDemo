@@ -34,7 +34,7 @@ public class EhcacheTest {
         //再次休眠3秒,缓存消失
         Thread.currentThread().sleep(1000*3);
 
-        //虽然缓存已经过期；但是size没有充值，这个时ehcache框架存在的问题
+        //虽然缓存已经过期；但是size没有重置，这个时ehcache框架存在的问题
         System.out.println(cache.getSize());  // 1
 
         Element element3 = cache.get("user");

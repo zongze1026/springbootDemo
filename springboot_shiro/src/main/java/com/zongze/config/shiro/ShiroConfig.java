@@ -1,4 +1,6 @@
-package com.zongze.config;
+package com.zongze.config.shiro;
+
+import com.alibaba.fastjson.parser.ParserConfig;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -11,6 +13,10 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,7 +29,7 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Bean("sessionManager")
-    public SessionManager sessionManager(){
+    public SessionManager sessionManager() {
 
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         //设置session过期时间为1小时
@@ -33,28 +39,24 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    //设置ehcache缓存
+
     @Bean
-    public CacheManager getCacheManager(){
-        net.sf.ehcache.CacheManager  cacheManager =  net.sf.ehcache.CacheManager.getCacheManager("cacheTest");
-        EhCacheManager em = new EhCacheManager();
-        em.setCacheManager(cacheManager);
-        em.setCacheManagerConfigFile("classpath:ehcache.xml");
-        return  em;
+    public RedisCacheManager redisCacheManager() {
+        return new RedisCacheManager();
     }
 
 
     @Bean("securityManager")
     public SecurityManager securityManager(UserRealm userRealm, SessionManager sessionManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        userRealm.setCacheManager(getCacheManager());
+        userRealm.setCacheManager(redisCacheManager());
         securityManager.setRealm(userRealm);
         securityManager.setSessionManager(sessionManager);
         return securityManager;
     }
 
     @Bean("shiroFilter")
-    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
         shiroFilter.setLoginUrl("/anno/notLogin");
@@ -68,10 +70,12 @@ public class ShiroConfig {
         return shiroFilter;
     }
 
+
     @Bean("lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
+
 
     @Bean
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
@@ -87,6 +91,23 @@ public class ShiroConfig {
         return advisor;
     }
 
+
+    @Bean
+    @Primary
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory factory) {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+        JsonObjectSerializer<Object> objectSerializer = new JsonObjectSerializer<>(Object.class);
+        redisTemplate.setConnectionFactory(factory);
+        /** key-value类型*/
+        redisTemplate.setKeySerializer(objectSerializer);
+        redisTemplate.setValueSerializer(objectSerializer);
+        /** hash类型*/
+        redisTemplate.setHashKeySerializer(objectSerializer);
+        redisTemplate.setHashValueSerializer(objectSerializer);
+        ParserConfig.getGlobalInstance().addAccept("com.zongze");
+        ParserConfig.getGlobalInstance().addAccept("org.apache");
+        return redisTemplate;
+    }
 
 
 }

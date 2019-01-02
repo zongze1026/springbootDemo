@@ -1,13 +1,24 @@
 package com.zongze.controller;
+
+import com.zongze.config.shiro.UserRealm;
 import com.zongze.entity.User;
+import com.zongze.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.omg.PortableInterceptor.SUCCESSFUL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -16,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("user")
 public class UserController {
+
+    @Autowired
+    private UserRealm userRealm;
 
 
     @PostMapping("login")
@@ -45,14 +59,11 @@ public class UserController {
     }
 
 
-    @PostMapping("check2")
-    @RequiresRoles("1")
+    @PostMapping("clear")
     public Object check2() {
-        System.out.println("权限验证通过");
-        return "权限验证通过";
+        ShiroUtil.clearCache();
+        return "缓存清除成功";
     }
-
-
 
 
 }

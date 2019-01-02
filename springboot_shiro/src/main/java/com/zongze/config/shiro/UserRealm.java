@@ -1,6 +1,7 @@
-package com.zongze.config;
+package com.zongze.config.shiro;
 import com.zongze.entity.User;
 import com.zongze.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -24,7 +25,6 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.addRoles(userService.getRole(user.getUserName()));
         simpleAuthorizationInfo.addStringPermissions(userService.getPerm(user.getUserName()));
-        System.out.println("==================不给用户添加权限=======================");
         return simpleAuthorizationInfo;
     }
 
@@ -34,7 +34,13 @@ public class UserRealm extends AuthorizingRealm {
         User userInfo = userService.userInfo(token.getUsername());
 
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(userInfo,userInfo.getPassWord(),getName());
-        System.out.println("================用户登入完成=======================");
         return simpleAuthenticationInfo;
     }
+
+
+    public void clearCache(){
+        this.clearCachedAuthenticationInfo(SecurityUtils.getSubject().getPrincipals());
+    }
+
+
 }

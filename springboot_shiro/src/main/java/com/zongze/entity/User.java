@@ -1,5 +1,8 @@
 package com.zongze.entity;
 
+import com.alibaba.fastjson.JSON;
+
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.Serializable;
 
 /**
@@ -46,4 +49,13 @@ public class User implements Serializable {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.setUserName("laowang");
+        user.setPassWord("123456");
+        System.out.println(JSON.toJSONString(user));
+    }
+
 }

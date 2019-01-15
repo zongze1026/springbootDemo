@@ -1,4 +1,4 @@
-package com.zongze.constant;
+package com.zongze.config;
 
 /**
  * Create By xzz on 2018/11/21

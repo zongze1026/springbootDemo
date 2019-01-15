@@ -2,7 +2,7 @@ package com.zongze.aspect;
 
 import com.zongze.annotation.DynamicDatasource;
 import com.zongze.config.DynamicDataSourceHolder;
-import com.zongze.constant.DataSourceType;
+import com.zongze.config.DataSourceType;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;

@@ -1,9 +1,11 @@
 package com.zongze.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zongze.config.shiro.UserRealm;
 import com.zongze.entity.ExcelTest;
 import com.zongze.entity.User;
+import com.zongze.util.ExcelUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
@@ -12,12 +14,12 @@ import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -37,6 +39,8 @@ public class UserController {
     private UserRealm userRealm;
     @Autowired
     private RedisSessionDAO redisSessionDAO;
+    @Autowired
+    private RestTemplate restTemplate;
 
 
     @PostMapping("login")
@@ -113,12 +117,32 @@ public class UserController {
         } else {
             return "error";
         }
+
     }
 
 
-    public static void main(String[] args) {
-        BigDecimal decimal = new BigDecimal(String.valueOf("kl125"));
+    @PostMapping("rest")
+    public ExcelTest getEntiry(@RequestBody ExcelTest text){
+        ExcelTest excelTest = new ExcelTest();
+        excelTest.setId(text.getId());
+        excelTest.setName("rest");
+        excelTest.setBirthday(new Date());
+        return excelTest;
     }
+
+
+    @PostMapping("start")
+    public ExcelTest proxy(@RequestBody ExcelTest text){
+        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity("http://127.0.0.1:8080/user/rest", text, String.class);
+        logger.info("response message {}",stringResponseEntity.getBody());
+        ExcelTest test = JSONObject.parseObject(stringResponseEntity.getBody(), ExcelTest.class);
+        logger.info("test对象：{}",JSON.toJSONString(test));
+        return test;
+    }
+
+
+
+
 
 
 }

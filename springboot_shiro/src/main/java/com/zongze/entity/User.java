@@ -1,8 +1,5 @@
 package com.zongze.entity;
-
 import com.alibaba.fastjson.JSON;
-
-import javax.xml.bind.SchemaOutputResolver;
 import java.io.Serializable;
 
 /**
@@ -50,12 +47,55 @@ public class User implements Serializable {
         this.age = age;
     }
 
+     static class UserBuilder{
+          Long id;
+
+          String userName;
+
+          String passWord;
+
+          Integer age;
+
+         public UserBuilder setId(Long id) {
+             this.id = id;
+             return this;
+         }
+
+         public UserBuilder setUserName(String userName) {
+             this.userName = userName;
+             return this;
+         }
+
+         public UserBuilder setPassWord(String passWord) {
+             this.passWord = passWord;
+             return this;
+         }
+
+         public UserBuilder setAge(Integer age) {
+             this.age = age;
+             return this;
+         }
+
+         public User builder(){
+             return new User(this);
+         }
+     }
+
+
+    public User(UserBuilder builder) {
+        this.id=builder.id;
+        this.userName=builder.userName;
+        this.age=builder.age;
+        this.passWord=builder.passWord;
+    }
+
+    public User(){}
 
     public static void main(String[] args) {
-        User user = new User();
-        user.setUserName("laowang");
-        user.setPassWord("123456");
-        System.out.println(JSON.toJSONString(user));
+      User a = new User.UserBuilder().setUserName("张三").setAge(18).builder();
+      User b = new User.UserBuilder().setUserName("李四").setAge(38).setId(1002l).setPassWord("52142").builder();
+        System.out.println(JSON.toJSONString(a));
+        System.out.println(JSON.toJSONString(b));
     }
 
 }

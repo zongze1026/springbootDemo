@@ -10,7 +10,9 @@ public class BrotherHander extends Hander {
     @Override
     public String doHander(double monery) {
         if (monery > most) {
-            return getHander().doHander(monery);
+            if (getHander() != null) {
+                return getHander().doHander(monery);
+            }
         }
         return "从哥哥哪里获得了" + monery + "元";
     }

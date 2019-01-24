@@ -11,8 +11,10 @@ public class MotherHander extends Hander {
     @Override
     public String doHander(double monery) {
 
-        if(monery>most){
-            return getHander().doHander(monery);
+        if (monery > most) {
+            if (getHander() != null) {
+                return getHander().doHander(monery);
+            }
         }
         return "从妈妈哪里获得了" + monery + "元";
     }

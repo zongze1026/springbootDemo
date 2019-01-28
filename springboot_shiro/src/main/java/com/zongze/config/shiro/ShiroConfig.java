@@ -1,5 +1,6 @@
 package com.zongze.config.shiro;
 
+import com.zongze.util.MysessionManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -30,14 +31,34 @@ public class ShiroConfig {
     @Bean("sessionManager")
     public SessionManager sessionManager() {
 
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        //设置session过期时间为1小时
-        sessionManager.setGlobalSessionTimeout(100);
+        MysessionManager sessionManager = new MysessionManager();
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
         sessionManager.setSessionDAO(redisSessionDAO());
         return sessionManager;
     }
+
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
+
+
+    @Bean
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+        redisManager.setExpire(120);
+        return redisManager;
+    }
+
 
     @Bean
     public RedisCacheManager redisCacheManager() {
@@ -92,26 +113,7 @@ public class ShiroConfig {
     }
 
 
-    @Bean
-    public RedisManager redisManager() {
-        RedisManager redisManager = new RedisManager();
-        redisManager.setHost(host);
-        redisManager.setPort(port);
-        redisManager.setExpire(2000);
-        return redisManager;
-    }
 
-
-    /**
-     * RedisSessionDAO shiro sessionDao层的实现 通过redis
-     * 使用的是shiro-redis开源插件
-     */
-    @Bean
-    public RedisSessionDAO redisSessionDAO() {
-        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setRedisManager(redisManager());
-        return redisSessionDAO;
-    }
 
 
     @Bean

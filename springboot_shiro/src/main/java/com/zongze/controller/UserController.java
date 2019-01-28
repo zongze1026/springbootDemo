@@ -6,17 +6,25 @@ import com.zongze.config.shiro.UserRealm;
 import com.zongze.entity.ExcelTest;
 import com.zongze.entity.User;
 import com.zongze.util.ExcelUtil;
+import jdk.nashorn.internal.parser.Token;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,20 +49,16 @@ public class UserController {
     private RedisSessionDAO redisSessionDAO;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @PostMapping("login")
     public Object login(@RequestBody User user, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (null != cookies && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
-                logger.info(cookie.getName() + "=" + cookie.getValue());
-            }
-        }
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassWord());
         subject.login(token);
-        Session session = subject.getSession();
+        Session session = subject.getSession(false);
         System.out.println(JSON.toJSONString(session));
 
         return "success";
@@ -62,7 +66,7 @@ public class UserController {
 
 
     @RequestMapping("check")
-    public Object check() {
+    public Object check() throws InterruptedException {
         Subject subject = SecurityUtils.getSubject();
         System.out.println("==============perm====================");
         System.out.println(subject.isPermitted("sys:menu:view"));
@@ -74,6 +78,24 @@ public class UserController {
         System.out.println(subject.hasRole("tou"));
         System.out.println(subject.hasRole("cus"));
         return "权限验证通过";
+    }
+
+    @RequestMapping("timeout")
+    public Object timeout(){
+        Subject subject = SecurityUtils.getSubject();
+        PrincipalCollection principals = subject.getPrincipals();
+        userRealm.clearCache(principals);
+
+        User user = new User();
+        user.setUserName("zhangsan");
+        user.setAge(48);
+        user.setId(425l);
+        user.setPassWord("854212");
+        System.out.println(redisTemplate.opsForHash().get("shiro_session_wangwu", "token"));
+        redisTemplate.opsForHash().put("shiro_session_wangwu", "entity",user);
+
+        return null;
+
     }
 
 
@@ -122,7 +144,7 @@ public class UserController {
 
 
     @PostMapping("rest")
-    public ExcelTest getEntiry(@RequestBody ExcelTest text){
+    public ExcelTest getEntiry(@RequestBody ExcelTest text) {
         ExcelTest excelTest = new ExcelTest();
         excelTest.setId(text.getId());
         excelTest.setName("rest");
@@ -132,17 +154,13 @@ public class UserController {
 
 
     @PostMapping("start")
-    public ExcelTest proxy(@RequestBody ExcelTest text){
+    public ExcelTest proxy(@RequestBody ExcelTest text) {
         ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity("http://127.0.0.1:8080/user/rest", text, String.class);
-        logger.info("response message {}",stringResponseEntity.getBody());
+        logger.info("response message {}", stringResponseEntity.getBody());
         ExcelTest test = JSONObject.parseObject(stringResponseEntity.getBody(), ExcelTest.class);
-        logger.info("test对象：{}",JSON.toJSONString(test));
+        logger.info("test对象：{}", JSON.toJSONString(test));
         return test;
     }
-
-
-
-
 
 
 }

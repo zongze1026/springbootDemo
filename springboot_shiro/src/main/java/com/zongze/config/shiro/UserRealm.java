@@ -47,7 +47,7 @@ public class UserRealm extends AuthorizingRealm {
 
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassWord(), getName());
 
-        // 当验证都通过后，把用户信息放在session里
+        // 当验证都通过后，把用户信息放在session里N
 //        Session session = SecurityUtils.getSubject().getSession();
 //        session.setAttribute("userSession", userInfo);
 //        session.setAttribute("userSessionId", userInfo.getId());
@@ -93,6 +93,11 @@ public class UserRealm extends AuthorizingRealm {
             realm.clearCachedAuthorizationInfo(simplePrincipalCollection);
         }
     }
+
+    public void clearCache(PrincipalCollection principals){
+        this.clearCachedAuthenticationInfo(principals);
+    }
+
 
 
 }

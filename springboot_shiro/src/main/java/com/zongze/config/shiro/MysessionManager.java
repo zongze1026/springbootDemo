@@ -1,4 +1,4 @@
-package com.zongze.util;
+package com.zongze.config.shiro;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;

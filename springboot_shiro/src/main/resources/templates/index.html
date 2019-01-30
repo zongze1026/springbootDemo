@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <title>thymeleaf test</title>
 </head>
+
 <body>
-<!--<h1>this is thymeleaf; test<span th:text="${test}"></span></h1>
+<h1>您好，<span th:text="${user.userName}"></span></h1>
 
-
+<!--
 <div>
         <span th:object="${user}">
          <p><span th:text="*{name}"></span></p>
@@ -41,18 +42,20 @@
     
 </div>-->
 
-<div>
-    <a id="haha" href="#">点击</a>
-</div>
+<h5><a href="#" id="haha"></a></h5>
 
 
 
-<script type="text/javascript" th:src="@{/js/jquery-1.11.0.min.js}" />
+<!--js-->
+<!--<script type="text/javascript" src="static/js/jquery-1.11.0.min.js" />-->
+<!--<script type="text/javascript" src="@{/js/jquery.min.js}" />-->
+
+<script  type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script>
     $(function () {
-        /* $.ajax({
+       /*  $.ajax({
             type:"post",
-             url:"http://localhost:8080/ajax",
+             url:"http://localhost:8080/",
              contentType: "application/json;charset=utf-8",
              data:{"userName":"赵四","passWord":"123456"},
              dataType: "json"
@@ -61,8 +64,13 @@
             alert("hellow index")
         });
 
+
     });
+
+
+
 </script>
 
 </body>
+
 </html>

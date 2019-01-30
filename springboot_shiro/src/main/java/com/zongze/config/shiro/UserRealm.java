@@ -95,7 +95,10 @@ public class UserRealm extends AuthorizingRealm {
     }
 
     public void clearCache(PrincipalCollection principals){
-        this.clearCachedAuthenticationInfo(principals);
+        RealmSecurityManager securityManager =
+                (RealmSecurityManager) SecurityUtils.getSecurityManager();
+        UserRealm realm = (UserRealm)securityManager.getRealms().iterator().next();
+        realm.clearCachedAuthorizationInfo(principals);
     }
 
 

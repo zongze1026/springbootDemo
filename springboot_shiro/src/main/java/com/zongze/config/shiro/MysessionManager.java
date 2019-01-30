@@ -19,7 +19,7 @@ public class MysessionManager extends DefaultWebSessionManager {
     private static final String TOKEN ="token";
 
 
-    private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
+    private static final String REFERENCED_SESSION_ID_SOURCE = "header";
 
 
     /**
@@ -37,5 +37,11 @@ public class MysessionManager extends DefaultWebSessionManager {
         }
         return super.getSessionId(request, response);
     }
+
+
+
+
+
+
 
 }

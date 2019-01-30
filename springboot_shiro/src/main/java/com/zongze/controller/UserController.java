@@ -1,44 +1,36 @@
 package com.zongze.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zongze.config.shiro.UserRealm;
 import com.zongze.entity.ExcelTest;
 import com.zongze.entity.User;
 import com.zongze.util.ExcelUtil;
-import jdk.nashorn.internal.parser.Token;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.util.CollectionUtils;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 
 /**
  * Create By xzz on 2018/12/24
  */
-@RestController
-@RequestMapping("user")
+@Controller
 public class UserController {
 
     @Autowired
@@ -53,19 +45,19 @@ public class UserController {
     private RedisTemplate redisTemplate;
 
 
-    @PostMapping("login")
-    public Object login(@RequestBody User user, HttpServletRequest request) {
+    @RequestMapping("user/login")
+    public String login(User user, Model model) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassWord());
         subject.login(token);
-        Session session = subject.getSession(false);
-        System.out.println(JSON.toJSONString(session));
-
-        return "success";
+        model.addAttribute("user",user);
+        return "index";
     }
 
 
     @RequestMapping("check")
+    @RequiresPermissions("sys:menu:view")
+    @ResponseBody
     public Object check() throws InterruptedException {
         Subject subject = SecurityUtils.getSubject();
         System.out.println("==============perm====================");
@@ -93,7 +85,6 @@ public class UserController {
         user.setPassWord("854212");
         System.out.println(redisTemplate.opsForHash().get("shiro_session_wangwu", "token"));
         redisTemplate.opsForHash().put("shiro_session_wangwu", "entity",user);
-
         return null;
 
     }
@@ -102,19 +93,28 @@ public class UserController {
     @PostMapping("clear")
     public Object check2() {
         Collection<Session> activeSessions = redisSessionDAO.getActiveSessions();
-        logger.info("活跃用户数为:{};活跃用户为:{}", activeSessions.size(), JSON.toJSONString(activeSessions));
-        return "缓存清除成功";
+        if(!CollectionUtils.isEmpty(activeSessions)){
+            for (Session session:activeSessions){
+                Object object = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+                SimplePrincipalCollection collection;
+                if(object instanceof SimplePrincipalCollection){
+                    collection = (SimplePrincipalCollection)object;
+                    System.out.println(JSON.toJSONString(collection));
+                    userRealm.clearCache(collection);
+                }
+            }
+        }
+        return "success";
     }
 
 
-    private AtomicInteger count = new AtomicInteger(0);
-
-    @PostMapping("count")
-    public Object count() {
-        count.getAndIncrement();
-        System.out.println(count.get());
-        return "缓存清除成功";
+    @PostMapping("/logout")
+    public Object loglout(){
+        SecurityUtils.getSubject().logout();
+        return "success";
     }
+
+
 
 
     @RequestMapping("excel")

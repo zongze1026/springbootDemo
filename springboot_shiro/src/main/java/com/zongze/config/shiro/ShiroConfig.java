@@ -77,14 +77,13 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
-        shiroFilter.setLoginUrl("/anno/notLogin");
-        shiroFilter.setUnauthorizedUrl("/");
+        shiroFilter.setLoginUrl("/user/login");
+        shiroFilter.setUnauthorizedUrl("/unAuth");
 
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/sys/**", "authc");
         filterMap.put("/anno/**", "anon");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
-
         return shiroFilter;
     }
 

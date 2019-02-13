@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -78,6 +79,28 @@ public class Slave1Service {
         User user2 = service.user();
         System.out.println(JSON.toJSONString(user2));
     }
+
+    /**
+     * 从属性中取值遍历
+     */
+    public void findAll(){
+        User user = new User();
+        user.setIds(Arrays.asList("1","2","3"));
+        List<User> userList = userMapper.findAllByForEach(user);
+        System.out.println(JSON.toJSONString(userList));
+    }
+
+
+    /**
+     * 从属性中取值遍历
+     */
+    public void findAllByIds(){
+        List<String> list = Arrays.asList("1", "2", "3");
+        List<User> userList = userMapper.findAllByIds(list);
+        System.out.println(JSON.toJSONString(userList));
+    }
+
+
 
 
 

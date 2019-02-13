@@ -1,5 +1,6 @@
 package com.zongze.mapper;
 import com.zongze.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,10 @@ public interface UserMapper {
     int addUser(User user);
 
     List<User> findAll();
+
+    List<User> findAllByForEach(User user);
+
+    List<User> findAllByIds(@Param("ids") List<String> ids);
+
+
 }

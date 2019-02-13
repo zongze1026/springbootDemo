@@ -79,5 +79,19 @@ public class DynamicDataSourceTest {
 
 
 
+    //测试slave1Service调用slave2Service
+    @Test
+    public void findAllBy(){
+        slave1Service.findAll();
+    }
+
+
+    //测试slave1Service调用slave2Service
+    @Test
+    public void findAllByIds(){
+        slave1Service.findAllByIds();
+    }
+
+
 
 }

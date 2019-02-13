@@ -1,6 +1,7 @@
 package com.zongze.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Create By xzz on 2018/11/26
@@ -12,6 +13,16 @@ public class User implements Serializable {
     private String userName;
 
     private Integer age;
+
+    private List<String> ids;
+
+    public List<String> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<String> ids) {
+        this.ids = ids;
+    }
 
     public Long getId() {
         return id;

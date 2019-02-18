@@ -1,5 +1,6 @@
 package com.zongze.entity;
 
+import com.zongze.annotation.Excel;
 import com.zongze.util.DateUtil;
 
 import java.io.Serializable;
@@ -11,12 +12,16 @@ import java.util.Date;
  */
 public class ExcelTest implements Serializable {
 
+    @Excel(name = "id")
     private Integer id;
 
+    @Excel(name = "名称")
     private String name;
 
+    @Excel(name = "资产")
     private Double money;
 
+    @Excel(name = "生日")
     private Date birthday;
 
     public Integer getId() {

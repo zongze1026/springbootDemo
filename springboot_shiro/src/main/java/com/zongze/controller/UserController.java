@@ -1,4 +1,5 @@
 package com.zongze.controller;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zongze.config.shiro.UserRealm;
@@ -24,13 +25,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
  * Create By xzz on 2018/12/24
  */
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -50,7 +52,7 @@ public class UserController {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassWord());
         subject.login(token);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "index";
     }
 
@@ -58,7 +60,7 @@ public class UserController {
     @RequestMapping("check")
     @RequiresPermissions("sys:menu:view")
     @ResponseBody
-    public Object check() throws InterruptedException {
+    public Object check() {
         Subject subject = SecurityUtils.getSubject();
         System.out.println("==============perm====================");
         System.out.println(subject.isPermitted("sys:menu:view"));
@@ -73,7 +75,7 @@ public class UserController {
     }
 
     @RequestMapping("timeout")
-    public Object timeout(){
+    public Object timeout() {
         Subject subject = SecurityUtils.getSubject();
         PrincipalCollection principals = subject.getPrincipals();
         userRealm.clearCache(principals);
@@ -84,7 +86,7 @@ public class UserController {
         user.setId(425l);
         user.setPassWord("854212");
         System.out.println(redisTemplate.opsForHash().get("shiro_session_wangwu", "token"));
-        redisTemplate.opsForHash().put("shiro_session_wangwu", "entity",user);
+        redisTemplate.opsForHash().put("shiro_session_wangwu", "entity", user);
         return null;
 
     }
@@ -93,12 +95,12 @@ public class UserController {
     @PostMapping("clear")
     public Object check2() {
         Collection<Session> activeSessions = redisSessionDAO.getActiveSessions();
-        if(!CollectionUtils.isEmpty(activeSessions)){
-            for (Session session:activeSessions){
+        if (!CollectionUtils.isEmpty(activeSessions)) {
+            for (Session session : activeSessions) {
                 Object object = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
                 SimplePrincipalCollection collection;
-                if(object instanceof SimplePrincipalCollection){
-                    collection = (SimplePrincipalCollection)object;
+                if (object instanceof SimplePrincipalCollection) {
+                    collection = (SimplePrincipalCollection) object;
                     System.out.println(JSON.toJSONString(collection));
                     userRealm.clearCache(collection);
                 }
@@ -109,12 +111,10 @@ public class UserController {
 
 
     @PostMapping("/logout")
-    public Object loglout(){
+    public Object loglout() {
         SecurityUtils.getSubject().logout();
         return "success";
     }
-
-
 
 
     @RequestMapping("excel")
@@ -160,6 +160,14 @@ public class UserController {
         ExcelTest test = JSONObject.parseObject(stringResponseEntity.getBody(), ExcelTest.class);
         logger.info("test对象：{}", JSON.toJSONString(test));
         return test;
+    }
+
+
+    @PostMapping("/aop/test")
+    public User aop(@RequestBody User user) {
+        user.setPassWord("123456");
+        user.setId(10l);
+        return user;
     }
 
 

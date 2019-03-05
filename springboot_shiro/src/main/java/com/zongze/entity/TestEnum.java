@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
  */
 public enum TestEnum {
     Test("ldsa",2),
+    Test_02("23541",4),
     Test_01("dsfas",5);
 
     private String name;

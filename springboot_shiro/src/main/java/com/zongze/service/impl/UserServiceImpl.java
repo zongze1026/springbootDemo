@@ -50,12 +50,10 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-
-
-
-
-
-
+    @Override
+    public int eidt(User user) {
+        return userDao.eidt(user);
+    }
 
 
 }

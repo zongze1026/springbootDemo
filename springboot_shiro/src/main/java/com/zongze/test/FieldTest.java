@@ -1,8 +1,8 @@
 package com.zongze.test;
-import com.zongze.entity.ExcelTest;
-import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import com.alibaba.fastjson.JSON;
+import com.zongze.entity.User;
+
 
 /**
  * Create By xzz on 2019/1/14
@@ -11,20 +11,24 @@ public class FieldTest {
 
 
     public static void main(String[] args) throws Exception {
-        ExcelTest excelTest = new ExcelTest();
-        excelTest.setBirthday(new Date());
-        System.out.println(excelTest.getBirthday());
+        User user = new User();
+        user.setUserName("hell");
+        User user1 = user;
+        user1.setAge(30);
+        System.out.println(JSON.toJSONString(user));
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Class<ExcelTest> aClass = ExcelTest.class;
-        Field field = aClass.getDeclaredField("birthday");
-        if(field.getType() == Date.class){
-            field.setAccessible(true);
-            String birthday = format.format((Date)field.get(excelTest));
-            System.out.println(birthday);
-        }
+
     }
 
+
+    public static String res(String msg){
+        return res2(msg);
+    }
+
+    private static String res2(String msg) {
+        msg="res2 return msg";
+        return msg;
+    }
 
 
 }

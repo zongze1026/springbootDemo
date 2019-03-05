@@ -13,6 +13,8 @@ public interface UserService {
 
     Set<String> getPerm(String userName);
 
+    int eidt(User user);
+
 
 
 }

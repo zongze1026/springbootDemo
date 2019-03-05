@@ -19,6 +19,7 @@ public class GlobalExceptionHander {
     @ExceptionHandler(Exception.class)
     public String hander(Exception e){
         logger.error("exception message:{}",e.getMessage());
+        e.printStackTrace();
 
         if(e instanceof UnauthorizedException){
             return "noPerm";

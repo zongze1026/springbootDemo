@@ -29,6 +29,18 @@ public class UserController {
         logger.warn("warn=" + JSON.toJSONString(user));
         logger.trace("trace=" + JSON.toJSONString(user));
         return "success";
+
+
+
+    }
+
+
+    public static void main(String[] args) {
+        int i = 0;
+        do{
+            System.out.println(i);
+            i++;
+        }while (i<10);
     }
 
 

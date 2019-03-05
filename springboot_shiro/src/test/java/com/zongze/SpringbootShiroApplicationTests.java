@@ -1,4 +1,5 @@
 package com.zongze;
+import com.zongze.entity.User;
 import com.zongze.service.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,15 @@ public class SpringbootShiroApplicationTests {
     public void contextLoads() {
 
     }
+
+    @Test
+    public void edit(){
+        User user = new User();
+        user.setUserName("editTest");
+        user.setId(6l);
+        userService.eidt(user);
+    }
+
 
 }
 

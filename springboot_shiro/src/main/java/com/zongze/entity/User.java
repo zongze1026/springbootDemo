@@ -1,6 +1,9 @@
 package com.zongze.entity;
 import com.alibaba.fastjson.JSON;
+import com.zongze.util.DateUtil;
+
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * Create By xzz on 2018/11/26
@@ -14,6 +17,16 @@ public class User implements Serializable {
     private String passWord;
 
     private Integer age;
+
+    private TestEnum tenum;
+
+    public TestEnum getTenum() {
+        return tenum;
+    }
+
+    public void setTenum(TestEnum tenum) {
+        this.tenum = tenum;
+    }
 
     public String getPassWord() {
         return passWord;
@@ -92,10 +105,24 @@ public class User implements Serializable {
     public User(){}
 
     public static void main(String[] args) {
-      User a = new User.UserBuilder().setUserName("张三").setAge(18).builder();
-      User b = new User.UserBuilder().setUserName("李四").setAge(38).setId(1002l).setPassWord("52142").builder();
-        System.out.println(JSON.toJSONString(a));
-        System.out.println(JSON.toJSONString(b));
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)-1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-1);
+        System.out.println(JSON.toJSONString(DateUtil.format(calendar.getTime())));
+        calendar.set(Calendar.WEEK_OF_YEAR,calendar.get(Calendar.WEEK_OF_YEAR)-1);
+        System.out.println(JSON.toJSONString(DateUtil.format(calendar.getTime())));
+
+        int year = calendar.get(Calendar.YEAR);
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.WEEK_OF_YEAR,week);
+        calendar.set(Calendar.DAY_OF_WEEK,2);
+        System.out.println(DateUtil.format(calendar.getTime()));
+
     }
 
 }

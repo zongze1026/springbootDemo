@@ -229,7 +229,7 @@ public class ExcelUtil<T> {
                             try {
                                 if (field.getType() == Date.class) {
                                     cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-                                    cell.setCellValue(DateUtil.format((Date) field.get(vo)));
+                                    cell.setCellValue(DateUtil.format((Date) field.get(vo),DateUtil.DATE_TIME));
                                 } else {
                                     //如果时数字类型就转成double导出
                                     if (String.valueOf(field.get(vo)).length() > 10) {

@@ -1,5 +1,7 @@
 package com.zongze.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zongze.entity.Menu;
 import com.zongze.entity.Role;
 import com.zongze.entity.User;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -53,6 +56,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public int eidt(User user) {
         return userDao.eidt(user);
+    }
+
+    @Override
+    public PageInfo<User> userList(User user) {
+        PageHelper.startPage(user.getPageNum(), user.getPageSize());
+        return new PageInfo<>(userDao.userList(user));
+    }
+
+    @Override
+    public List<User> userList1(User user) {
+        return userDao.userList(user);
     }
 
 

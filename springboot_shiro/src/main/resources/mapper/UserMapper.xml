@@ -33,6 +33,11 @@
     </select>
 
 
+    <select id="userList" resultType="com.zongze.entity.User">
+        select id,userName,age,passWord from `user`
+    </select>
+
+
 
 
 

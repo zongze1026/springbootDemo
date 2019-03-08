@@ -59,7 +59,7 @@ public class FilterConfig {
     public static void main(String[] args) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)-1);
-        System.out.println(DateUtil.format(calendar.getTime()));
+        System.out.println(DateUtil.format(calendar.getTime(),DateUtil.DATE_TIME));
     }
 
 

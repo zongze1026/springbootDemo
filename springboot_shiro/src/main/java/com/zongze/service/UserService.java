@@ -1,5 +1,8 @@
 package com.zongze.service;
+import com.github.pagehelper.PageInfo;
 import com.zongze.entity.User;
+
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,6 +17,10 @@ public interface UserService {
     Set<String> getPerm(String userName);
 
     int eidt(User user);
+
+    PageInfo<User> userList(User user);
+
+    List<User> userList1(User user);
 
 
 

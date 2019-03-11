@@ -10,7 +10,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 /**
  * Created by xieZZ on 2018/11/11
  */
-@Configuration
+//@Configuration
 public class RedisConfig {
 
 

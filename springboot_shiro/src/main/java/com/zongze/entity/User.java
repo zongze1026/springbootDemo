@@ -101,6 +101,7 @@ public class User extends AbstractIntity {
     }
 
     public User() {
+        System.out.println("user被实例化");
     }
 
     public static void main(String[] args) throws DocumentException {

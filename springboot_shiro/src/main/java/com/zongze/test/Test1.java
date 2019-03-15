@@ -26,6 +26,14 @@ public class Test1 extends Abstranct<Integer> {
 
 
     public static void main(String[] args) {
+//        test1();
+
+        statictest.test();
+
+
+    }
+
+    private static void test1() {
         Menu menu = new Menu();
         menu.setId(10);
         menu.setMenuName("权限管理");
@@ -41,11 +49,7 @@ public class Test1 extends Abstranct<Integer> {
         System.out.println(JSON.toJSONString(user2));
         System.out.println(JSON.toJSONString(user));
         System.out.println(JSON.toJSONString(user1));
-
-
     }
-
-
 
 
 }

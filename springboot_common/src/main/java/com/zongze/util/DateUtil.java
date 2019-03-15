@@ -21,7 +21,6 @@ public class DateUtil {
         return threadLocal;
     }
 
-
     public static Date parse(String date, String dateType) {
         try {
             return getLocalMap(dateType).get().parse(date);
@@ -34,6 +33,7 @@ public class DateUtil {
     public static String format(Date date, String dateType) {
         return getLocalMap(dateType).get().format(date);
     }
+
 
 
     public static void main(String[] args) {

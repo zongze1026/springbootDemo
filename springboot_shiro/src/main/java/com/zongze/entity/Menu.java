@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Create By xzz on 2018/12/27
  */
-public class Menu implements Serializable {
+public class Menu extends AbstractIntity implements Serializable {
 
     private Integer id;
 

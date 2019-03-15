@@ -6,9 +6,9 @@ import java.util.*;
 /**
  * Create By xzz on 2018/11/26
  */
-public class User implements Serializable {
+public class User extends AbstractIntity {
 
-    private Long id;
+    private Integer id;
 
     private String userName;
 
@@ -18,25 +18,6 @@ public class User implements Serializable {
 
     private TestEnum tenum;
 
-    private int pageNum;
-
-    private int pageSize;
-
-    public int getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 
     public TestEnum getTenum() {
         return tenum;
@@ -54,11 +35,11 @@ public class User implements Serializable {
         this.passWord = passWord;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -114,7 +95,6 @@ public class User implements Serializable {
 
 
     public User(UserBuilder builder) {
-        this.id = builder.id;
         this.userName = builder.userName;
         this.age = builder.age;
         this.passWord = builder.passWord;

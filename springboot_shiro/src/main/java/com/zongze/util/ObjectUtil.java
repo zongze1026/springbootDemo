@@ -1,18 +1,15 @@
 package com.zongze.util;
-
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.BeanUtils;
-
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
 import java.util.*;
-
 public class ObjectUtil {
 
 
@@ -284,4 +281,19 @@ public class ObjectUtil {
         }
         return null;
     }
+
+    public static <T> T convertTest(Object source,Class<T> tClass){
+        try {
+            T instance = tClass.newInstance();
+            BeanUtils.copyProperties(source,instance);
+            return instance;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

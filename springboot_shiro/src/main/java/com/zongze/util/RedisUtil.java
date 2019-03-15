@@ -1,19 +1,20 @@
 package com.zongze.util;
 
+import lombok.Setter;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Create By xzz on 2018/12/7
  */
-@Component
+@Setter
 public class RedisUtil {
 
     private static RedisTemplate redisTemplate;
 
-    public RedisUtil(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
+
+    public static final void setTemplate(RedisTemplate template) {
+        redisTemplate = template;
     }
 
     /**
@@ -83,14 +84,6 @@ public class RedisUtil {
             e.printStackTrace();
         }
         return false;
-    }
-
-
-    /**
-     * 获取redis模板
-     */
-    public static RedisTemplate getTempelte() {
-        return redisTemplate;
     }
 
 

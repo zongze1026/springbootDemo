@@ -25,28 +25,10 @@ public class Test1 extends Abstranct<Integer> {
 
 
     public static void main(String[] args) {
-        //        test1();
-        new statictest().test();
+//        new statictest().test();
     }
 
 
-    private static void test1() {
-        Menu menu = new Menu();
-        menu.setId(10);
-        menu.setMenuName("权限管理");
-        menu.setMenuPerm("pro");
-        menu.setParentId(58);
-        menu.setPageNum(52);
-        menu.setStart(new Date());
-
-        User user = ObjectUtil.convert(menu, User.class);
-        User user1 = new User("zhangsan");
-        BeanUtils.copyProperties(menu,user1);
-        User user2 = ObjectUtil.convertTest(menu, User.class);
-        System.out.println(JSON.toJSONString(user2));
-        System.out.println(JSON.toJSONString(user));
-        System.out.println(JSON.toJSONString(user1));
-    }
 
 
 }

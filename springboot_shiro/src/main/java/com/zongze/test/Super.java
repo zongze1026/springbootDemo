@@ -2,6 +2,8 @@ package com.zongze.test;
 
 import com.zongze.entity.User;
 
+import javax.security.auth.Subject;
+
 /**
  * Create By xzz on 2019/3/15
  */
@@ -18,6 +20,13 @@ public class Super {
     static{
         System.out.println("父类静态代码快实例化");
     }
+
+
+    public static void main(String[] args) {
+        Class<? super Super> superclass = Super.class.getSuperclass();
+        System.out.println(superclass.getName());
+    }
+
 
 
 }

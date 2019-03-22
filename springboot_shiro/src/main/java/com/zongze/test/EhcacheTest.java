@@ -20,8 +20,7 @@ public class EhcacheTest {
         Cache cache = cacheManager.getCache("cacheTest");
 
         //创建元素,并设置缓存过期时间为5秒
-        User user = new User();
-        user.setUserName("zhangsan");
+        User user = new User("zhangsan");
         user.setAge(18);
         Element element2 = new Element("user", user);
         cache.put(element2);

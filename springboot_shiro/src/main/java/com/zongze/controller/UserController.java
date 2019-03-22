@@ -86,8 +86,7 @@ public class UserController {
         PrincipalCollection principals = subject.getPrincipals();
         userRealm.clearCache(principals);
 
-        User user = new User();
-        user.setUserName("zhangsan");
+        User user = new User("zhangsan");
         user.setAge(48);
         user.setId(425);
         user.setPassWord("854212");
@@ -169,8 +168,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/aop/test")
-    public Object aop1() {
+    @RequestMapping(value = "/aop/test",method = RequestMethod.POST)
+    public Object aop1(@RequestBody @Valid User user) {
+        logger.info(JSON.toJSONString(user));
         RedisUtil.set("a", 1, null);
         return null;
     }

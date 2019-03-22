@@ -1,15 +1,13 @@
 package com.zongze.test;
 
 import com.alibaba.fastjson.JSON;
+import com.sun.org.apache.xpath.internal.operations.String;
 import com.zongze.entity.Menu;
 import com.zongze.entity.User;
 import com.zongze.util.ObjectUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Create By xzz on 2019/3/5
@@ -25,13 +23,12 @@ public class Test1 extends Abstranct<Integer> {
     }
 
 
+
     public static void main(String[] args) {
-//        test1();
-
-        statictest.test();
-
-
+        //        test1();
+        new statictest().test();
     }
+
 
     private static void test1() {
         Menu menu = new Menu();
@@ -43,7 +40,7 @@ public class Test1 extends Abstranct<Integer> {
         menu.setStart(new Date());
 
         User user = ObjectUtil.convert(menu, User.class);
-        User user1 = new User();
+        User user1 = new User("zhangsan");
         BeanUtils.copyProperties(menu,user1);
         User user2 = ObjectUtil.convertTest(menu, User.class);
         System.out.println(JSON.toJSONString(user2));

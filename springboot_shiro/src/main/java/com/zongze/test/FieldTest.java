@@ -11,7 +11,7 @@ public class FieldTest {
 
 
     public static void main(String[] args) throws Exception {
-        User user = new User();
+        User user = new User("zhangsan");
         user.setUserName("hell");
         User user1 = user;
         user1.setAge(30);

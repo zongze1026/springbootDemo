@@ -26,10 +26,6 @@ public class SpringbootShiroApplicationTests {
 
     @Test
     public void edit(){
-        User user = new User();
-        user.setUserName("editTest");
-        user.setId(6);
-        userService.eidt(user);
     }
 
 

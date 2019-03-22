@@ -1,11 +1,15 @@
 package com.zongze.entity;
+import com.zongze.validator.Phone;
+import lombok.Getter;
+import lombok.Setter;
 import org.dom4j.DocumentException;
-import java.io.Serializable;
 import java.util.*;
 
 /**
  * Create By xzz on 2018/11/26
  */
+@Setter
+@Getter
 public class User extends AbstractIntity {
 
     private Integer id;
@@ -16,92 +20,16 @@ public class User extends AbstractIntity {
 
     private Integer age;
 
-    private TestEnum tenum;
+    @Phone(allowEmpty = true)
+    private String phone;
 
 
-    public TestEnum getTenum() {
-        return tenum;
-    }
 
-    public void setTenum(TestEnum tenum) {
-        this.tenum = tenum;
-    }
-
-    public String getPassWord() {
-        return passWord;
-    }
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
+    public User(String userName) {
         this.userName = userName;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    static class UserBuilder {
-        Long id;
-
-        String userName;
-
-        String passWord;
-
-        Integer age;
-
-        public UserBuilder setId(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public UserBuilder setUserName(String userName) {
-            this.userName = userName;
-            return this;
-        }
-
-        public UserBuilder setPassWord(String passWord) {
-            this.passWord = passWord;
-            return this;
-        }
-
-        public UserBuilder setAge(Integer age) {
-            this.age = age;
-            return this;
-        }
-
-        public User builder() {
-            return new User(this);
-        }
-    }
-
-
-    public User(UserBuilder builder) {
-        this.userName = builder.userName;
-        this.age = builder.age;
-        this.passWord = builder.passWord;
-    }
-
     public User() {
-        System.out.println("user被实例化");
     }
 
     public static void main(String[] args) throws DocumentException {

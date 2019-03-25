@@ -4,7 +4,6 @@ import com.zongze.entity.Menu;
 import com.zongze.entity.Role;
 import com.zongze.entity.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;

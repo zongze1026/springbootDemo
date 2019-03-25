@@ -56,7 +56,7 @@ public class BeanUtil {
     public static final List<Method> getMethods(Class oClass) {
         List<Method> methods = new ArrayList<>();
         Class tempClass = oClass;
-        while (tempClass != null && !Object.class.getName().equals(tempClass.getName().toLowerCase())) {
+        while (tempClass != null && !Object.class.getName().equals(tempClass.getName())) {
             methods.addAll(Arrays.asList(tempClass.getDeclaredMethods()));
             tempClass = tempClass.getSuperclass();
         }
@@ -67,7 +67,7 @@ public class BeanUtil {
     public static final List<Field> getFields(Class oClass) {
         List<Field> fields = new ArrayList<>();
         Class tempClass = oClass;
-        while (tempClass != null && !Object.class.getName().equals(tempClass.getName().toLowerCase())) {
+        while (tempClass != null && !Object.class.getName().equals(tempClass.getName())) {
             fields.addAll(Arrays.asList(tempClass.getDeclaredFields()));
             tempClass = tempClass.getSuperclass();
         }

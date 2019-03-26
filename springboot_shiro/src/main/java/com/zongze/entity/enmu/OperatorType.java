@@ -12,9 +12,9 @@ public enum OperatorType implements Serializable {
 
     LOG_ADD("新增", 0),
     LOG_UPDATE("修改", 1),
-    LOG_DELETE("修改", 1),
-    LOG_FORBID("禁用", 1),
-    LOG_ALLOW("启用", 1),
+    LOG_DELETE("修改", 2),
+    LOG_FORBID("禁用", 3),
+    LOG_ALLOW("启用", 4),
     ;
 
     OperatorType(String desc, Integer code) {

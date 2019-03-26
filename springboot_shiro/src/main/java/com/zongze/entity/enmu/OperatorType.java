@@ -1,11 +1,13 @@
 package com.zongze.entity.enmu;
 
+import lombok.Getter;
 import java.io.Serializable;
 
 
 /**
  * Create By xzz on 2019/3/26
  */
+@Getter
 public enum OperatorType implements Serializable {
 
     LOG_ADD("新增", 0),
@@ -20,20 +22,12 @@ public enum OperatorType implements Serializable {
         this.code = code;
     }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
     private String desc;
     private Integer code;
 
     public static OperatorType getType(Integer code) {
         for (OperatorType operatorType : OperatorType.values()) {
-            if (code == operatorType.code) {
+            if (code == operatorType.getCode()) {
                 return operatorType;
             }
         }

@@ -13,7 +13,7 @@ import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
 import java.util.*;
 
-public class ObjectUtil {
+public class ObjectUtils {
 
 
     /**
@@ -143,7 +143,7 @@ public class ObjectUtil {
             Element element = it.next();
             map.put(element.getName(), element.getData());
         }
-        return ObjectUtil.convert(map, targetClass);
+        return ObjectUtils.convert(map, targetClass);
     }
 
     public static <T> T convertXmlStr(String xmlStr, Class<T> targetClass) {

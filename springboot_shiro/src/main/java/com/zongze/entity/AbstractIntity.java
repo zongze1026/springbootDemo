@@ -1,5 +1,6 @@
 package com.zongze.entity;
 
+import com.zongze.entity.enmu.OperatorType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,9 @@ public class AbstractIntity implements Serializable {
     private Date start;
 
     private Date end;
+
+    private Integer operatorType;
+
+
 
 }

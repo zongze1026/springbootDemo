@@ -28,6 +28,9 @@ public class Logger extends AbstractIntity{
     private Date updateTime;
     @ApiModelProperty("创建时间")
     private Date createTime;
-
+    @ApiModelProperty("操作者")
+    private String operator;
+    @ApiModelProperty("ip地址")
+    private String ip;
 
 }

@@ -1,6 +1,5 @@
 package com.zongze.entity;
 
-import com.zongze.entity.enmu.OperatorType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-public class AbstractIntity implements Serializable {
+public class AbstractEntity implements Serializable {
 
     private Integer pageNum;
 

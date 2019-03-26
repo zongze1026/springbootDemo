@@ -5,6 +5,7 @@ import com.zongze.annotation.Log;
 import com.zongze.entity.Logger;
 import com.zongze.entity.enmu.OperatorType;
 import com.zongze.service.LogService;
+import com.zongze.util.IPAddressHelper;
 import com.zongze.util.ObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
@@ -79,6 +80,8 @@ public class LogAspectj {
         logger.setRespResult(JSON.toJSONString(result));
         logger.setTitle(title);
         logger.setUri(request.getRequestURI());
+        logger.setIp(IPAddressHelper.getClientIP(request));
+        logger.setOperator("admin");
         logService.add(logger);
     }
 

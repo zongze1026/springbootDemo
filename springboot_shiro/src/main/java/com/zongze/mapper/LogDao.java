@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LogDao {
 
-    @Insert("INSERT into log(title,uri,content,req_param,resp_result)values(#{title},#{uri},#{content},#{reqParam},#{respResult})")
+    @Insert("INSERT into log(title,uri,content,req_param,resp_result,ip,operator)values(#{title},#{uri},#{content},#{reqParam},#{respResult},#{ip},#{operator})")
     int add(Logger log);
 
 }

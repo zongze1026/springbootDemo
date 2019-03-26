@@ -22,7 +22,7 @@ public class LogController {
     @Autowired
     private LogService logService;
 
-    @Log("添加用户")
+    @Log
     @PostMapping("add")
     public ResultResp addLog(@RequestBody Logger log) {
         logService.add(log);

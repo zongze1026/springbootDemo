@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-public class Logger extends AbstractIntity{
+public class Logger extends AbstractEntity{
 
     @ApiModelProperty("日志id")
     private Long id;

@@ -72,9 +72,8 @@ public class DynamicDataSourceAspect {
      */
     private void selectDataSource(JoinPoint point, DataSourceType dataSourceType) {
         try {
-            MethodSignature signature = (MethodSignature) point.getSignature();
             //获取当前方法的字节码对象
-            Method method = signature.getMethod();
+            Method method = ((MethodSignature) point.getSignature()).getMethod();
             //判断是否有DynamicDatasource注解
             if (method.isAnnotationPresent(DynamicDatasource.class)) {
                 DynamicDatasource annotation = method.getAnnotation(DynamicDatasource.class);

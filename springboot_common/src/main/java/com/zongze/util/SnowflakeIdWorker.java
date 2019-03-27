@@ -196,13 +196,6 @@ public class SnowflakeIdWorker {
      * 测试
      */
     public static void main(String[] args) {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
-//        for (int i = 0; i < 10; i++) {
-//            long id = idWorker.nextId();
-//            System.out.println(Long.toBinaryString(id));
-//            System.out.println(id);
-//        }
-        System.out.println("----------------" + getId(0, 0));
-        System.out.println("----------------" + Long.toBinaryString(Long.parseLong(getId(0, 0))));
+        System.out.println(SnowflakeIdWorker.getId());
     }
 }

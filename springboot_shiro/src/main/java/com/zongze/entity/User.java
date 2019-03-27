@@ -10,7 +10,7 @@ import java.util.*;
  */
 @Setter
 @Getter
-public class User extends AbstractIntity {
+public class User extends AbstractEntity {
 
     private Integer id;
 

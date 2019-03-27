@@ -26,8 +26,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -164,10 +164,10 @@ public class UserController {
 
 
     @RequestMapping(value = "/aop/test",method = RequestMethod.POST)
-    public Object aop1(@RequestBody @Valid User user) {
+    public User aop1(@RequestBody User user, HttpServletRequest request) {
         logger.info(JSON.toJSONString(user));
         RedisUtil.set("a", 1, null);
-        return null;
+        return user;
     }
 
 

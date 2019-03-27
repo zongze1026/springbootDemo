@@ -1,11 +1,10 @@
 package com.zongze.entity;
 
-import java.io.Serializable;
 
 /**
  * Create By xzz on 2018/12/27
  */
-public class Menu extends AbstractIntity implements Serializable {
+public class Menu extends AbstractEntity {
 
     private Integer id;
 

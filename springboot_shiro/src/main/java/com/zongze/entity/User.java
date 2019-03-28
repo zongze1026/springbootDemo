@@ -29,8 +29,8 @@ public class User extends AbstractEntity {
         this.userName = userName;
     }
 
-    public User() {
-    }
+//    public User() {
+//    }
 
     public static void main(String[] args) throws DocumentException {
 //        Calendar calendar = Calendar.getInstance();

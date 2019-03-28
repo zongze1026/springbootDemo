@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * Create By xzz on 2019/2/22
  */
-@Configuration
+//@Configuration
 public class FilterConfig {
 
 

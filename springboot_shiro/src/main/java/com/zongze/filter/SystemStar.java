@@ -1,6 +1,7 @@
 package com.zongze.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.zongze.component.ApplicationContextHolder;
 import com.zongze.service.UserService;
 
 import java.util.Set;

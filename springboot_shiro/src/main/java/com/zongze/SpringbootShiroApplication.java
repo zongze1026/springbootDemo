@@ -1,5 +1,5 @@
 package com.zongze;
-import com.zongze.filter.ApplicationContextHolder;
+import com.zongze.component.ApplicationContextHolder;
 import com.zongze.util.RedisUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -29,15 +29,6 @@ public class SpringbootShiroApplicationTests {
     }
 
 
-    @Test
-    public void pageTest(){
-        User user = new User();
-        user.setUserName("zhangsan");
-        user.setPageNum(1);
-        user.setPageSize(3);
-        Object o = pService.pageTest(user);
-        System.out.println(JSON.toJSONString(o));
-    }
 
 
 

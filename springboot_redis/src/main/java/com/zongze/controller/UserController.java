@@ -21,7 +21,7 @@ public class UserController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add() {
         User user = new User("zhangsan", 18);
-        RedisUtil.set("user", user, 10);
+        RedisUtil.set("user", user, 60);
 
         logger.info("info=" + JSON.toJSONString(user));
         logger.debug("debug=" + JSON.toJSONString(user));

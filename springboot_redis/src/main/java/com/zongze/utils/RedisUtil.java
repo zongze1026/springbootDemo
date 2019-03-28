@@ -6,13 +6,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * Create By xzz on 2018/12/7
  */
-@Component
 public class RedisUtil {
 
     private static RedisTemplate redisTemplate;
 
-    public RedisUtil(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public static void setRedisTemplate(RedisTemplate redisTemplate) {
+        RedisUtil.redisTemplate = redisTemplate;
     }
 
     /**

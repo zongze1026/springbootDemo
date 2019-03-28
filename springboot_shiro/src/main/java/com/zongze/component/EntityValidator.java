@@ -1,7 +1,5 @@
-package com.zongze.validator;
-
+package com.zongze.component;
 import org.apache.commons.lang3.StringUtils;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.annotation.Annotation;
@@ -11,14 +9,13 @@ import java.util.regex.Pattern;
 /**
  * Create By xzz on 2019/3/22
  */
-public class RegValidator implements ConstraintValidator<Phone, String> {
+public class EntityValidator implements ConstraintValidator<Annotation, String> {
 
     private Pattern pattern = null;
-
     private boolean allowEmpty = false;
 
     @Override
-    public void initialize(Phone annotation) {
+    public void initialize(Annotation annotation) {
         Object annotationValue = getAnnotationValue(annotation, "value");
         if (null != annotationValue) {
             pattern = Pattern.compile((String) annotationValue);
@@ -51,4 +48,10 @@ public class RegValidator implements ConstraintValidator<Phone, String> {
         }
         return pattern.matcher(target).matches();
     }
+
+    public static void main(String[] args) {
+        System.out.println();
+    }
+
+
 }

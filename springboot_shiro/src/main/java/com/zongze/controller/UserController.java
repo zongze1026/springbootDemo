@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -164,7 +165,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/aop/test",method = RequestMethod.POST)
-    public User aop1(@RequestBody User user, HttpServletRequest request) {
+    public User aop1(@RequestBody @Valid User user, HttpServletRequest request) {
         logger.info(JSON.toJSONString(user));
         RedisUtil.set("a", 1, null);
         return user;

@@ -1,4 +1,6 @@
-package com.zongze.validator;
+package com.zongze.annotation;
+
+import com.zongze.component.EntityValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -7,8 +9,8 @@ import java.lang.annotation.*;
 /**
  * Create By xzz on 2019/3/22
  */
-@Constraint(validatedBy = RegValidator.class)
-@Target({ElementType.FIELD})
+@Constraint(validatedBy = EntityValidator.class)
+@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Phone {
@@ -17,10 +19,12 @@ public @interface Phone {
 
     boolean allowEmpty() default false;
 
-    String message() default "手机号格式有误";
+    String message() default "手机号格式有误!";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+
 
 }

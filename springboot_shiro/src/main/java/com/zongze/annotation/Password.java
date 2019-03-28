@@ -1,11 +1,13 @@
-package com.zongze.validator;
+package com.zongze.annotation;
 
+
+import com.zongze.component.EntityValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Constraint(validatedBy = RegValidator.class)
+@Constraint(validatedBy = EntityValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

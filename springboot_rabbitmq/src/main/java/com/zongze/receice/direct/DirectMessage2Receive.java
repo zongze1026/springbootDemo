@@ -19,7 +19,10 @@ public class DirectMessage2Receive {
     @RabbitHandler
     public void receive(String content, Channel channel, Message message) throws IOException {
         System.out.println(DirectMessage2Receive.class.getName() + ":" + content);
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        //当前消息的id
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        //手动应答ack，第二个参数：true:会把小于当前id的消息全部ack掉 false:只ack当前消息
+        channel.basicAck(deliveryTag, false);
     }
 
 

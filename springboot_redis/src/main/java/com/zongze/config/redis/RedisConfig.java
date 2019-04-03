@@ -39,6 +39,9 @@ public class RedisConfig {
     }
 
 
+    /**
+     * 配置redis key过期监听容器
+     */
     @Bean
     public RedisMessageListenerContainer container(RedisConnectionFactory redisConnectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
@@ -46,6 +49,9 @@ public class RedisConfig {
         return container;
     }
 
+    /**
+     * redis key过期回调实现类
+     */
     @Bean
     public KeyExpireListener keyExpireListener(RedisMessageListenerContainer container) {
         KeyExpireListener listener = new KeyExpireListener(container);

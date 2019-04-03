@@ -165,10 +165,9 @@ public class UserController {
 
 
     @RequestMapping(value = "/aop/test",method = RequestMethod.POST)
-    public User aop1(@RequestBody @Valid User user, HttpServletRequest request) {
-        logger.info(JSON.toJSONString(user));
-        RedisUtil.set("a", 1, null);
-        return user;
+    public String aop1() {
+        RedisUtil.set("redis:test", 1, 10l);
+        return "user";
     }
 
 

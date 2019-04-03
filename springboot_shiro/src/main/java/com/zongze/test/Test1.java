@@ -1,6 +1,11 @@
 package com.zongze.test;
 
 import com.sun.org.apache.xpath.internal.operations.String;
+import com.zongze.annotation.Enmu;
+import com.zongze.entity.enmu.OperatorType;
+import com.zongze.util.ObjectUtil;
+
+import java.lang.reflect.Method;
 
 
 /**
@@ -17,9 +22,9 @@ public class Test1 extends Abstranct<Integer> {
     }
 
 
+    @Enmu
+    public void getAnno(){
 
-    public static void main(String[] args) {
-//        new statictest().test();
     }
 
 

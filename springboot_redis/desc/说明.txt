@@ -2,3 +2,5 @@
 2.swagger2的使用
 3.整合logback
 4.设计模式学习
+5.CommandLineRunner接口的使用；服务启动会执行实现类的run方法
+6.redis key过期监听实现

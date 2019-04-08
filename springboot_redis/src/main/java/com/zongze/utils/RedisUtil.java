@@ -1,6 +1,7 @@
 package com.zongze.utils;
+
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -76,12 +77,27 @@ public class RedisUtil {
      */
     public static boolean del(String key) {
         try {
-           return redisTemplate.delete(key);
+            return redisTemplate.delete(key);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
+
+    /**
+     * 自增key
+     */
+    public static Long increment(String key, long count) {
+        try {
+            return redisTemplate.opsForValue().increment(key, count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 
 }

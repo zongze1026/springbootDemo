@@ -21,7 +21,7 @@ public class UserController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add() {
-        User user = new User("zhangsan", 18);
+        User user = new User("zhangsan", 18l);
         RedisUtil.set("user", user, 60);
 
         logger.info("info=" + JSON.toJSONString(user));
@@ -35,12 +35,15 @@ public class UserController {
 
     @PostMapping("expire")
     public String key() {
-        int n = 45;
-        for (int i = 0; i < 10; i++) {
-            RedisUtil.set("expire:token:" + i, "123", n);
-            n -= 2;
-        }
-        RedisUtil.set("expire:token:10", 4556, 5);
+        User user = new User();
+        RedisUtil.set("key",user,0);
+        User key = (User)RedisUtil.get("key");
+        User key1 = (User)RedisUtil.get("key");
+        User key2 = (User)RedisUtil.get("key");
+        User key3 = (User)RedisUtil.get("key");
+        User key4 = (User)RedisUtil.get("key");
+        User key5 = (User)RedisUtil.get("key");
+        System.out.println(key==key1);
         return "success";
     }
 

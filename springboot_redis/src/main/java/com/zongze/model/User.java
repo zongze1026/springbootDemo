@@ -9,9 +9,9 @@ public class User implements Serializable {
 
     private String userName;
 
-    private Integer age;
+    private Long age;
 
-    public User(String userName, Integer age) {
+    public User(String userName, Long age) {
         this.userName = userName;
         this.age = age;
     }
@@ -27,11 +27,11 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    public Integer getAge() {
+    public Long getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 }

@@ -5,10 +5,13 @@ import com.zongze.model.User;
 import com.zongze.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Create By xzz on 2018/12/13
@@ -34,17 +37,41 @@ public class UserController {
 
 
     @PostMapping("expire")
-    public String key() {
-        User user = new User();
-        RedisUtil.set("key",user,0);
-        User key = (User)RedisUtil.get("key");
-        User key1 = (User)RedisUtil.get("key");
-        User key2 = (User)RedisUtil.get("key");
-        User key3 = (User)RedisUtil.get("key");
-        User key4 = (User)RedisUtil.get("key");
-        User key5 = (User)RedisUtil.get("key");
-        System.out.println(key==key1);
+    public String key(@RequestBody User u) {
+        List<User> lists = new ArrayList<>();
+        for (long i = 0; i < 10; i++) {
+            User user = new User();
+            user.setAge(i);
+            lists.add(user);
+        }
+        Long aLong = RedisUtil.leftPushAll("list:user", lists);
+        System.out.println("猜测是长度：" + aLong);
+        for (int i = 0; i < u.getAge(); i++) {
+            Object object = RedisUtil.rightPop("list:user", User.class);
+            User user = (User) object;
+            System.out.println(JSON.toJSONString(user));
+        }
+
+        RedisUtil.set("qr:use:123456", "123", 0);
+        RedisUtil.set("qr:use:12256", "123", 0);
+        RedisUtil.set("qr:use:12556", "123", 0);
+        RedisUtil.set("qr:use:1456", "123", 0);
+        RedisUtil.set("qr:use:1321456", "123", 0);
+        RedisUtil.set("qr:locked:123456", "123", 0);
+
+        Set<String> keys = RedisUtil.keys("qr:use*");
+        System.out.println(JSON.toJSON(keys));
         return "success";
+    }
+
+    @GetMapping("qr")
+    public Object qrLink(HttpServletRequest request) {
+        String age = request.getParameter("age");
+        String name = request.getParameter("name");
+        User user = new User();
+        user.setAge(Long.valueOf(age));
+        user.setUserName(name);
+        return user;
     }
 
 

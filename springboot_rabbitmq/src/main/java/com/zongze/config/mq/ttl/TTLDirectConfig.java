@@ -11,7 +11,7 @@ import java.util.Map;
  */
 
 @Configuration
-public class TTLConfig {
+public class TTLDirectConfig {
 
     /**
      * 死信队列

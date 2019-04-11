@@ -15,31 +15,25 @@ public class DirectSender {
     private AmqpTemplate amqpTemplate;
 
 
-    public void send(){
+    public void send() {
         String content = "this is direct test %s";
-        System.out.println(String.format(content,"发送成功"));
-        amqpTemplate.convertAndSend("directExchange","direct.message1",content,message -> {
-            message.getMessageProperties().setExpiration("10");
-            return message;
-        });
+        System.out.println(String.format(content, "发送成功"));
+        amqpTemplate.convertAndSend("directExchange", "direct.message1", content);
     }
 
 
-    public void send1(){
+    public void send1() {
         String content = "this is direct test %s";
-        System.out.println(String.format(content,"发送成功"));
-        amqpTemplate.convertAndSend("directExchange","direct.message2",content);
+        System.out.println(String.format(content, "发送成功"));
+        amqpTemplate.convertAndSend("directExchange", "direct.message2", content);
     }
 
 
-
-    public void send2(){
+    public void send2() {
         String content = "this is direct test %s";
-        System.out.println(String.format(content,"发送成功"));
-        amqpTemplate.convertAndSend("directExchange","direct.message",content);
+        System.out.println(String.format(content, "发送成功"));
+        amqpTemplate.convertAndSend("directExchange", "direct.message", content);
     }
-
-
 
 
 }

@@ -1,6 +1,9 @@
 package com.zongze.utils;
+
 import org.springframework.data.redis.core.RedisTemplate;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -174,6 +177,20 @@ public class RedisUtil {
     public static Set<String> keys(String pattern) {
         try {
             return redisTemplate.keys(pattern);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * 获取所有key
+     */
+    public static <T> List<T> range(String key, long start, long end) {
+        try {
+            List list = redisTemplate.opsForList().range(key, start, end);
+            return (List<T>) list;
         } catch (Exception e) {
             e.printStackTrace();
         }

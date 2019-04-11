@@ -3,6 +3,8 @@ import com.zongze.annotation.Phone;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 
 /**
  * Create By xzz on 2018/11/26

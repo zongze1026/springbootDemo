@@ -45,22 +45,11 @@ public class UserController {
             lists.add(user);
         }
         Long aLong = RedisUtil.leftPushAll("list:user", lists);
-        System.out.println("猜测是长度：" + aLong);
-        for (int i = 0; i < u.getAge(); i++) {
-            Object object = RedisUtil.rightPop("list:user", User.class);
-            User user = (User) object;
-            System.out.println(JSON.toJSONString(user));
-        }
-
-        RedisUtil.set("qr:use:123456", "123", 0);
-        RedisUtil.set("qr:use:12256", "123", 0);
-        RedisUtil.set("qr:use:12556", "123", 0);
-        RedisUtil.set("qr:use:1456", "123", 0);
-        RedisUtil.set("qr:use:1321456", "123", 0);
-        RedisUtil.set("qr:locked:123456", "123", 0);
-
-        Set<String> keys = RedisUtil.keys("qr:use*");
-        System.out.println(JSON.toJSON(keys));
+        List<User> users = RedisUtil.range("list:user",0,-1);
+        System.out.println(users.size());
+        users.stream().forEach(ele->{
+            System.out.println(JSON.toJSONString(ele));
+        });
         return "success";
     }
 

@@ -1,10 +1,12 @@
 package com.zongze.config.redis;
 import com.alibaba.fastjson.parser.ParserConfig;
+import com.zongze.component.KeyExpireListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -31,6 +33,26 @@ public class RedisConfig {
         redisTemplate.setHashValueSerializer(valueSerializer);
         ParserConfig.getGlobalInstance().addAccept("com.zongze.");
         return redisTemplate;
+    }
+
+
+    /**
+     * 配置redis key过期监听容器
+     */
+    @Bean
+    public RedisMessageListenerContainer container(RedisConnectionFactory redisConnectionFactory) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(redisConnectionFactory);
+        return container;
+    }
+
+    /**
+     * redis key过期回调实现类
+     */
+    @Bean
+    public KeyExpireListener keyExpireListener(RedisMessageListenerContainer container) {
+        KeyExpireListener listener = new KeyExpireListener(container);
+        return listener;
     }
 
 

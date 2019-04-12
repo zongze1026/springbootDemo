@@ -1,4 +1,4 @@
-package com.zongze.send.fanout;
+package com.zongze.sender.fanout;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.zongze.test.direct;
 
-import com.zongze.send.direct.DirectSender;
-import com.zongze.send.topic.TopicSender;
+import com.zongze.sender.direct.DirectSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

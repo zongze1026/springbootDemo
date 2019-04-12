@@ -1,4 +1,4 @@
-package com.zongze.send.ttl;
+package com.zongze.sender.ttl;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

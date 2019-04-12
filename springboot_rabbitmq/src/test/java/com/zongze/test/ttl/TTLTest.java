@@ -1,7 +1,6 @@
 package com.zongze.test.ttl;
 
-import com.zongze.send.topic.TopicSender;
-import com.zongze.send.ttl.TTLSender;
+import com.zongze.sender.ttl.TTLSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

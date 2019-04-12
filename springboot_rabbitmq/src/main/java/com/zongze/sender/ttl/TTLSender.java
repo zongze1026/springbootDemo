@@ -1,7 +1,6 @@
-package com.zongze.send.ttl;
+package com.zongze.sender.ttl;
 
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

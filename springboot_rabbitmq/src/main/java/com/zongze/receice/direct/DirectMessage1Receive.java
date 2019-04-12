@@ -23,6 +23,8 @@ public class DirectMessage1Receive {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //手动应答ack，第二个参数：true:会把小于当前id的消息全部ack掉 false:只ack当前消息
         channel.basicAck(deliveryTag, false);
+        //拒绝消息；第二个参数表示是否重新入队
+//        channel.basicReject(message.getMessageProperties().getDeliveryTag(),true);
     }
 
 

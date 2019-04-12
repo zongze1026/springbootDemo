@@ -12,7 +12,7 @@ import java.io.IOException;
  * Create By xzz on 2019/3/29
  */
 //@Component
-@RabbitListener(queues = "ttlqueue")
+@RabbitListener(queues = "ttl.test1")
 public class TTLMessage1Receive {
 
 
@@ -22,7 +22,9 @@ public class TTLMessage1Receive {
         //当前消息的id
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //手动应答ack，第二个参数：true:会把小于当前id的消息全部ack掉 false:只ack当前消息
-        channel.basicAck(deliveryTag, false);
+        System.out.println("===================消息重新入队TTLMessage1Receive=========================");
+//        channel.basicAck(deliveryTag, false);
+        channel.basicReject(deliveryTag,true);
     }
 
 

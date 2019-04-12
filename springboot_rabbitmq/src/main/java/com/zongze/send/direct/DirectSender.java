@@ -18,7 +18,9 @@ public class DirectSender {
     public void send() {
         String content = "this is direct test %s";
         System.out.println(String.format(content, "发送成功"));
-        amqpTemplate.convertAndSend("directExchange", "direct.message1", content);
+        amqpTemplate.convertAndSend("directExchange", "direct.message1", content,message -> {
+            return message;
+        });
     }
 
 

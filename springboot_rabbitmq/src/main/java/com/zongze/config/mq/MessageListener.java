@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 /**
  * Create By xzz on 2019/3/30
  */
-@Component
 public class MessageListener implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
 
     private static Logger logger = LoggerFactory.getLogger(MessageListener.class);
@@ -35,7 +34,7 @@ public class MessageListener implements RabbitTemplate.ConfirmCallback, RabbitTe
 
 
     /**
-     * 成功则不回调return
+     * 交换机没有成功发送到队列有会掉
      */
     @Override
     public void returnedMessage(Message message, int i, String s, String s1, String s2) {

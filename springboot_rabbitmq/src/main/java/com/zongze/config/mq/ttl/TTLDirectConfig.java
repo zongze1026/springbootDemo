@@ -59,6 +59,7 @@ public class TTLDirectConfig {
          * 如果消息本身带有过期时间的话，那么会以最先过期的时间为准
          */
         args.put("x-message-ttl", 30000);
+        //exclusive:表示当前队列只能被创建的连接使用并且连接关闭后队列就会被删除
         return new Queue(ttlqueue, true, false, false, args);
     }
 

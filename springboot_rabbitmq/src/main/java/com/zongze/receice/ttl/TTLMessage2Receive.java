@@ -23,8 +23,8 @@ public class TTLMessage2Receive {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //手动应答ack，第二个参数：true:会把小于当前id的消息全部ack掉 false:只ack当前消息
         System.out.println("===================消息重新入队TTLMessage2Receive=========================");
-//        channel.basicAck(deliveryTag, false);
-        channel.basicReject(deliveryTag,true);
+        channel.basicAck(deliveryTag, false);
+//        channel.basicReject(deliveryTag,true);
     }
 
 

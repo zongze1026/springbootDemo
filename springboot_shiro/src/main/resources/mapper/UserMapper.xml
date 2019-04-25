@@ -38,6 +38,49 @@
     </select>
 
 
+    <insert id="d">
+        insert into channel_info
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            merchant_name,name,phone
+            <if test="channel_fee != null and channel_fee != ''">,channel_fee</if>
+            <if test="max_limit != null">,max_limit</if>
+            <if test="max_amout != null">,max_amout</if>
+            <if test="single_min != null">,single_min</if>
+            <if test="single_max != null">,single_max</if>
+            <if test="pay_time != null and pay_time != ''">,pay_time</if>
+            <if test="max_limit_alipay != null">,max_limit_alipay</if>
+            <if test="max_amout_alipay != null ">,max_amout_alipay</if>
+            <if test="single_min_alipay != null ">,single_min_alipay</if>
+            <if test="single_max_alipay != null ">,single_max_alipay</if>
+            <if test="pay_time_alipay != null and pay_time_alipay != ''">,pay_time_alipay</if>
+        </trim>
+        values
+        <trim suffix=")" prefix="(">
+            #{merchant_name},#{name},#{phone}
+            <if test="channel_fee != null and channel_fee != ''">,#{channel_fee}</if>
+            <if test="max_limit != null">,#{max_limit}</if>
+            <if test="max_amout != null">,#{max_amout}</if>
+            <if test="single_min != null">,#{single_min}</if>
+            <if test="single_max != null">,#{single_max}</if>
+            <if test="pay_time != null and pay_time != ''">,#{pay_time}</if>
+            <if test="max_limit_alipay != null">,#{max_limit_alipay}</if>
+            <if test="max_amout_alipay != null ">,#{max_amout_alipay}</if>
+            <if test="single_min_alipay != null ">,#{single_min_alipay}</if>
+            <if test="single_max_alipay != null ">,#{single_max_alipay}</if>
+            <if test="pay_time_alipay != null and pay_time_alipay != ''">,#{pay_time_alipay}</if>
+        </trim>
+    </insert>
+
+
+    <select id="" >
+        select * from channel_info
+        <where>
+            <if test="is_open != null and is_open != ''">is_open=#{is_open}</if>
+            <if test="is_open_alipay != null and is_open_alipay != ''">is_open_alipay=#{is_open_alipay}</if>
+        </where>
+    </select>
+
+
 
 
 

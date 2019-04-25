@@ -5,13 +5,10 @@ import com.zongze.model.User;
 import com.zongze.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Create By xzz on 2018/12/13
@@ -38,18 +35,9 @@ public class UserController {
 
     @PostMapping("expire")
     public String key(@RequestBody User u) {
-        List<User> lists = new ArrayList<>();
-        for (long i = 0; i < 10; i++) {
-            User user = new User();
-            user.setAge(i);
-            lists.add(user);
-        }
-        Long aLong = RedisUtil.leftPushAll("list:user", lists);
-        List<User> users = RedisUtil.range("list:user",0,-1);
-        System.out.println(users.size());
-        users.stream().forEach(ele->{
-            System.out.println(JSON.toJSONString(ele));
-        });
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("a");
+        RedisUtil.leftPushAll("a", strings);
         return "success";
     }
 
@@ -65,11 +53,24 @@ public class UserController {
 
 
     public static void main(String[] args) {
-        int i = 0;
-        do {
-            System.out.println(i);
-            i++;
-        } while (i < 10);
+        try {
+            runTimeEx();
+        } catch (Exception e) {
+            System.out.println("==========出现异常================");
+        }
+    }
+
+    private static void runTimeEx() {
+        String timeString = "18:00-08:00";
+        String[] split = timeString.split("-");
+        Date start = null;
+        Date end = null;
+        Calendar calendar = Calendar.getInstance();
+        String[] datestring = split[0].split(":");
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(datestring[0]));
+        calendar.set(Calendar.MINUTE, Integer.valueOf(datestring[1]));
+
+
     }
 
 

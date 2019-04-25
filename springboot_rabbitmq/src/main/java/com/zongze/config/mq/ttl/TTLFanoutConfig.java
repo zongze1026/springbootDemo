@@ -60,7 +60,7 @@ public class TTLFanoutConfig {
          * 设置消失过期时间(全局消息过期时间)
          * 如果消息本身带有过期时间的话，那么会以最先过期的时间为准
          */
-        args.put("x-message-ttl", 30000);
+//        args.put("x-message-ttl", 30000);
         return new Queue(ttl_queue, true, false, false, args);
     }
 

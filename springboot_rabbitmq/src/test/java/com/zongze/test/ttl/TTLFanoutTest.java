@@ -20,13 +20,13 @@ public class TTLFanoutTest {
 
 
     @Test
-    public void send(){
-        ttlSender.send();
+    public void send() {
+        int m = 10;
+        for (int i = 0; i < 5; i++) {
+            ttlSender.send(String.valueOf(m*1000));
+            m += 10;
+        }
     }
-
-
-
-
 
 
 }

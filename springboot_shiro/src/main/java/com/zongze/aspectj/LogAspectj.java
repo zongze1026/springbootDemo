@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
  * Create By xzz on 2019/3/26
  */
 @Aspect
-@Component
+//@Component
 public class LogAspectj {
 
     @Autowired

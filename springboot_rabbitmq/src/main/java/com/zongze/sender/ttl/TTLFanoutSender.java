@@ -15,12 +15,12 @@ public class TTLFanoutSender {
     private AmqpTemplate amqpTemplate;
 
 
-    public void send() {
+    public void send(String time) {
         String content = "测试ttl广播形式：%s";
-        String data = String.format(content, "发送成功");
+        String data = String.format(content, time);
         System.out.println(data);
         amqpTemplate.convertAndSend("ttlSendExchange", "ttl_fanout_send", data, message -> {
-            message.getMessageProperties().setExpiration("500000");
+            message.getMessageProperties().setExpiration(time);
             return message;
         });
     }

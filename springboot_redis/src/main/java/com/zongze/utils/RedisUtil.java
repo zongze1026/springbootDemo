@@ -187,10 +187,10 @@ public class RedisUtil {
     /**
      * 获取所有key
      */
-    public static <T> List<T> range(String key, long start, long end) {
+    public static List range(String key, long start, long end) {
         try {
             List list = redisTemplate.opsForList().range(key, start, end);
-            return (List<T>) list;
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }

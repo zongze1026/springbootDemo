@@ -23,9 +23,9 @@ public class DemoAspectj {
 
 
     @Around("pointCut()")
-    public Object doPoint(ProceedingJoinPoint point) throws Throwable {
+    public void doPoint(ProceedingJoinPoint point) throws Throwable {
 
-        /*//获取目标对象
+        //获取目标对象
         Object target = point.getTarget();
 
         //获取代理对象
@@ -44,10 +44,8 @@ public class DemoAspectj {
         String kind = point.getKind();
 
         //获取request对象
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();*/
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-        Object proceed = point.proceed();
-        return proceed;
 
 
     }

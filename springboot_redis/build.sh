@@ -211,6 +211,75 @@ while((${loopCount}<=5))
 #    -x exit的意思，主要是配合-s使用
 #    -P 修改最大的进程数，默认是1，为0时候为as many as it can ，这个例子我没有想到，应该平时都用不到的吧
 
+#whoami 显示当前的用户
+#[root@ytkj-serverb-03 /]# whoami
+#root
+#wc 查看文件的大小
+#wc -c filename 文件多大
+#wc -m filename 文件多少个字符
+#wc -l filename 文件多少行
+#xargs 多行变成单行,空格替换回车换行符
+
+#文件类型
+#_ 普通文件
+#d 目录文件
+#l 链接文件(相当于快捷方式)
+#b block块文件
+#c 字符文件
+
+#service server_name status 查看服务状态
+#service server_name start 启动服务
+#service server_name restart 重启服务
+#service server_name stop 停止服务11111111
+
+#sudo 使用管理员权限执行一条命令
+#编辑 /etc/sudoers文件;把用户添加进去即可
+
+
+
+#ln fileName linkName  创建硬链接(两个文件完全同步,删除只能删除一个;占用一样的磁盘空间;能不能作用于目录)
+#ln test.txt test_link
+#创建软连接(链接文件只保存源文件的路径)
+#ln -s /app/file link_file
+
+#访问环境变量的三种方法
+#echo $PATH
+#echo {$PATH}
+#echo "$PATH"
+#环境变量中的三元运算符
+#name=${var1:-$var2} 给name赋值成var1的值;如果var1不存在就赋值var2
+#shell脚本中获取参数
+#$# 获取参数的个数
+#$0 获取当前执行的脚本命令
+#$n 获取第n个参数
+#$@ 获取所有的参数
+#shift 参数左移
+
+
+yum工作原理,yum通过rpm包安装软件,其中在rpm包的头部(header)存储着该软件所有的依赖关系
+yum安装的时候只需要解析头部依赖,然后一次性下载依赖并完成安装。
+1、yum配置文件的位置:/etc/yum.conf 内容如下：
+[main]
+cachedir=/var/cache/yum/$basearch/$releasever
+#keepcache：是否保留缓存内容，0：表示安装后删除软件包，1表示安装后保留软件包
+keepcache=0
+#debuglevel：除错级别，0──10,默认是2 貌似只记录安装和删除记录
+debuglevel=2
+#日志文件目录
+logfile=/var/log/yum.log
+#exactarch，有两个选项1和0,代表是否只升级和你安装软件包cpu体系一致的包，如果设为1，则如你安装了一个i386的rpm，则yum不会用1686的包来升级。
+exactarch=1
+obsoletes=1
+#gpgchkeck= 有1和0两个选择，分别代表是否是否进行gpg校验，如果没有这一项，默认是检查的。
+gpgcheck=1
+plugins=1
+installonly_limit=5
+bugtracker_url=http://bugs.centos.org/set_project.php?project_id=23&ref=http://bugs.centos.org/bug_report_page.php?category=yum
+#指定一个软件包，yum会根据这个包判断你的发行版本，默认是redhat-release，也可以是安装的任何针对自己发行版的rpm包。
+distroverpkg=centos-release
+
+
+
 
 
 

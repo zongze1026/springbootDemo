@@ -256,32 +256,48 @@ while((${loopCount}<=5))
 #shift 参数左移
 
 
-yum工作原理,yum通过rpm包安装软件,其中在rpm包的头部(header)存储着该软件所有的依赖关系
-yum安装的时候只需要解析头部依赖,然后一次性下载依赖并完成安装。
-1、yum配置文件的位置:/etc/yum.conf 内容如下：
-[main]
-cachedir=/var/cache/yum/$basearch/$releasever
-#keepcache：是否保留缓存内容，0：表示安装后删除软件包，1表示安装后保留软件包
-keepcache=0
-#debuglevel：除错级别，0──10,默认是2 貌似只记录安装和删除记录
-debuglevel=2
-#日志文件目录
-logfile=/var/log/yum.log
-#exactarch，有两个选项1和0,代表是否只升级和你安装软件包cpu体系一致的包，如果设为1，则如你安装了一个i386的rpm，则yum不会用1686的包来升级。
-exactarch=1
-obsoletes=1
-#gpgchkeck= 有1和0两个选择，分别代表是否是否进行gpg校验，如果没有这一项，默认是检查的。
-gpgcheck=1
-plugins=1
-installonly_limit=5
-bugtracker_url=http://bugs.centos.org/set_project.php?project_id=23&ref=http://bugs.centos.org/bug_report_page.php?category=yum
-#指定一个软件包，yum会根据这个包判断你的发行版本，默认是redhat-release，也可以是安装的任何针对自己发行版的rpm包。
-distroverpkg=centos-release
+#yum工作原理,yum通过rpm包安装软件,其中在rpm包的头部(header)存储着该软件所有的依赖关系
+#yum安装的时候只需要解析头部依赖,然后一次性下载依赖并完成安装。[yum --help 查看帮助]
+#1、yum配置文件的位置:/etc/yum.conf 内容如下：
+#[main]
+#cachedir=/var/cache/yum/$basearch/$releasever
+##keepcache：是否保留缓存内容，0：表示安装后删除软件包，1表示安装后保留软件包
+#keepcache=0
+##debuglevel：除错级别，0──10,默认是2 貌似只记录安装和删除记录
+#debuglevel=2
+##日志文件目录
+#logfile=/var/log/yum.log
+##exactarch，有两个选项1和0,代表是否只升级和你安装软件包cpu体系一致的包，如果设为1，则如你安装了一个i386的rpm，则yum不会用1686的包来升级。
+#exactarch=1
+#obsoletes=1
+##gpgchkeck= 有1和0两个选择，分别代表是否是否进行gpg校验，如果没有这一项，默认是检查的。
+#gpgcheck=1
+#plugins=1
+#installonly_limit=5
+#bugtracker_url=http://bugs.centos.org/set_project.php?project_id=23&ref=http://bugs.centos.org/bug_report_page.php?category=yum
+##指定一个软件包，yum会根据这个包判断你的发行版本，默认是redhat-release，也可以是安装的任何针对自己发行版的rpm包。
+#distroverpkg=centos-release
+#
+#2、下载yum的repo源
+#curl -o [repo的名称] [下载位置]  curl -o ali.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+#
+#3、yum命令使用
+#yum list 所有软件包
+#yum list installed 所有已经安装的软件包
+#yum list installed | grep [软件包名称] 查看某个软件包有没有安装   yum list installed|grep sudo
+#yum search [软件名称]  在yum源中搜索软件
+#yum -y[安装过程中跳过访问] install [软件名称]  yum -y install sudo
+#yum install --downloadonly --downloaddir=[文件目录]   只下载rpm包不安装软件
+#yum remove [软件名称] 删除软件  yum remove sudo
 
-
-
-
-
+#systemctl --help 查看命令帮助
+#systemctl --version 检查版本
+#systemctl  查看所有的单元和状态
+#systemctl |grep [server_name] 查看某个单元
+#systemctl start [server_name]  启动某个服务
+#systemctl stop [server_name]  停止某个服务
+#systemctl restart [server_name]  重启服务
+#systemctl status [server_name]  查看某个单元的运行、是否开机启动等详细信息
 
 
 

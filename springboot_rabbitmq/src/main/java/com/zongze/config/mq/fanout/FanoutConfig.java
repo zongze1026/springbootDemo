@@ -31,8 +31,6 @@ public class FanoutConfig {
     private static String fanoutMessage3 = "fanoutMessage3";
 
 
-
-
     /**
      * 交换机名称
      */
@@ -41,19 +39,19 @@ public class FanoutConfig {
 
     @Bean
     public Queue message1() {
-        return new Queue(fanoutMessage1);
+        return new Queue(fanoutMessage1, true);
     }
 
 
     @Bean
     public Queue message2() {
-        return new Queue(fanoutMessage2);
+        return new Queue(fanoutMessage2, true);
     }
 
 
     @Bean
     public Queue message3() {
-        return new Queue(fanoutMessage3);
+        return new Queue(fanoutMessage3, true);
     }
 
 
@@ -61,7 +59,6 @@ public class FanoutConfig {
     public FanoutExchange fanoutExchange() {
         return new FanoutExchange(fanoutExchange);
     }
-
 
 
     /**
@@ -80,7 +77,6 @@ public class FanoutConfig {
     public Binding bindingMessage2() {
         return BindingBuilder.bind(message2()).to(fanoutExchange());
     }
-
 
 
     /**

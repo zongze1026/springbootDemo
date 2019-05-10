@@ -15,15 +15,14 @@ public class MQConfig {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-
     @Bean
-    public MessageListener messageListener() {
-        MessageListener messageListener = new MessageListener();
-        rabbitTemplate.setConfirmCallback(messageListener);
-        rabbitTemplate.setReturnCallback(messageListener);
-        return messageListener;
+    public MqSender mqSender() {
+        MqSender mqSender = new MqSender();
+        rabbitTemplate.setConfirmCallback(mqSender);
+        rabbitTemplate.setReturnCallback(mqSender);
+        mqSender.setAmqpTemplate(rabbitTemplate);
+        return mqSender;
     }
-
 
 
 

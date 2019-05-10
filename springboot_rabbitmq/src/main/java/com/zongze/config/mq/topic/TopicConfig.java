@@ -30,13 +30,13 @@ public class TopicConfig {
 
     @Bean
     public Queue message1() {
-        return new Queue(message1);
+        return new Queue(message1,true);
     }
 
 
     @Bean
     public Queue message2() {
-        return new Queue(message2);
+        return new Queue(message2,true);
     }
 
 

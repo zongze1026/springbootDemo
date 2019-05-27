@@ -74,9 +74,6 @@ public class FilterConfig {
         calendar2.set(Calendar.SECOND, 0);
         System.out.println(DateUtil.format(calendar2.getTime(), DateUtil.DATE_TIME));
 
-        System.out.println(DateUtil.isMiddleTime(calendar, calendar2));
-
-
         System.out.println(DateUtil.format(DateUtil.getStartDate(),DateUtil.DATE_TIME));
         System.out.println(DateUtil.format(DateUtil.getEndDate(),DateUtil.DATE_TIME));
 

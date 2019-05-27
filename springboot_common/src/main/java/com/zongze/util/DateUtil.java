@@ -49,9 +49,13 @@ public class DateUtil {
     /**
      * 当前时间是否在指定的时间范围内
      */
-    public static boolean isMiddleTime(Calendar startTime, Calendar endTime) {
+    public static boolean isMiddleTime(Date startTime, Date endTime) {
         Calendar currentTime = Calendar.getInstance();
-        return currentTime.after(startTime) && currentTime.before(endTime);
+        Calendar start = Calendar.getInstance();
+        start.setTime(startTime);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+        return currentTime.after(start) && currentTime.before(end);
     }
 
 
@@ -118,7 +122,12 @@ public class DateUtil {
         return calendar.getTime();
     }
 
-
+    public static void main(String[] args) {
+        String start = "2019-05-27 14:13:30";
+        String end = "2019-05-27 16:20:30";
+        boolean betweenDate = DateUtil.isMiddleTime(DateUtil.parse(start, DateUtil.DATE_TIME), DateUtil.parse(end, DateUtil.DATE_TIME));
+        System.out.println(betweenDate);
+    }
 
 
 }

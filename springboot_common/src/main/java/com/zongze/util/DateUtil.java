@@ -16,7 +16,8 @@ public class DateUtil {
 
     private static final ThreadLocal<SimpleDateFormat> threadLocal = new InheritableThreadLocal<>();
 
-    private DateUtil(){}
+    private DateUtil() {
+    }
 
     static {
         threadLocal.set(new SimpleDateFormat(DATE_TIME));
@@ -55,7 +56,25 @@ public class DateUtil {
 
 
     /**
-     * 获取当天的起始时间
+     * 计算两个时间间隔多少时间
+     */
+    public static long diffTimeMillis(Date start, Date end) {
+        long startTimeMillis = start.getTime();
+        long endTimeMillis = end.getTime();
+        return endTimeMillis - startTimeMillis;
+    }
+
+    /**
+     * 计算两个时间间隔多少天
+     */
+    public static long diffDays(Date start, Date end) {
+        long timeMillis = diffTimeMillis(start, end);
+        return timeMillis / (24 * 3600 * 1000);
+    }
+
+
+    /**
+     * 获取当天0点时间戳
      */
     public static Date getStartDate() {
         Calendar calendar = Calendar.getInstance();
@@ -67,7 +86,7 @@ public class DateUtil {
     }
 
     /**
-     * 获取当天的结束时间
+     * 获取当天23:59:59秒时间戳
      */
     public static Date getEndDate() {
         Calendar calendar = Calendar.getInstance();
@@ -98,6 +117,8 @@ public class DateUtil {
         calendar.add(Calendar.DAY_OF_YEAR, days);
         return calendar.getTime();
     }
+
+
 
 
 }

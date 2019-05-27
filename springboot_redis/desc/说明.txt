@@ -4,3 +4,4 @@
 4.设计模式学习
 5.CommandLineRunner接口的使用；服务启动会执行实现类的run方法
 6.redis key过期监听实现
+7.javaSE学习代码

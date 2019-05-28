@@ -1,13 +1,5 @@
 package com.zongze.test;
 
-import com.sun.org.apache.xpath.internal.operations.String;
-import com.zongze.annotation.Enmu;
-import com.zongze.entity.enmu.OperatorType;
-import com.zongze.util.ObjectUtil;
-
-import java.lang.reflect.Method;
-
-
 /**
  * Create By xzz on 2019/3/5
  */
@@ -22,9 +14,12 @@ public class Test1 extends Abstranct<Integer> {
     }
 
 
-    @Enmu
-    public void getAnno(){
-
+    public static void main(String[] args) {
+        String name = "谢";
+        byte[] bytes = name.getBytes();
+        for (int i=0;i<bytes.length;i++){
+            System.out.println(bytes[i]);
+        }
     }
 
 

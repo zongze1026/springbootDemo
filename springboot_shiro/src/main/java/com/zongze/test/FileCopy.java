@@ -1,5 +1,4 @@
 package com.zongze.test;
-
 import java.io.*;
 
 /**
@@ -10,16 +9,19 @@ public class FileCopy {
     public static void main(String[] args) throws IOException {
 
 
-//        random();
-//        io();
-        String srcFile = "";
-        String destFile = "";
+        String srcFile = "D:\\image\\abc.jpg";
+        String destFile = "D:\\test\\abc.jpg";
         File file = new File(srcFile);
         int threads = 4;
-        long block = file.length() / threads;
+        int block = (int) file.length() / threads;
         for (int i = 0; i < threads; i++) {
-            int start = 1;
-            int end = 2;
+            int start = i * block;
+            int end;
+            if (i == threads - 1) {
+                end = (int) file.length() - 1;
+            } else {
+                end = (i + 1) * block - 1;
+            }
             new Thread(new CopyThread(srcFile, destFile, start, end)).start();
         }
 

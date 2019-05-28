@@ -20,9 +20,11 @@ public class CopyThread implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println(Thread.currentThread().getName()+"开始拷贝！");
             RandomAccessFile read = new RandomAccessFile(srcFile, "r");
             RandomAccessFile write = new RandomAccessFile(destFile, "rw");
             read.seek(start);
+            write.seek(start);
             //计算每一段的总字节数
             int size = end - start + 1;
             byte[] buf = new byte[1024];
@@ -45,6 +47,7 @@ public class CopyThread implements Runnable {
             }
             read.close();
             write.close();
+            System.out.println(Thread.currentThread().getName()+"拷贝完成");
         } catch (Exception e) {
             e.printStackTrace();
         }

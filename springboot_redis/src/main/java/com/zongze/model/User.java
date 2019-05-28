@@ -23,6 +23,8 @@ public class User implements Serializable {
     @NotBlank(groups = {Group2.class},message = "昵称不能为空！")
     private String nickName;
 
+    private String passWord;
+
 
 
 

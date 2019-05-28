@@ -1,5 +1,10 @@
 package com.zongze;
 
+import com.alibaba.fastjson.JSON;
+import com.zongze.model.User;
+import com.zongze.utils.HttpUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +32,20 @@ public class SpringbootRedisApplicationTests {
         message.setSubject("测试邮件");
         message.setText("邮件测试");
     }
+
+    @Test
+    public void testTemplate() throws JSONException {
+        User user1 = new User();
+        user1.setUserName("老王");
+        user1.setAge(18l);
+        user1.setPassWord("10201");
+        User user = HttpUtil.sendPost("http://localhost:8081/callback/success", user1, User.class);
+        System.out.println(JSON.toJSONString(user));
+    }
+
+
+
+
 
 }
 

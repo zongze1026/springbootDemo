@@ -1,4 +1,4 @@
-package com.zongze.test;
+package com.zongze.bigdata.MoreThreadCopy;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ public class FileCopy {
         String destFile = "D:\\test\\abcd.avi";
         List<Thread>list = new ArrayList<>();
         MoreThreadCopy(srcFile, destFile,list);
-//        io(srcFile,destFile);
         for (Thread t:list){
             t.join();
         }
@@ -27,15 +26,17 @@ public class FileCopy {
 
     private static void MoreThreadCopy(String srcFile, String destFile, List<Thread> list) throws InterruptedException {
         File file = new File(srcFile);
+        //拷贝线程个数
         int threads = 4;
-        int block = (int) file.length() / threads;
+        //块的大小
+        int blockSize = (int) file.length() / threads;
         for (int i = 0; i < threads; i++) {
-            int start = i * block;
+            int start = i * blockSize;
             int end;
             if (i == threads - 1) {
                 end = (int) file.length() - 1;
             } else {
-                end = (i + 1) * block - 1;
+                end = (i + 1) * blockSize - 1;
             }
             Thread thread = new Thread(new CopyThread(srcFile, destFile, start, end));
             thread.start();

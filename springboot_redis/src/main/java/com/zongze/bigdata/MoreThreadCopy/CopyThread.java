@@ -1,13 +1,17 @@
-package com.zongze.test;
+package com.zongze.bigdata.MoreThreadCopy;
 import java.io.RandomAccessFile;
 
 /**
  * Create By xzz on 2019/5/28
  */
 public class CopyThread implements Runnable {
+    //源文件
     private String srcFile;
+    //目标文件
     private String destFile;
+    //起始坐标
     private int start;
+    //结束坐标
     private int end;
 
     public CopyThread(String srcFile, String destFile, int start, int end) {

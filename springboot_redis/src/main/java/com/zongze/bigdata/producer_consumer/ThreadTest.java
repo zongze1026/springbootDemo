@@ -1,4 +1,4 @@
-package com.zongze.JavaSE.thread.producer_consumer;
+package com.zongze.bigdata.producer_consumer;
 
 /**
  * Create By xzz on 2019/5/14

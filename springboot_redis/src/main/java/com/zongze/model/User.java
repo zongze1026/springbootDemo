@@ -23,9 +23,14 @@ public class User implements Serializable {
     @NotBlank(groups = {Group2.class},message = "昵称不能为空！")
     private String nickName;
 
-    private String passWord;
+    private transient String passWord;
 
-
-
-
+    public User(String userName, Long age,
+                String nickName,
+                String passWord) {
+        this.userName = userName;
+        this.age = age;
+        this.nickName = nickName;
+        this.passWord = passWord;
+    }
 }

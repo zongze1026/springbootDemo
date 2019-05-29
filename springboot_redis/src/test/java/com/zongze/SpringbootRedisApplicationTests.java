@@ -33,16 +33,6 @@ public class SpringbootRedisApplicationTests {
         message.setText("邮件测试");
     }
 
-    @Test
-    public void testTemplate() throws JSONException {
-        User user1 = new User();
-        user1.setUserName("老王");
-        user1.setAge(18l);
-        user1.setPassWord("10201");
-        User user = HttpUtil.sendPost("http://localhost:8081/callback/success", user1, User.class);
-        System.out.println(JSON.toJSONString(user));
-    }
-
 
 
 

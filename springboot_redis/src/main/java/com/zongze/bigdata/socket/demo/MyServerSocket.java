@@ -1,10 +1,10 @@
 package com.zongze.bigdata.socket.demo;
 
-import java.io.IOException;
+
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
 
 /**
  * Create By xzz on 2019/5/29
@@ -25,11 +25,31 @@ public class MyServerSocket {
 //        ServerSocket serverSocket = new ServerSocket(8080, 20, inet1);
         //第二种:通过0.0.0.0通配符创建
         ServerSocket serverSocket = new ServerSocket(8080);
-        Socket socket = serverSocket.accept();
-        //获取远程客户端主机地址
-        InetSocketAddress address = (InetSocketAddress) socket.getRemoteSocketAddress();
-        //客户端主机和端口
-        System.out.println(address.getHostName()+":"+address.getPort());
+        while (true) {
+            InputStreamReader reader = null;
+            try {
+                Socket socket = serverSocket.accept();
+                //获取远程客户端主机地址
+                System.out.println("收到一个连接！");
+                InetSocketAddress address = (InetSocketAddress) socket.getRemoteSocketAddress();
+                //客户端主机和端口
+                System.out.println(address.getHostName() + ":" + address.getPort());
+                InputStream inputStream = socket.getInputStream();
+                reader = new InputStreamReader(inputStream, "utf-8");
+                char[] buff = new char[1024];
+                int len;
+                while ((len = reader.read(buff)) != -1) {
+                    System.out.println(new String(buff, 0, len));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    reader.close();
+                }
+
+            }
+        }
 
 
     }

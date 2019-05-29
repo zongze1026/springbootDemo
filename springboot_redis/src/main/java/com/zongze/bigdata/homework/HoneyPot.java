@@ -1,4 +1,4 @@
-package com.zongze.JavaSE.thread.homework;
+package com.zongze.bigdata.homework;
 
 /**
  * Create By xzz on 2019/5/14

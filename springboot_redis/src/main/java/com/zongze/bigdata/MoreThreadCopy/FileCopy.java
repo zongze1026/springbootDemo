@@ -1,4 +1,4 @@
-package com.zongze.test;
+package com.zongze.bigdata.MoreThreadCopy;
 import java.io.*;
 
 /**
@@ -9,18 +9,20 @@ public class FileCopy {
     public static void main(String[] args) throws IOException {
 
 
-        String srcFile = "D:\\image\\abc.jpg";
-        String destFile = "D:\\test\\abc.jpg";
+        String srcFile = "F:\\image\\meinv1.jpg";
+        String destFile = "D:\\test\\meinv1.jpg";
         File file = new File(srcFile);
+        //拷贝线程个数
         int threads = 4;
-        int block = (int) file.length() / threads;
+        //块的大小
+        int blockSize = (int) file.length() / threads;
         for (int i = 0; i < threads; i++) {
-            int start = i * block;
+            int start = i * blockSize;
             int end;
             if (i == threads - 1) {
                 end = (int) file.length() - 1;
             } else {
-                end = (i + 1) * block - 1;
+                end = (i + 1) * blockSize - 1;
             }
             new Thread(new CopyThread(srcFile, destFile, start, end)).start();
         }

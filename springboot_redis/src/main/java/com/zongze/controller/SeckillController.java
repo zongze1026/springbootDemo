@@ -43,7 +43,7 @@ public class SeckillController {
 //        synchronized (SeckillController.class) {
             long count = RedisUtil.increment(CacheKey.SCKILL_PRODUCT.getKey("count"), -1);
             if (count > 0) {
-                User user = new User();
+                User user = new User("张三", 15l, "大黄", "123456");
                 user.setUserName(String.valueOf(System.currentTimeMillis()));
                 user.setAge(count);
                 RedisUtil.increment(CacheKey.QR_PERSISTENCE.getKey("order"),1);

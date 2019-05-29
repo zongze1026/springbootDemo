@@ -1,16 +1,31 @@
 package com.zongze.test;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Create By xzz on 2019/5/28
  */
 public class FileCopy {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        //343  /199
+        long start = System.currentTimeMillis();
+        String srcFile = "D:\\学习资料\\大数据\\01.JavaSE+Mysql+JDBC（大数据基础班）\\Java基础第16天\\Java基础第16天-01.作业.avi";
+        String destFile = "D:\\test\\abcd.avi";
+        List<Thread>list = new ArrayList<>();
+        MoreThreadCopy(srcFile, destFile,list);
+//        io(srcFile,destFile);
+        for (Thread t:list){
+            t.join();
+        }
+        long end = System.currentTimeMillis();
+        System.out.println((end-start)/100);
 
 
-        String srcFile = "D:\\image\\abc.jpg";
-        String destFile = "D:\\test\\abc.jpg";
+    }
+
+    private static void MoreThreadCopy(String srcFile, String destFile, List<Thread> list) throws InterruptedException {
         File file = new File(srcFile);
         int threads = 4;
         int block = (int) file.length() / threads;
@@ -22,17 +37,17 @@ public class FileCopy {
             } else {
                 end = (i + 1) * block - 1;
             }
-            new Thread(new CopyThread(srcFile, destFile, start, end)).start();
+            Thread thread = new Thread(new CopyThread(srcFile, destFile, start, end));
+            thread.start();
+            list.add(thread);
         }
-
-
     }
 
-    private static void io() throws IOException {
-        File file = new File("F:\\image\\123");
+    private static void io(String src,String dest) throws IOException {
+        File file = new File(src);
         if (file.exists()) {
             FileInputStream fis = new FileInputStream(file);
-            FileOutputStream os = new FileOutputStream("f:\\image\\345");
+            FileOutputStream os = new FileOutputStream(dest);
             byte[] buff = new byte[1024];
             int len = 0;
             while ((len = fis.read(buff)) != -1) {

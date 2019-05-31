@@ -1,26 +1,38 @@
-package com.zongze.bigdata.byteArrayOutPutStream;
-
-import com.alibaba.fastjson.JSON;
+package com.zongze.bigdata.io;
 import com.zongze.model.User;
-
 import java.io.*;
 
 /**
  * Create By xzz on 2019/5/29
  * 使用byteArrayOutPutStream复制对象
  */
-public class DeepCopy {
+public class byteArrayStream {
 
 
     public static void main(String[] args) {
 
+//        test();
+
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            out.write("hellow".getBytes("utf-8"));
+            System.out.println(out.toByteArray().length);
+            out.reset();
+            System.out.println(out.toByteArray().length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private static void test() {
         try {
             User user = new User("张三", 15l, "大黄", "123456");
             System.out.println(user.getPassWord());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(user);
-
             byte[] bytes = baos.toByteArray();
 
             ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
@@ -32,11 +44,7 @@ public class DeepCopy {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 
 
 }

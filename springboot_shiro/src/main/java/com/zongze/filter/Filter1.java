@@ -18,12 +18,6 @@ public class Filter1 implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         System.out.println("================filter01:excutor=========================");
-        HttpServletResponse response = (HttpServletResponse)servletResponse;
-        PrintWriter writer = response.getWriter();
-        writer.write(Filter1.class.getName()+":执行中！！");
-        writer.flush();
-        writer.close();
-        filterChain.doFilter(servletRequest,servletResponse);
     }
 
     @Override

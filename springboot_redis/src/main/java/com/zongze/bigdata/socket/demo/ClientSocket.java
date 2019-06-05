@@ -1,5 +1,8 @@
 package com.zongze.bigdata.socket.demo;
 
+import com.alibaba.fastjson.JSON;
+import com.zongze.model.User;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -11,6 +14,7 @@ public class ClientSocket {
 
 
     public static void main(String[] args) throws IOException {
+
         //169.254.94.58  192.168.0.116   192.168.246.1
 
 

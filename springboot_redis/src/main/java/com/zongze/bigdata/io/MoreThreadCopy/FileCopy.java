@@ -1,4 +1,4 @@
-package com.zongze.bigdata.MoreThreadCopy;
+package com.zongze.bigdata.io.MoreThreadCopy;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,5 @@
 package com.zongze.util;
+
 import com.zongze.annotation.Excel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
@@ -8,6 +9,7 @@ import org.apache.poi.ss.util.CellRangeAddressList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
@@ -229,7 +231,7 @@ public class ExcelUtil<T> {
                             try {
                                 if (field.getType() == Date.class) {
                                     cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-                                    cell.setCellValue(DateUtil.format((Date) field.get(vo),DateUtil.DATE_TIME));
+                                    cell.setCellValue(DateUtil.format((Date) field.get(vo), DateUtil.DATE_TIME));
                                 } else {
                                     //如果时数字类型就转成double导出
                                     if (String.valueOf(field.get(vo)).length() > 10) {
@@ -256,17 +258,25 @@ public class ExcelUtil<T> {
                 }
             }
         }
+        ServletOutputStream outputStream = null;
         try {
             response.reset();
-            ServletOutputStream outputStream = response.getOutputStream();
+            outputStream = response.getOutputStream();
             response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "iso8859-1") + ".xls");
             response.setContentType("application/vnd.ms-excel");
             workbook.write(outputStream);
-            outputStream.close();
             return true;
         } catch (IOException e) {
             logger.info("Excel导出异常，请联系技术处理{}", e.getMessage());
             return false;
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

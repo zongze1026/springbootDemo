@@ -1,5 +1,7 @@
 package com.zongze.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zongze.valid.Group1;
 import com.zongze.valid.Group2;
 import lombok.Data;
@@ -12,6 +14,7 @@ import java.io.Serializable;
  * Create By xzz on 2018/12/13
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Serializable {
 
     @NotBlank(groups = {Group1.class}, message = "用户名不能为空！")
@@ -20,9 +23,10 @@ public class User implements Serializable {
     @NotNull(groups = {Group1.class}, message = "用户名不能为空！")
     private Long age;
 
-    @NotBlank(groups = {Group2.class},message = "昵称不能为空！")
+    @NotBlank(groups = {Group2.class}, message = "昵称不能为空！")
     private String nickName;
 
+    @JsonIgnore
     private transient String passWord;
 
     public User(String userName, Long age,
@@ -33,4 +37,13 @@ public class User implements Serializable {
         this.nickName = nickName;
         this.passWord = passWord;
     }
+
+    public User() {
+    }
+
+    public User(String userName) {
+        this.userName = userName;
+    }
+
+
 }

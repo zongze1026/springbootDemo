@@ -1,10 +1,4 @@
 package com.zongze;
-
-import com.alibaba.fastjson.JSON;
-import com.zongze.model.User;
-import com.zongze.utils.HttpUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +17,8 @@ public class SpringbootRedisApplicationTests {
     @Test
     public void contextLoads() {
     }
+
+
 
     @Test
     public void mailSend(){

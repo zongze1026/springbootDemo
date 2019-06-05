@@ -74,7 +74,7 @@ public class Builder {
         /**
          * builder方法就是执行外部的构造方法
          */
-        private Builder builder() {
+        private Builder build() {
             return new Builder(this);
         }
 
@@ -91,8 +91,8 @@ public class Builder {
 
 
     public static void main(String[] args) {
-        Builder builder = new BuilderInstance().setUserName("张三").setAge(18).builder();
-        Builder builder2 = new BuilderInstance().setUserName("李四").setAge(38).setBirthday(new Date()).builder();
+        Builder builder = new BuilderInstance().setUserName("张三").setAge(18).build();
+        Builder builder2 = new BuilderInstance().setUserName("李四").setAge(38).setBirthday(new Date()).build();
         System.out.println(JSON.toJSONString(builder));
         System.out.println(JSON.toJSONString(builder2));
     }

@@ -27,13 +27,11 @@ public class Singleton {
      *100个线程获取到的对象都是同一个
      */
     public static void main(String[] args) {
-        Singleton target = Singleton.getInstance();
-
         for (int i=0;i<1000;i++){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println(target == Singleton.getInstance());
+                    System.out.println(Singleton.getInstance());
                 }
             }).start();
         }

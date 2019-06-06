@@ -11,6 +11,7 @@ public class MySocketServer {
 
 
     public static void main(String[] args) {
+        //获取当前cpu的核数作为核心线程数量
         int coreThreadCount = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newScheduledThreadPool(coreThreadCount);
         try {

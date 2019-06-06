@@ -1,10 +1,7 @@
 package com.zongze.bigdata.io;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 
 /**
  * Create By xzz on 2019/5/30

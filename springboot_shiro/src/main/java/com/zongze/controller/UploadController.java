@@ -42,10 +42,8 @@ public class UploadController {
         while (fileIterator.hasNext()) {
             String fileName = fileIterator.next();
             MultipartFile file = request1.getFile(fileName);
-
             String originalFilename = file.getOriginalFilename();
             originalFilename = UUID.randomUUID().toString().replaceAll("", "-") + originalFilename.substring(originalFilename.indexOf("."));
-
             try {
                 file.transferTo(uploadFile);
                 fileNames.add(originalFilename);

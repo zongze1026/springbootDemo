@@ -13,10 +13,9 @@ import java.net.Socket;
 public class MyClientSocket {
 
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args) {
         connectServer("客户端第请求");
     }
-
 
 
     private static void connectServer(String message) {

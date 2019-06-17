@@ -25,4 +25,12 @@ public interface UserDao {
     int eidt(User user);
 
     List<User> userList(User user);
+
+    @Update("update user set age=age-1,version=version+1 where id = #{id} and version=#{version}")
+    int sellSync(User user);
+
+    @Update("update user set age=age-1 where id = #{id}")
+    int sell(User user);
+
+
 }

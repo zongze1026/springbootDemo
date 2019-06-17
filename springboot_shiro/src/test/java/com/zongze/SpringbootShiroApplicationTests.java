@@ -1,6 +1,4 @@
 package com.zongze;
-import com.alibaba.fastjson.JSON;
-import com.zongze.entity.User;
 import com.zongze.service.impl.UserServiceImpl;
 import com.zongze.service.pService;
 import org.junit.Test;
@@ -25,7 +23,30 @@ public class SpringbootShiroApplicationTests {
     }
 
     @Test
-    public void edit(){
+    public void sell(){
+        for (int i=0;i<200;i++){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String lianyiqun = pService.sell("lianyiqun");
+                    System.out.println(lianyiqun);
+                }
+            }).start();
+        }
+    }
+
+
+    @Test
+    public void sellSync(){
+        for (int i=0;i<150;i++){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String lianyiqun = pService.sellSync("lianyiqun");
+                    System.out.println(lianyiqun);
+                }
+            }).start();
+        }
     }
 
 

@@ -23,6 +23,7 @@ public class User extends AbstractEntity {
 
     @Phone
     private String phone;
+    private Integer version;
 
 
     public String getUserName() {

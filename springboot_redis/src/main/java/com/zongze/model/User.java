@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zongze.valid.Group1;
 import com.zongze.valid.Group2;
+import jdk.nashorn.internal.ir.CatchNode;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ import java.io.Serializable;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User implements Serializable {
+public class User  implements Serializable {
 
     @NotBlank(groups = {Group1.class}, message = "用户名不能为空！")
     private String userName;
@@ -41,9 +42,14 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String userName) {
+    private User(String userName) {
         this.userName = userName;
     }
+
+    public String eat(){
+        return "一次一大碗";
+    }
+
 
 
 }

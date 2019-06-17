@@ -1,4 +1,5 @@
 package com.zongze.controller;
+import com.alibaba.fastjson.JSON;
 import com.zongze.model.TestModel;
 import com.zongze.model.User;
 import com.zongze.valid.Group1;
@@ -21,7 +22,8 @@ public class UserController {
 
 
     @PostMapping("/test")
-    public Object test(@RequestBody @Validated({Group1.class}) User user){
+    public Object test(@RequestBody User user){
+        System.out.println(JSON.toJSONString(user));
         return user;
     }
 

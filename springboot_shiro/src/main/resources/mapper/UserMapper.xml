@@ -4,7 +4,7 @@
 <mapper namespace="com.zongze.mapper.UserDao">
 
     <select id="userInfo" resultType="com.zongze.entity.User">
-        select id,userName,age,passWord from `user` where userName=#{userName}
+        select id,userName,age,passWord,version from `user` where userName=#{userName}
     </select>
 
 

@@ -1,16 +1,15 @@
 package com.zongze.util;
+
 import com.alibaba.fastjson.JSONObject;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.BeanUtils;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Create By xzz on 2019/3/22
@@ -30,6 +29,31 @@ public class ObjectUtil {
             T target = targetClass.newInstance();
             BeanUtils.copyProperties(source, target);
             return target;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static <T> T copyProperties(Class<? extends T> targetClass,Object source) {
+        try {
+            Class<?> sourceClass = source.getClass();
+            T t = targetClass.newInstance();
+            List<Field> targetFields = getFields(targetClass);
+            List<Field> sourceFields = getFields(sourceClass);
+            for (Field sourceField : sourceFields) {
+                for (Field targetField : targetFields) {
+                    if (sourceField.getName().equals(targetField.getName())) {
+                        PropertyDescriptor sourceDescriptor = new PropertyDescriptor(sourceField.getName(), sourceClass);
+                        PropertyDescriptor targetDescriptor = new PropertyDescriptor(sourceField.getName(), targetClass);
+                        Method readMethod = sourceDescriptor.getReadMethod();
+                        Method writeMethod = targetDescriptor.getWriteMethod();
+                        writeMethod.invoke(t, readMethod.invoke(source, null));
+                    }
+                }
+            }
+            return t;
         } catch (Exception e) {
             e.printStackTrace();
         }

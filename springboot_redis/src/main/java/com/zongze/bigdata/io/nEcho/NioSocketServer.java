@@ -1,5 +1,6 @@
 package com.zongze.bigdata.io.nEcho;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -14,31 +15,45 @@ public class NioSocketServer {
 
     private Selector selector;
 
-    public void initServer(int port) throws IOException {
-        ServerSocketChannel serverChannel = ServerSocketChannel.open();
-        serverChannel.configureBlocking(false);
-        serverChannel.socket().bind(new InetSocketAddress(port));
-        this.selector = Selector.open();
-        serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+    public void initServer(int port) {
+        try {
+            ServerSocketChannel serverChannel = ServerSocketChannel.open();
+            serverChannel.configureBlocking(false);
+            serverChannel.socket().bind(new InetSocketAddress(port));
+            this.selector = Selector.open();
+            serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         select();
     }
 
-    private void select() throws IOException {
+    private void select() {
         while (true) {
-            while (selector.select() > 0) {
-                Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
-                while (iterator.hasNext()) {
-                    SelectionKey selectionKey = iterator.next();
-                    iterator.remove();
-                    if (selectionKey.isAcceptable()) {
-                        ServerSocketChannel serverChannel = (ServerSocketChannel) selectionKey.channel();
-                        SocketChannel clientChannel = serverChannel.accept();
-                        clientChannel.configureBlocking(false);
-                        clientChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
-                    } else if (selectionKey.isReadable()) {
-                        read(selectionKey);
+            SelectionKey selectionKey = null;
+            try {
+                while (selector.select() > 0) {
+                    Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
+                    while (iterator.hasNext()) {
+                        selectionKey = iterator.next();
+                        iterator.remove();
+                        if (selectionKey.isAcceptable()) {
+                            ServerSocketChannel serverChannel = (ServerSocketChannel) selectionKey.channel();
+                            SocketChannel clientChannel = serverChannel.accept();
+                            clientChannel.configureBlocking(false);
+                            clientChannel.register(selector, SelectionKey.OP_READ);
+                        } else if (selectionKey.isReadable()) {
+                            read(selectionKey);
+                        }
                     }
                 }
+            } catch (Exception e) {
+                //客户端退出会抛出异常,需要从key集合中移除
+                if (selectionKey.channel() instanceof SocketChannel) {
+                    selectionKey.cancel();
+                    System.out.println("有主机退出了！");
+                }
+                e.printStackTrace();
             }
         }
 
@@ -49,12 +64,18 @@ public class NioSocketServer {
      */
     private void read(SelectionKey selectionKey) throws IOException {
         SocketChannel clientChannel = (SocketChannel) selectionKey.channel();
-        ByteBuffer buffer = (ByteBuffer) selectionKey.attachment();
-        clientChannel.read(buffer);
-        String message = new String(buffer.array());
-        System.out.println("收到客户端的消息:"+message);
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        while ((clientChannel.read(buffer))>0){
+            outputStream.write(buffer.array(),0,buffer.position());
+        }
+        String message = new String(outputStream.toByteArray());
+        System.out.println("收到客户端的消息:" + message);
+        //响应客户端
         buffer.clear();
-        clientChannel.close();
+        buffer.put(("收到客户端的消息:" + message).getBytes());
+        buffer.flip();
+        clientChannel.write(buffer);
     }
 
 

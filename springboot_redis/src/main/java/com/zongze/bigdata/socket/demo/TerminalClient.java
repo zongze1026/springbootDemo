@@ -1,7 +1,5 @@
 package com.zongze.bigdata.socket.demo;
 
-import jdk.nashorn.internal.runtime.regexp.joni.constants.OPSize;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

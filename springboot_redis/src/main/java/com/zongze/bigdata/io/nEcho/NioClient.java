@@ -26,9 +26,7 @@ public class NioClient {
             selector.select();
             ByteBuffer buffer = ByteBuffer.allocate(2);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            int read = clientChannel.read(buffer);
-            System.out.println(read);
-            while (read > 0) {
+            while (clientChannel.read(buffer) > 0) {
                 buffer.flip();
                 out.write(buffer.array(), 0, buffer.limit());
                 buffer.clear();

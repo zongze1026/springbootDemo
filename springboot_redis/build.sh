@@ -299,6 +299,29 @@ while((${loopCount}<=5))
 #systemctl restart [server_name]  重启服务
 #systemctl status [server_name]  查看某个单元的运行、是否开机启动等详细信息
 
+#ifconfig命令
+#eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+#        inet 172.16.112.189  netmask 255.255.240.0  broadcast 172.16.127.255
+#        ether 00:16:3e:13:57:0c  txqueuelen 1000  (Ethernet)
+#        RX packets 70482791  bytes 20058512788 (18.6 GiB)
+#        RX errors 0  dropped 0  overruns 0  frame 0
+#        TX packets 68528108  bytes 19841958596 (18.4 GiB)
+#        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+#
+#lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+#        inet 127.0.0.1  netmask 255.0.0.0
+#        loop  txqueuelen 1  (Local Loopback)
+#        RX packets 1251941  bytes 209924822 (200.1 MiB)
+#        RX errors 0  dropped 0  overruns 0  frame 0
+#        TX packets 1251941  bytes 209924822 (200.1 MiB)
+#        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+#
+#eth0:表示第一块网卡
+#inet:用来表示网卡的ip地址;netmask:掩码;broadcast:广播地址
+#ether:表示网卡的物理地址也就是mac地址
+#lo:表示主机的回坏地址,这个一般是用来测试一个网络程序,但又不想让局域网
+#或外网的用户能够查看(如：127.0.0.1)
+
 
 
 

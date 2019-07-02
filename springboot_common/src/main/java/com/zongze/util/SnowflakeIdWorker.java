@@ -1,5 +1,7 @@
 package com.zongze.util;
 
+import java.util.concurrent.*;
+
 /**
  * Twitter_Snowflake<br>
  * SnowFlake的结构如下(每部分用-分开):<br>
@@ -196,6 +198,23 @@ public class SnowflakeIdWorker {
      * 测试
      */
     public static void main(String[] args) {
-        System.out.println(SnowflakeIdWorker.getId());
+        ScheduledThreadPoolExecutor executorService = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(5);
+        executorService.setKeepAliveTime(20000, TimeUnit.MILLISECONDS);
+        executorService.allowCoreThreadTimeOut(true);
+        for (int i = 0; i < 10; i++) {
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(Thread.currentThread() + "提交了任务！");
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+
     }
 }

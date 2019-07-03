@@ -1,6 +1,7 @@
 package com.zongze.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.thoughtworks.xstream.XStream;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -173,6 +174,24 @@ public class ObjectUtil {
         }
         return null;
     }
+
+
+    public static String toxml(Object object) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(object.getClass());
+        String s = xStream.toXML(object);
+        return s;
+    }
+
+
+    public static Object convertObject(String xml) {
+        XStream xStream = new XStream();
+        return xStream.fromXML(xml);
+    }
+
+
+
+
 
 
     public static void main(String[] args) {

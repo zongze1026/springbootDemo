@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Create By xzz on 2019/7/2
@@ -66,26 +64,7 @@ public class WXController {
      */
     @PostMapping("create/menu")
     public ResultResp createMenu() {
-        WXService wxService = new WXService();
-        List<ParentButton> parentButtons = new ArrayList<>();
-        for (int n = 0; n < 3; n++) {
-            ParentButton parentButton = new ParentButton();
-            parentButton.setName("订单购买");
-            List<SubButton> subButtons = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                SubButton subButton = new SubButton();
-                subButton.setType("view");
-                subButton.setUrl("https://www.baidu.com");
-                subButton.setName("按钮" + i + 1);
-                subButtons.add(subButton);
-            }
-            parentButton.setSub_button(subButtons);
-            parentButtons.add(parentButton);
-        }
-        Button button = new Button();
-        button.setButton(parentButtons);
-        System.out.println(JSON.toJSONString(button));
-        if (wxService.createMenu(JSON.toJSONString(button))) {
+        if (wxService.createMenu()) {
             return ResultResp.succ();
         }
         return ResultResp.fail("创建菜单失败！");

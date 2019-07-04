@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zongze.dao.ButtonMapper">
+
+    <resultMap id="buttonMap" type="com.zongze.entity.button.ParentButton">
+        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <collection property="sub_button" javaType="java.util.ArrayList" ofType="com.zongze.entity.button.SubButton">
+            <result column="s_name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result column="type" property="type" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result column="url" property="url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="createMenu" resultMap="buttonMap">
+        SELECT
+        b.name,
+        sb.s_name,
+        sb.type,
+        sb.url
+        FROM
+        super_button b
+        INNER JOIN sub_button sb ON b.id = sb.s_id
+        ORDER BY
+        b.order_no,
+        sb.s_order_no
+    </select>
+
+
+</mapper>

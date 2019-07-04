@@ -1,14 +1,19 @@
 package com.zongze.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zongze.dao.ButtonMapper;
 import com.zongze.entity.AccessToken;
 import com.zongze.entity.WXConstants;
+import com.zongze.entity.button.Button;
+import com.zongze.entity.button.ParentButton;
 import com.zongze.util.HttpUtil;
 import com.zongze.util.MD5Util;
 import com.zongze.util.ObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -23,8 +28,14 @@ public class WXService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WXService.class);
 
-
     private AccessToken token = null;
+
+
+    @Autowired
+    private ButtonMapper buttonMapper;
+
+
+
 
     /**
      * 参数参与签名
@@ -45,7 +56,6 @@ public class WXService {
     }
 
     private AccessToken accessToken() {
-        LOGGER.info("============获取微信token=========");
         String tokenJson = HttpUtil.get(WXConstants.ACCESS_TOKEN);
         AccessToken accessToken = jsonToJavaObject(tokenJson, AccessToken.class);
         accessToken.setExpiresIn((accessToken.getExpiresIn() * 1000 + System.currentTimeMillis()));
@@ -101,9 +111,13 @@ public class WXService {
     }
 
 
-    public boolean createMenu(String postEntity) {
+    public boolean createMenu() {
+        List<ParentButton> menu = buttonMapper.createMenu();
+        Button button = new Button();
+        button.setButton(menu);
+        System.out.println(JSON.toJSONString(menu));
         AccessToken token = getToken();
-        String result = HttpUtil.postForJson(WXConstants.createMenuUrl(token.getAccessToken()), postEntity);
+        String result = HttpUtil.postForJson(WXConstants.createMenuUrl(token.getAccessToken()), JSON.toJSONString(button));
         JSONObject jsonObject = JSONObject.parseObject(result);
         if (StringUtils.equalsIgnoreCase("0", jsonObject.getString("errcode"))) {
             return true;

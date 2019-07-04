@@ -3,8 +3,6 @@ package com.zongze.service;
 import com.alibaba.fastjson.JSONObject;
 import com.zongze.entity.AccessToken;
 import com.zongze.entity.WXConstants;
-import com.zongze.entity.button.ParentButton;
-import com.zongze.entity.button.SubButton;
 import com.zongze.util.HttpUtil;
 import com.zongze.util.MD5Util;
 import com.zongze.util.ObjectUtil;
@@ -12,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +30,7 @@ public class WXService {
      * 参数参与签名
      */
     public String signature(String sign) {
-        return MD5Util.encript(sign);
+        return MD5Util.encrypt(sign);
     }
 
 

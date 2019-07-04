@@ -92,10 +92,4 @@ public class WXController {
     }
 
 
-    public static void main(String[] args) {
-        WXController wxController = new WXController();
-        wxController.createMenu();
-    }
-
-
 }

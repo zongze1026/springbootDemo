@@ -4,7 +4,7 @@ package com.zongze.entity;
  * Create By xzz on 2019/7/3
  */
 public class WXConstants {
-    //微信公众号上配置的三个信息
+    //微信公众号上的配置
     public static final String TOKEN = "wxtoken";
     public static final String APP_ID = "wx38f204cdd185e445";
     public static final String ENCODING_AES_KEY = "z7SEH6aGVkQVgEvQ2eZIi9uVcXqlKrE2TaMj9hd3AHH";

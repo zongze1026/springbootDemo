@@ -10,6 +10,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * Create By xzz on 2018/11/19
+ *访问地址：http://localhost:8088/swagger-ui.html
  */
 @Configuration
 public class Swagger2Config {

@@ -13,14 +13,18 @@ public class WXConstants {
 
     //自定义菜单接口
     public static final String CREATE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=%s";
+
     public static String createMenuUrl(String token) {
         return String.format(CREATE_MENU_URL, token);
     }
 
     //获取accessToken地址
-    public static final String ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+APP_ID+"&secret="+APP_SECRET;
+    public static final String ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APP_ID + "&secret=" + APP_SECRET;
 
-
+    //获取用户信息
+    public static final String getUserInfo(String token, String openID) {
+        return String.format("https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN", token, openID);
+    }
 
 
 

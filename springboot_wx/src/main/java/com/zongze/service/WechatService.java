@@ -24,9 +24,9 @@ import java.util.Set;
  * Create By xzz on 2019/7/2
  */
 @Service
-public class WXService {
+public class WechatService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WXService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WechatService.class);
 
     private AccessToken token = null;
 

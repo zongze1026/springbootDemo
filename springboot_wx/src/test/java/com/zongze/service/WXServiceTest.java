@@ -1,12 +1,14 @@
 package com.zongze.service;
 
+import com.zongze.entity.AccessToken;
+import com.zongze.entity.WXConstants;
+import com.zongze.util.HttpUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
 
 /**
  * Create By xzz on 2019/7/4
@@ -16,11 +18,22 @@ import static org.junit.Assert.*;
 public class WXServiceTest {
 
     @Autowired
-    WXService wxService;
+    WechatService wxService;
 
     @Test
     public void createMenu() {
         boolean menu = wxService.createMenu();
-        System.out.println(menu);
     }
+
+
+    //用户基本信息
+    @Test
+    public void userInfo() {
+        AccessToken token = wxService.getToken();
+        String userInfo = WXConstants.getUserInfo(token.getAccessToken(), "ofhzw5-6HKyV8V-i_tdfN9CvyWc4");
+        String s = HttpUtil.get(userInfo);
+        System.out.println(s);
+    }
+
+
 }

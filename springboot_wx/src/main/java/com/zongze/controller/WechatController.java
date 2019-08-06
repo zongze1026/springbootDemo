@@ -1,12 +1,7 @@
 package com.zongze.controller;
-
-import com.alibaba.fastjson.JSON;
 import com.zongze.entity.ResultResp;
 import com.zongze.entity.WXConstants;
-import com.zongze.entity.button.Button;
-import com.zongze.entity.button.ParentButton;
-import com.zongze.entity.button.SubButton;
-import com.zongze.service.WXService;
+import com.zongze.service.WechatService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +17,10 @@ import java.util.Arrays;
  * 微信开发接入
  */
 @RestController
-public class WXController {
+public class WechatController {
 
     @Autowired
-    private WXService wxService;
+    private WechatService wxService;
 
     /**
      * 微信接入

@@ -23,7 +23,6 @@ public class DateUtil {
         threadLocal.set(new SimpleDateFormat(DATE_TIME));
     }
 
-
     private static SimpleDateFormat getInstance(String dateType) {
         SimpleDateFormat simpleDateFormat = threadLocal.get();
         simpleDateFormat.applyPattern(dateType);

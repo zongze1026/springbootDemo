@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +18,6 @@ public class HttpUtil {
     public static String postForJson(String url, String jsonData) {
         HttpClient httpClient = new HttpClient();
         PostMethod post = null;
-        StringBuffer resultBuffer = new StringBuffer();
         try {
             post = new PostMethod(url);
             RequestEntity se = new StringRequestEntity(jsonData, "application/json", "utf-8");

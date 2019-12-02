@@ -12,7 +12,6 @@ import java.io.IOException;
 @Component
 public class FanoutMessage1Receive {
 
-
     @RabbitListener(queues = "fanoutMessage1")
     public void receive(String content, Channel channel, Message message) throws IOException {
 
@@ -20,7 +19,8 @@ public class FanoutMessage1Receive {
         //当前消息的id
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //手动应答ack，第二个参数：true:会把小于当前id的消息全部ack掉 false:只ack当前消息
-        channel.basicAck(deliveryTag, false);
+//        channel.basicAck(deliveryTag, false);
+        channel.basicNack(deliveryTag,false,true);
     }
 
 

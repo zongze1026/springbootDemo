@@ -18,17 +18,13 @@ public class FanoutMessage2Receive {
     @RabbitListener(queues = "fanoutMessage1")
     public void receive(String content, Channel channel, Message message) throws IOException {
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         System.out.println(FanoutMessage2Receive.class.getName() + ":" + content);
         //当前消息的id
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //手动应答ack，第二个参数：true:会把小于当前id的消息全部ack掉 false:只ack当前消息
         channel.basicAck(deliveryTag, false);
+        //消息重新入队
+//        channel.basicNack(deliveryTag,false,true);
     }
 
 

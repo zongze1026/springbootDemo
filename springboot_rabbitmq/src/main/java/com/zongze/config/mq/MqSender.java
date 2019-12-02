@@ -62,9 +62,9 @@ public class MqSender implements RabbitTemplate.ConfirmCallback, RabbitTemplate.
             };
         }
         if (null == messagePostProcessor) {
-            amqpTemplate.convertAndSend(exchange, routKey, JSON.toJSONString(object), new CommonCorrelationData(object, exchange, routKey));
+            amqpTemplate.convertAndSend(exchange, routKey, JSON.toJSONString(object), new CommonCorrelationData(object, exchange, routKey,null,false));
         } else {
-            amqpTemplate.convertAndSend(exchange, routKey, JSON.toJSONString(object), messagePostProcessor, new CommonCorrelationData(object, exchange, routKey));
+            amqpTemplate.convertAndSend(exchange, routKey, JSON.toJSONString(object), messagePostProcessor, new CommonCorrelationData(object, exchange, routKey,ttlTime,persistent));
         }
         return "success";
     }
@@ -78,7 +78,7 @@ public class MqSender implements RabbitTemplate.ConfirmCallback, RabbitTemplate.
             convertAndSend(commonCorrelationData.getExchange(), commonCorrelationData.getRoutKey(), commonCorrelationData.getMessageBody(),
                     commonCorrelationData.isPersistent(), commonCorrelationData.getTtlTime());
         } else {
-            logger.info("==============消息发送成功==========");
+            logger.info("消息发送成功，params:{}", JSON.toJSONString(correlationData));
         }
     }
 

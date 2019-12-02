@@ -29,13 +29,13 @@ public class TopicConfig {
 
 
     @Bean
-    public Queue message1() {
+    public Queue topicMessage1() {
         return new Queue(message1,true);
     }
 
 
     @Bean
-    public Queue message2() {
+    public Queue topicMessage2() {
         return new Queue(message2,true);
     }
 
@@ -51,8 +51,8 @@ public class TopicConfig {
      * 队列message1绑定到交换机中
      */
     @Bean
-    public Binding bindingMessage1() {
-        return BindingBuilder.bind(message1()).to(topicExchange()).with("topic.message1");
+    public Binding topicBinding1() {
+        return BindingBuilder.bind(topicMessage1()).to(topicExchange()).with("topic.message1");
     }
 
 
@@ -60,8 +60,8 @@ public class TopicConfig {
      * 队列message2绑定到交换机中
      */
     @Bean
-    public Binding bindingMessage2() {
-        return BindingBuilder.bind(message2()).to(topicExchange()).with("topic.#");
+    public Binding topicBinding2() {
+        return BindingBuilder.bind(topicMessage2()).to(topicExchange()).with("topic.#");
     }
 
 

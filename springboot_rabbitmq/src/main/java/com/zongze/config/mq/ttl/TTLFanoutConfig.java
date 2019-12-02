@@ -46,7 +46,7 @@ public class TTLFanoutConfig {
 
     @SuppressWarnings("all")
     @Bean
-    public Queue ttlQueue() {
+    public Queue ttlFanoutQueue() {
         Map<String, Object> args = new HashMap<>();
         /**
          * 绑定死信交换机
@@ -91,7 +91,7 @@ public class TTLFanoutConfig {
 
     @Bean
     public Binding ttlSendBinding() {
-        return BindingBuilder.bind(ttlQueue()).to(ttlSendExchange()).with("ttl_fanout_send");
+        return BindingBuilder.bind(ttlFanoutQueue()).to(ttlSendExchange()).with("ttl_fanout_send");
     }
 
 

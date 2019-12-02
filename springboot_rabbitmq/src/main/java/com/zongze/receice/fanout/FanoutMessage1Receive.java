@@ -19,6 +19,12 @@ public class FanoutMessage1Receive {
     @RabbitHandler
     public void receive(String content, Channel channel, Message message) throws IOException {
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         System.out.println(FanoutMessage1Receive.class.getName() + ":" + content);
         //当前消息的id
         long deliveryTag = message.getMessageProperties().getDeliveryTag();

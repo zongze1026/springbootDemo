@@ -15,12 +15,12 @@ public class FanoutSender {
     private AmqpTemplate amqpTemplate;
 
 
-    public void send(){
-        String content = "this is fanout test %s";
-        System.out.println(String.format(content,"发送成功"));
-        amqpTemplate.convertAndSend("fanoutExchange","",content);
+    public void send() {
+        for (int i = 1; i <= 10; i++) {
+            String content = "this is fanout test %s " + i;
+            amqpTemplate.convertAndSend("fanoutExchange", "", content);
+        }
     }
-
 
 
 }

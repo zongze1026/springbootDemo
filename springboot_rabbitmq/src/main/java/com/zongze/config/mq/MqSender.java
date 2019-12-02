@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.CorrelationData;
 
 /**
  * Create By xzz on 2019/3/30
@@ -64,7 +64,7 @@ public class MqSender implements RabbitTemplate.ConfirmCallback, RabbitTemplate.
         if (!ack) {
             logger.info("==============消息发送失败==========");
         } else {
-            logger.info("==============消息发送成功==========");
+//            logger.info("==============消息发送成功==========");
         }
     }
 

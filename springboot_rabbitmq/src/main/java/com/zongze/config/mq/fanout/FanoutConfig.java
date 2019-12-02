@@ -73,19 +73,19 @@ public class FanoutConfig {
     /**
      * 队列message2绑定到交换机中
      */
-    @Bean
-    public Binding bindingMessage2() {
-        return BindingBuilder.bind(message2()).to(fanoutExchange());
-    }
+//    @Bean
+//    public Binding bindingMessage2() {
+//        return BindingBuilder.bind(message2()).to(fanoutExchange());
+//    }
 
 
     /**
      * 队列message2绑定到交换机中
      */
-    @Bean
-    public Binding bindingMessage3() {
-        return BindingBuilder.bind(message3()).to(fanoutExchange());
-    }
+//    @Bean
+//    public Binding bindingMessage3() {
+//        return BindingBuilder.bind(message3()).to(fanoutExchange());
+//    }
 
 
 }

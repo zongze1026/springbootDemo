@@ -2,28 +2,19 @@ package com.zongze.receice.fanout;
 
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 
 /**
  * Create By xzz on 2019/3/29
  */
 @Component
-@RabbitListener(queues = "fanoutMessage1")
 public class FanoutMessage1Receive {
 
 
-    @RabbitHandler
+    @RabbitListener(queues = "fanoutMessage1")
     public void receive(String content, Channel channel, Message message) throws IOException {
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         System.out.println(FanoutMessage1Receive.class.getName() + ":" + content);
         //当前消息的id

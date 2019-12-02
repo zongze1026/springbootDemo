@@ -12,12 +12,17 @@ import java.io.IOException;
  * Create By xzz on 2019/3/29
  */
 @Component
-@RabbitListener(queues = "fanoutMessage2")
 public class FanoutMessage2Receive {
 
 
-    @RabbitHandler
+    @RabbitListener(queues = "fanoutMessage1")
     public void receive(String content, Channel channel, Message message) throws IOException {
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         System.out.println(FanoutMessage2Receive.class.getName() + ":" + content);
         //当前消息的id

@@ -1,6 +1,6 @@
 package com.zongze.sender.topic;
 
-import org.springframework.amqp.core.AmqpTemplate;
+import com.zongze.config.mq.MqSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,30 +12,27 @@ public class TopicSender {
 
 
     @Autowired
-    private AmqpTemplate amqpTemplate;
+    private MqSender mqSender;
 
 
-    public void send(){
+    public void send() {
         String content = "this is topic test %s";
-        System.out.println(String.format(content,"发送成功"));
-        amqpTemplate.convertAndSend("topicExchange","topic.message1",content);
+        System.out.println(String.format(content, "发送成功"));
+        mqSender.send("topicExchange", "topic.message1", content);
     }
 
 
-    public void send1(){
+    public void send1() {
         String content = "this is topic test %s";
-        System.out.println(String.format(content,"发送成功"));
-        amqpTemplate.convertAndSend("topicExchange","topi.aa",content);
+        System.out.println(String.format(content, "发送成功"));
+        mqSender.send("topicExchange", "topi.aa", content);
     }
 
-    public void send2(){
+    public void send2() {
         String content = "this is topic test %s";
-        System.out.println(String.format(content,"发送成功"));
-        amqpTemplate.convertAndSend("topicExchange","topic.aa",content);
+        System.out.println(String.format(content, "发送成功"));
+        mqSender.send("topicExchange", "topic.aa", content);
     }
-
-
-
 
 
 }

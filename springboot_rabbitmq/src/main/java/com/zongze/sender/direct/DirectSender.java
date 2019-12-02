@@ -4,8 +4,6 @@ import com.zongze.config.mq.MqSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 /**
  * Create By xzz on 2019/3/29
  */
@@ -20,21 +18,21 @@ public class DirectSender {
     public void send() {
         String content = "this is direct test %s";
         System.out.println(String.format(content, "发送成功"));
-        mqSender.convertAndSend("directExchange", "direct.message2");
+        mqSender.send("directExchange", "", "direct.message2");
     }
 
 
     public void send1() {
         String content = "this is direct test %s";
         System.out.println(String.format(content, "发送成功"));
-        mqSender.convertAndSend("directExchange", "direct.message2", content);
+        mqSender.send("directExchange", "direct.message2", content);
     }
 
 
     public void send2() {
         String content = "this is direct test %s";
         System.out.println(String.format(content, "发送成功"));
-        mqSender.convertAndSend("directExchange", "direct.message", content);
+        mqSender.send("directExchange", "direct.message", content);
     }
 
 

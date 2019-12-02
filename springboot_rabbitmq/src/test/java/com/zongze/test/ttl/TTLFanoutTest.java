@@ -21,10 +21,8 @@ public class TTLFanoutTest {
 
     @Test
     public void send() {
-        int m = 10;
         for (int i = 0; i < 5; i++) {
-            ttlSender.send(String.valueOf(m*1000));
-            m += 10;
+            ttlSender.send(String.valueOf(20*1000));
         }
     }
 

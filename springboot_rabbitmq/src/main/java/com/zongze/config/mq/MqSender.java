@@ -1,12 +1,13 @@
 package com.zongze.config.mq;
 
 import com.alibaba.fastjson.JSON;
-import com.zongze.entity.ResultResp;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
@@ -15,56 +16,69 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
  */
 public class MqSender implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
 
-    private AmqpTemplate amqpTemplate;
+    private RabbitTemplate amqpTemplate;
     private static Logger logger = LoggerFactory.getLogger(MqSender.class);
 
 
-    public ResultResp convertAndSend(String exchange, Object content) {
-        return send(exchange, null, content, null);
+    public String send(String exchange, String routKey, Object object) {
+        return convertAndSend(exchange, routKey, object, false, null);
     }
 
-    public ResultResp convertAndSend(String exchange, String routKey, Object content) {
-        return send(exchange, routKey, content, null);
+    public String send(String exchange, String routKey, Object object, boolean persistent) {
+        return convertAndSend(exchange, routKey, object, persistent, null);
     }
 
-//    public ResultResp convertAndSend(String exchange, Object content, String dieTime) {
-//        return send(exchange, null, content, dieTime);
-//    }
-
-
-    public ResultResp convertAndSend(String exchange, String routKey, Object content, String dieTime) {
-        return send(exchange, routKey, content, dieTime);
+    public String send(String exchange, String routKey, Object object, String ttlTime) {
+        return convertAndSend(exchange, routKey, object, false, ttlTime);
     }
 
+    public String send(String exchange, String routKey, Object object, boolean persistent, String ttlTime) {
+        return convertAndSend(exchange, routKey, object, persistent, ttlTime);
+    }
 
-    public ResultResp send(String exchange, String routKey, Object object, String dieTime) {
-        String content = JSON.toJSONString(object);
-        logger.info("消息入参：{}", content);
-        if (StringUtils.isNotBlank(routKey) && StringUtils.isNotBlank(dieTime)) {
-            amqpTemplate.convertAndSend(exchange, routKey, content, message -> {
-                message.getMessageProperties().setExpiration(dieTime);
+    /**
+     * exchange 交换机
+     * routKey 路由键
+     * object 消息内容
+     * messageId 消息id
+     * persistent 消息是否持久化
+     * ttlTime 消息过期时间
+     *
+     * @param:
+     * @return:
+     */
+    private String convertAndSend(String exchange, String routKey, Object object, boolean persistent, String ttlTime) {
+        MessagePostProcessor messagePostProcessor = null;
+        if (persistent || StringUtils.isNotBlank(ttlTime)) {
+            messagePostProcessor = message -> {
+                MessageProperties properties = message.getMessageProperties();
+                if (persistent) {
+                    properties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                }
+                if (StringUtils.isNotBlank(ttlTime)) {
+                    properties.setExpiration(ttlTime);
+                }
                 return message;
-            });
-        } else if (StringUtils.isNotBlank(routKey)) {
-            amqpTemplate.convertAndSend(exchange, routKey, content);
-        } else if (StringUtils.isNotBlank(dieTime)) {
-            amqpTemplate.convertAndSend(exchange, "", content, message -> {
-                message.getMessageProperties().setExpiration(dieTime);
-                return message;
-            });
-        } else {
-            amqpTemplate.convertAndSend(exchange, "", content);
+            };
         }
-        return ResultResp.succ();
+        if (null == messagePostProcessor) {
+            amqpTemplate.convertAndSend(exchange, routKey, JSON.toJSONString(object), new CommonCorrelationData(object, exchange, routKey));
+        } else {
+            amqpTemplate.convertAndSend(exchange, routKey, JSON.toJSONString(object), messagePostProcessor, new CommonCorrelationData(object, exchange, routKey));
+        }
+        return "success";
     }
 
 
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         if (!ack) {
-            logger.info("==============消息发送失败==========");
+            CommonCorrelationData commonCorrelationData = (CommonCorrelationData) correlationData;
+            logger.info("消息发送失败重新发送，params:{}", JSON.toJSONString(commonCorrelationData));
+            convertAndSend(commonCorrelationData.getExchange(), commonCorrelationData.getRoutKey(), commonCorrelationData.getMessageBody(),
+                    commonCorrelationData.isPersistent(), commonCorrelationData.getTtlTime());
         } else {
-//            logger.info("==============消息发送成功==========");
+            logger.info("==============消息发送成功==========");
         }
     }
 
@@ -77,9 +91,8 @@ public class MqSender implements RabbitTemplate.ConfirmCallback, RabbitTemplate.
         logger.info("message:[{}] i={};s={};s1={};s2={}", message.toString(), i, s, s1, s2);
     }
 
-    public void setAmqpTemplate(AmqpTemplate amqpTemplate) {
+    public void setAmqpTemplate(RabbitTemplate amqpTemplate) {
         this.amqpTemplate = amqpTemplate;
     }
-
 
 }

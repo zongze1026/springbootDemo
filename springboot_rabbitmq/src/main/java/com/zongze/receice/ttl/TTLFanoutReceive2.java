@@ -12,11 +12,10 @@ import java.io.IOException;
  * Create By xzz on 2019/3/29
  */
 @Component
-@RabbitListener(queues = "listnenr_queue2")
 public class TTLFanoutReceive2 {
 
 
-    @RabbitHandler
+    @RabbitListener(queues = "listnenr_queue2")
     public void receive(String content, Channel channel, Message message) throws IOException {
         System.out.println(TTLFanoutReceive2.class.getName() + ":" + content);
         //当前消息的id

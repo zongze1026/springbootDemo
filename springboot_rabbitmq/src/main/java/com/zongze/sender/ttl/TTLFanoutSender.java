@@ -1,5 +1,6 @@
 package com.zongze.sender.ttl;
 
+import com.zongze.config.mq.MqSender;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,19 +13,15 @@ public class TTLFanoutSender {
 
 
     @Autowired
-    private AmqpTemplate amqpTemplate;
+    private MqSender mqSender;
 
 
     public void send(String time) {
-        String content = "测试ttl广播形式：%s";
+        String content = "过期时间为:%s,当前时间戳为:" + System.currentTimeMillis();
         String data = String.format(content, time);
         System.out.println(data);
-        amqpTemplate.convertAndSend("ttlSendExchange", "ttl_fanout_send", data, message -> {
-            message.getMessageProperties().setExpiration(time);
-            return message;
-        });
+        mqSender.send("ttlSendExchange", "ttl_fanout_send", data, time);
     }
-
 
 
 }

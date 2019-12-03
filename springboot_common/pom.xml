@@ -151,6 +151,15 @@
             <version>1.2.28</version>
         </dependency>
 
+        <!--图片模糊处理jar-->
+        <dependency>
+            <groupId>com.jhlabs.image</groupId>
+            <artifactId>ImageEditor</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ImageEditor.jar</systemPath>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

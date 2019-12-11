@@ -1,5 +1,5 @@
 package com.zongze.component;
-import com.zongze.utils.RedisUtil;
+import com.zongze.util.RedisUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

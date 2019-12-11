@@ -3,12 +3,10 @@ package com.zongze.component;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.stereotype.Component;
 
 /**
  * Create By xzz on 2019/4/2
  */
-@Component
 public class KeyExpireListener extends KeyExpirationEventMessageListener {
     public KeyExpireListener(RedisMessageListenerContainer listenerContainer) {
         super(listenerContainer);

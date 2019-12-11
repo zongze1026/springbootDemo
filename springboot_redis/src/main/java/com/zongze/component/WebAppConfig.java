@@ -1,5 +1,6 @@
 package com.zongze.component;
 
+import com.zongze.util.EmailUtil;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,12 @@ public class WebAppConfig implements WebMvcConfigurer {
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(0); //该过滤器应该在最先执行，优先级最高
         return bean;
+    }
+
+
+    @Bean
+    public EmailUtil emailUtil(){
+        return new EmailUtil();
     }
 
 

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zongze.entity.ResultResp;
 import com.zongze.model.CacheKey;
 import com.zongze.model.User;
-import com.zongze.utils.RedisUtil;
+import com.zongze.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package com.zongze.utils;
+package com.zongze.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
 

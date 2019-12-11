@@ -1,4 +1,4 @@
-package com.zongze.utils;
+package com.zongze.util;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

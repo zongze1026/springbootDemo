@@ -1,29 +1,27 @@
 package com.zongze.util;
 
-import lombok.Setter;
 import org.springframework.data.redis.core.RedisTemplate;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * Create By xzz on 2018/12/7
  */
-@Setter
 public class RedisUtil {
 
     private static RedisTemplate redisTemplate;
 
-
-    public static final void setTemplate(RedisTemplate template) {
-        redisTemplate = template;
+    public static void setRedisTemplate(RedisTemplate redisTemplate) {
+        RedisUtil.redisTemplate = redisTemplate;
     }
 
     /**
      * 存入key、value
      * 有时间则设定过期时间
      */
-    public static void set(Object key, Object value, Long time) {
+    public static void set(Object key, Object value, long time) {
         try {
-            if (time != null && time > 0) {
+            if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             } else {
                 redisTemplate.opsForValue().set(key, value);
@@ -87,4 +85,35 @@ public class RedisUtil {
     }
 
 
+    /**
+     * 如果存在key不存在则设置
+     */
+    public static boolean setIfAbsent(Object key, Object value, long timeOut, TimeUnit timeUnit) {
+        try {
+            return redisTemplate.opsForValue().setIfAbsent(key, value, timeOut, timeUnit);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 如果存在key不存在则设置
+     */
+    public static boolean setIfAbsent(Object key, Object value) {
+        try {
+            return redisTemplate.opsForValue().setIfAbsent(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    /**
+     * redis自增
+     */
+    public static long increment(String key, int count) {
+        return redisTemplate.opsForValue().increment(key, count);
+    }
 }

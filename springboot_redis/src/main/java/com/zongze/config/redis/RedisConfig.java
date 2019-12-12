@@ -2,6 +2,7 @@ package com.zongze.config.redis;
 
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.zongze.component.KeyExpireListener;
+import com.zongze.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,6 +57,13 @@ public class RedisConfig {
     public KeyExpireListener keyExpireListener(RedisMessageListenerContainer container) {
         KeyExpireListener listener = new KeyExpireListener(container);
         return listener;
+    }
+
+    @Bean
+    public RedisUtil redisUtil(RedisTemplate redisTemplate){
+        RedisUtil redisUtil = new RedisUtil();
+        redisUtil.setRedisTemplate(redisTemplate);
+        return redisUtil;
     }
 
 

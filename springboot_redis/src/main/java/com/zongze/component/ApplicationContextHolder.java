@@ -1,13 +1,9 @@
 package com.zongze.component;
 
-import com.zongze.util.HttpUtil;
-import com.zongze.util.RedisUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Create By xzz on 2019/3/27
@@ -20,7 +16,16 @@ public class ApplicationContextHolder implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-        initSystem();
+        initSystemBean();
+    }
+
+    /**
+     * 初始化系统
+     * @param:
+     * @return:
+     */
+    private void initSystemBean() {
+
     }
 
 
@@ -30,15 +35,6 @@ public class ApplicationContextHolder implements ApplicationContextAware {
 
     public static final Object getBean(String beanName) {
         return applicationContext.getBean(beanName);
-    }
-
-
-    /**
-     * 初始化系统配置
-     */
-    private void initSystem(){
-        RedisUtil.setRedisTemplate(applicationContext.getBean(RedisTemplate.class));
-        HttpUtil.setRestTemplate(applicationContext.getBean(RestTemplate.class));
     }
 
 

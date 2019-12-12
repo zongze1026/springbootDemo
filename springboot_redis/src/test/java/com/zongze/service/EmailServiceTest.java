@@ -1,4 +1,5 @@
 package com.zongze.service;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,22 @@ public class EmailServiceTest {
     private EmailService emailService;
 
     @Test
-    public void testSendEmail(){
-        emailService.sendEmail("13916257992@163.com","邮件测试","测试邮件发送\t\nfdfadasf");
+    public void testSendEmail() {
+        emailService.sendEmail("13916257992@163.com", "邮件测试", "测试邮件发送\t\nfdfadasf");
     }
 
 
+    @Test
+    public void testRedisSetAbsent() {
+        for (int i = 0; i < 10; i++) {
+            new Thread() {
+                @Override
+                public void run() {
+                    emailService.setIfAbsent("hellow", Thread.currentThread().getId() + "");
+                }
+            }.start();
+        }
+    }
 
 
 }

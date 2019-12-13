@@ -1,4 +1,5 @@
 package com.zongze;
+import com.zongze.service.EmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,9 @@ public class SpringbootRedisApplicationTests {
     @Autowired
     private JavaMailSender sender;
 
-    @Test
-    public void contextLoads() {
-    }
+    @Autowired
+    private EmailService emailService;
+
 
 
 
@@ -27,6 +28,13 @@ public class SpringbootRedisApplicationTests {
         message.setTo("994711007@qq.com");
         message.setSubject("测试邮件");
         message.setText("邮件测试");
+        sender.send(message);
+    }
+
+
+    @Test
+    public void testLock(){
+        emailService.testLock();
     }
 
 

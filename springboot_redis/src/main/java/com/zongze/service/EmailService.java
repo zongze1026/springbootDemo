@@ -1,5 +1,6 @@
 package com.zongze.service;
 
+import com.zongze.annotation.Dlock;
 import com.zongze.util.EmailUtil;
 import com.zongze.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class EmailService {
     public void setIfAbsent(String key,String value){
         boolean b = RedisUtil.setIfAbsent(key, value);
         System.out.println(b);
+    }
+
+    @Dlock
+    public void testLock(){
+
     }
 
 

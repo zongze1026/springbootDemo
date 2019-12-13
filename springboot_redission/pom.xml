@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.zongze</groupId>
-    <artifactId>springboot_redission</artifactId>
+    <artifactId>dlock-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springboot_redission</name>
+    <name>dlock-spring-boot-starter</name>
     <description>for distribute lock</description>
 
     <dependencies>

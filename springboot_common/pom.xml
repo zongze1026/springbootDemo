@@ -16,22 +16,15 @@
     <name>springboot_common</name>
     <description>Demo project for Spring Boot</description>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-
-
         <!-- 整合redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,7 +44,6 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
-
         <!--mysql-->
         <dependency>
             <groupId>mysql</groupId>
@@ -63,14 +55,12 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.3.2</version>
         </dependency>
-
         <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
         </dependency>
-
         <!--shiro-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -82,7 +72,6 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.3.2</version>
         </dependency>
-
         <!--shiro使用redis插件-->
         <dependency>
             <groupId>org.crazycake</groupId>
@@ -95,14 +84,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <!-- Shiro使用EhCache缓存框架 -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-ehcache</artifactId>
             <version>1.4.0</version>
         </dependency>
-
         <!--swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -114,19 +101,16 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-
         <!--  spring aop-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.0.9</version>
         </dependency>
-
         <!--分页插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
@@ -150,7 +134,6 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.28</version>
         </dependency>
-
         <!--图片模糊处理jar-->
         <dependency>
             <groupId>com.jhlabs.image</groupId>
@@ -159,20 +142,17 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/ImageEditor.jar</systemPath>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
-
         <!--httpclient-->
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
         </dependency>
-
         <!--xstream-->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>

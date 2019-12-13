@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties({RedissonLockConfig.class})
 @ConditionalOnProperty(prefix = "spring.dlock", name = "enable", value = "true")
 @Import({DlockAspectHandler.class})
-public class RedissonLockAutoConfig {
+public class RedissonLockAutoConfiguration {
 
     @Autowired
     private RedissonLockConfig redissonConfig;

@@ -16,7 +16,7 @@ public class ReentrantLock extends AbstractDistributedLock {
 
     @Override
     public boolean lock() {
-        lock = redissonClient.getLock(lock.getName());
+        lock = redissonClient.getLock(lockInfo.getLockName());
         try {
             return lock.tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), lockInfo.getTimeUnit());
         } catch (InterruptedException e) {

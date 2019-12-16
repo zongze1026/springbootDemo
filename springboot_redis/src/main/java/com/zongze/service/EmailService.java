@@ -6,8 +6,6 @@ import com.zongze.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Create By xzz on 2019/12/11
  */
@@ -16,7 +14,6 @@ public class EmailService {
 
     @Autowired
     private EmailUtil emailUtil;
-
 
 
     public void sendEmail(String address, String title, String content) {
@@ -30,7 +27,7 @@ public class EmailService {
 
     @Dlock
     public void testLock(){
-
+        System.out.println(Thread.currentThread().getName()+" 抢到了资源锁！");
     }
 
 

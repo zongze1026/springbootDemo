@@ -1,13 +1,11 @@
-package com.zongze.config;
+package com.zongze;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * Create By xzz on 2019/12/12
  */
 @Data
-@Component
 @ConfigurationProperties(prefix = "spring.redisson")
 public class RedissonLockConfig {
     public String address;

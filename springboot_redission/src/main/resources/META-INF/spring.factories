@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.zongze.config.RedissonLockAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.zongze.RedissonLockAutoConfiguration

@@ -28,7 +28,7 @@ public class EmailService {
     @Dlock
     public void testLock() throws InterruptedException {
         System.out.println(Thread.currentThread().getName() + " 抢到了资源锁！");
-        Thread.sleep(12000);
+        Thread.sleep(1000);
         System.out.println(Thread.currentThread().getName() + "执行业务完成");
     }
 

@@ -21,12 +21,12 @@ import org.springframework.context.annotation.Primary;
 @Primary
 @Configuration
 @EnableConfigurationProperties({RedissonLockConfig.class})
-@ConditionalOnProperty(prefix = "spring.dlock", name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.dlock", name = "enable", havingValue = "true", matchIfMissing = true)
 @Import({DlockAspectHandler.class})
 public class RedissonLockAutoConfiguration {
 
     @Autowired
-    private RedissonLockConfig  redissonConfig;
+    private RedissonLockConfig redissonConfig;
 
     @Bean
     @ConditionalOnMissingBean({RedissonClient.class})

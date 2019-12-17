@@ -34,13 +34,13 @@ public @interface Dlock {
      * @param:
      * @return:
      */
-    long waitTime() default Long.MIN_VALUE;
+    long waitTime() default 60;
     /**
      *上锁以后xxx秒自动解锁
      * @param:
      * @return:
      */
-    long leaseTime() default Long.MIN_VALUE;
+    long leaseTime() default 60;
 
     /**
      * 时间单位

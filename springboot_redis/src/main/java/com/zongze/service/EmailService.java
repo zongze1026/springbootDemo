@@ -17,17 +17,19 @@ public class EmailService {
 
 
     public void sendEmail(String address, String title, String content) {
-        emailUtil.sendSimpleMail(address,title,content);
+        emailUtil.sendSimpleMail(address, title, content);
     }
 
-    public void setIfAbsent(String key,String value){
+    public void setIfAbsent(String key, String value) {
         boolean b = RedisUtil.setIfAbsent(key, value);
         System.out.println(b);
     }
 
     @Dlock
-    public void testLock(){
-        System.out.println(Thread.currentThread().getName()+" 抢到了资源锁！");
+    public void testLock() throws InterruptedException {
+        System.out.println(Thread.currentThread().getName() + " 抢到了资源锁！");
+        Thread.sleep(12000);
+        System.out.println(Thread.currentThread().getName() + "执行业务完成");
     }
 
 

@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/tes2")
-    public void test2(){
+    public void test2() throws InterruptedException {
         service.testLock();
     }
 

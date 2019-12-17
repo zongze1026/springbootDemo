@@ -36,11 +36,15 @@ public class SpringbootRedisApplicationTests {
     @Test
     public void testLock() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(20);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
             new Thread() {
                 @Override
                 public void run() {
-                    emailService.testLock();
+                    try {
+                        emailService.testLock();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     countDownLatch.countDown();
                 }
             }.start();

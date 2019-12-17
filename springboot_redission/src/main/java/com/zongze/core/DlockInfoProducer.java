@@ -24,11 +24,11 @@ public class DlockInfoProducer {
     private final String SEPARATOR = ".";
 
     private long getWaitTime(Dlock dlock) {
-        return dlock.waitTime() == Long.MIN_VALUE ? lockConfig.getWaitTime() : dlock.waitTime();
+        return dlock.waitTime() > Long.MIN_VALUE ? lockConfig.getWaitTime() : dlock.waitTime();
     }
 
     private long getLeaseTime(Dlock dlock) {
-        return dlock.leaseTime() == Long.MIN_VALUE ? lockConfig.getLeaseTime() : dlock.leaseTime();
+        return dlock.leaseTime() > Long.MIN_VALUE ? lockConfig.getLeaseTime() : dlock.leaseTime();
     }
 
     public String getCurrentId(JoinPoint joinPoint, Dlock dlock) {

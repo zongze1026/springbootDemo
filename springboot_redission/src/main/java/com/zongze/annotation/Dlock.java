@@ -30,7 +30,7 @@ public @interface Dlock {
     LockType lockType() default LockType.Reentrant;
 
     /**
-     * 尝试加锁，最多等待时间
+     * 尝试获取锁，最多等待时间
      * @param:
      * @return:
      */

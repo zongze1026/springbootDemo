@@ -4,6 +4,7 @@ import com.zongze.core.DlockAspectHandler;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.redisson.config.SentinelServersConfig;
 import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
@@ -28,16 +29,39 @@ public class RedissonLockAutoConfiguration {
     @Autowired
     private RedissonLockConfig redissonConfig;
 
-    @Bean
+    /**
+     * redis单机
+     *
+     * @param:
+     * @return:
+     */
+    @Bean("redissonClient")
     @ConditionalOnMissingBean({RedissonClient.class})
-    public RedissonClient redissonClient() {
+    public RedissonClient singleServer() {
         Config config = new Config();
-        SingleServerConfig singleServerConfig = config.useSingleServer();
-        singleServerConfig.setAddress(redissonConfig.getAddress());
-        singleServerConfig.setDatabase(redissonConfig.getDatabase());
-        singleServerConfig.setPassword(redissonConfig.getPassword());
-        RedissonClient redisson = Redisson.create(config);
-        return redisson;
+        config.useSingleServer().
+                setAddress(redissonConfig.getAddress()).
+                setDatabase(redissonConfig.getDatabase()).
+                setPassword(redissonConfig.getPassword());
+        return Redisson.create(config);
     }
+
+
+    /**
+     * 哨兵配置
+     * @param:
+     * @return:
+     */
+    @Bean("redissonClient")
+    @ConditionalOnMissingBean({RedissonClient.class})
+    public RedissonClient redisSentinel() {
+        Config config = new Config();
+        SentinelServersConfig sentinelConfig = config.useSentinelServers();
+        sentinelConfig.setDatabase(redissonConfig.getDatabase());
+        sentinelConfig.setMasterName("master");
+        sentinelConfig.addSentinelAddress("127.0.0.1:26379", "192.168.91.201:26379");
+        return Redisson.create(config);
+    }
+
 
 }

@@ -12,7 +12,5 @@ public class RedissonLockConfig {
     public int database;
     public String password;
     public long waitTime;
-    public long leaseTime;
-
 
 }

@@ -15,7 +15,7 @@ public class FairLock extends AbstractDistributedLock {
     public boolean lock() {
         fairLock = redissonClient.getFairLock(lockInfo.getLockName());
         try {
-            return fairLock.tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), lockInfo.getTimeUnit());
+            return fairLock.tryLock(lockInfo.getWaitTime(), lockInfo.getTimeUnit());
         } catch (InterruptedException e) {
             e.printStackTrace();
             return false;

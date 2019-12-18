@@ -2,6 +2,7 @@ package com.zongze.core;
 
 import com.zongze.RedissonLockConfig;
 import com.zongze.annotation.Dlock;
+import com.zongze.lock.Impl.ReentrantLock;
 import com.zongze.lock.Lock;
 import com.zongze.model.LockInfo;
 import org.aspectj.lang.JoinPoint;
@@ -39,7 +40,7 @@ public class DlockAspectHandler {
     @Around(value = "@annotation(dlock)")
     public Object handler(ProceedingJoinPoint joinPoint, Dlock dlock) throws Throwable {
         LockInfo lockInfo = dlockInfoProducer.buildLockInfo(joinPoint,dlock);
-        Lock lock = lockFactory.getLock(lockInfo);
+        ReentrantLock lock = (ReentrantLock) lockFactory.getLock(lockInfo);
         if (!lock.lock()) {
             //获取锁失败策略
             logger.info("当前线程：{}获取所失败",Thread.currentThread().getName());

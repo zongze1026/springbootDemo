@@ -24,12 +24,9 @@ public class DlockInfoProducer {
     private final String SEPARATOR = ".";
 
     private long getWaitTime(Dlock dlock) {
-        return lockConfig.getWaitTime() > dlock.waitTime() ? lockConfig.getWaitTime() : dlock.waitTime();
+        return lockConfig.getWaitTime() == Long.MIN_VALUE ? dlock.waitTime() : lockConfig.getWaitTime();
     }
 
-    private long getLeaseTime(Dlock dlock) {
-        return lockConfig.getLeaseTime() > dlock.leaseTime() ? lockConfig.getLeaseTime() : dlock.leaseTime();
-    }
 
     public String getCurrentId(JoinPoint joinPoint, Dlock dlock) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -45,7 +42,7 @@ public class DlockInfoProducer {
 
     public LockInfo buildLockInfo(ProceedingJoinPoint joinPoint, Dlock dlock) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        return new LockInfo(getLockName(methodSignature, dlock), getWaitTime(dlock), getLeaseTime(dlock), dlock.unit(), dlock.lockType());
+        return new LockInfo(getLockName(methodSignature, dlock), getWaitTime(dlock), dlock.unit(), dlock.lockType());
     }
 
 

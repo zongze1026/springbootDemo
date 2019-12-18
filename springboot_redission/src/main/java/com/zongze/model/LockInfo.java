@@ -14,16 +14,14 @@ public class LockInfo {
 
     public long waitTime;
 
-    public long leaseTime;
 
     public TimeUnit timeUnit;
 
     public LockType lockType;
 
-    public LockInfo(String lockName, long waitTime, long leaseTime, TimeUnit timeUnit, LockType lockType) {
+    public LockInfo(String lockName, long waitTime, TimeUnit timeUnit, LockType lockType) {
         this.lockName = lockName;
         this.waitTime = waitTime;
-        this.leaseTime = leaseTime;
         this.timeUnit = timeUnit;
         this.lockType = lockType;
     }

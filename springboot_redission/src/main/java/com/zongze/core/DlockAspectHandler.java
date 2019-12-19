@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,11 +40,11 @@ public class DlockAspectHandler {
 
     @Around(value = "@annotation(dlock)")
     public Object handler(ProceedingJoinPoint joinPoint, Dlock dlock) throws Throwable {
-        LockInfo lockInfo = dlockInfoProducer.buildLockInfo(joinPoint,dlock);
-        ReentrantLock lock = (ReentrantLock) lockFactory.getLock(lockInfo);
+        LockInfo lockInfo = dlockInfoProducer.buildLockInfo(joinPoint, dlock);
+        Lock lock = lockFactory.getLock(lockInfo);
         if (!lock.lock()) {
             //获取锁失败策略
-            logger.info("当前线程：{}获取所失败",Thread.currentThread().getName());
+            logger.info("当前线程：{}获取所失败", Thread.currentThread().getName());
             return null;
         }
         String currentId = dlockInfoProducer.getCurrentId(joinPoint, dlock);
@@ -68,9 +69,6 @@ public class DlockAspectHandler {
             lock.unlock();
         }
     }
-
-
-
 
 
 }

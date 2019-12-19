@@ -1,7 +1,9 @@
 package com.zongze.lock.Impl;
+
 import com.zongze.model.LockInfo;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -23,19 +25,10 @@ public class FairLock extends AbstractDistributedLock {
     }
 
     @Override
-    public boolean unlock() {
+    public void unlock() {
         if (fairLock.isHeldByCurrentThread()) {
-            try {
-                return fairLock.forceUnlockAsync().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return false;
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                return false;
-            }
+            fairLock.unlock();
         }
-        return false;
     }
 
     public FairLock(LockInfo lockInfo, RedissonClient redissonClient) {

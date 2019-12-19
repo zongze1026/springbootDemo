@@ -5,7 +5,6 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Create By xzz on 2019/12/13
@@ -27,19 +26,10 @@ public class ReentrantLock extends AbstractDistributedLock {
 
 
     @Override
-    public boolean unlock() {
-        if(lock.isHeldByCurrentThread()){
-            try {
-                return lock.forceUnlockAsync().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return false;
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                return false;
-            }
+    public void unlock() {
+        if (lock.isHeldByCurrentThread()) {
+            lock.unlock();
         }
-        return false;
     }
 
     public ReentrantLock(LockInfo lockInfo, RedissonClient redissonClient) {

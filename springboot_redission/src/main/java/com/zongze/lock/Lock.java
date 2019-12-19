@@ -20,7 +20,7 @@ public interface Lock {
      * @param:
      * @return:
      */
-    boolean unlock();
+    void unlock();
 
 
 

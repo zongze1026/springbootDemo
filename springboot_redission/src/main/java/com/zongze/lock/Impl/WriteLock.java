@@ -3,6 +3,7 @@ package com.zongze.lock.Impl;
 import com.zongze.model.LockInfo;
 import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
+
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -24,19 +25,10 @@ public class WriteLock extends AbstractDistributedLock {
     }
 
     @Override
-    public boolean unlock() {
+    public void unlock() {
         if (readWriteLock.writeLock().isHeldByCurrentThread()) {
-            try {
-                return readWriteLock.writeLock().forceUnlockAsync().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return false;
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                return false;
-            }
+            readWriteLock.writeLock().unlock();
         }
-        return false;
     }
 
     public WriteLock(LockInfo lockInfo, RedissonClient redissonClient) {

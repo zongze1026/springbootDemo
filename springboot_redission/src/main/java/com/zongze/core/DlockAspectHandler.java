@@ -1,8 +1,6 @@
 package com.zongze.core;
 
-import com.zongze.RedissonLockConfig;
 import com.zongze.annotation.Dlock;
-import com.zongze.lock.Impl.ReentrantLock;
 import com.zongze.lock.Lock;
 import com.zongze.model.LockInfo;
 import org.aspectj.lang.JoinPoint;
@@ -16,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 

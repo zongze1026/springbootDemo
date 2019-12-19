@@ -8,15 +8,12 @@
         <version>2.1.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.zongze</groupId>
     <artifactId>springboot_druid</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot_druid</name>
     <description>Demo project for Spring Boot</description>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 
     <dependencies>
 

@@ -15,6 +15,7 @@
         <module>springboot_shiro</module>
         <module>springboot_redis</module>
         <module>springboot_common</module>
+        <module>springboot_redission</module>
         <module>springboot_druid</module>
         <module>springboot_rabbitmq</module>
     </modules>

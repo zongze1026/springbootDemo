@@ -1,6 +1,8 @@
 package com.zongze.component;
 
+import com.zongze.filter.RequestLimitFilter;
 import com.zongze.util.EmailUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +24,7 @@ public class WebAppConfig implements WebMvcConfigurer {
      * @return:
      */
     @Bean
-    public FilterRegistrationBean corsFilter() {
+    public FilterRegistrationBean corsFilterRegister() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); //允许携带token
@@ -34,6 +36,18 @@ public class WebAppConfig implements WebMvcConfigurer {
         bean.setOrder(0); //该过滤器应该在最先执行，优先级最高
         return bean;
     }
+
+
+    @Bean
+    public FilterRegistrationBean requestLimitRegister(CounterLimiter counterLimiter){
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new RequestLimitFilter(counterLimiter));
+        registration.addUrlPatterns("/*");
+        registration.setName("commonDataFilter");
+        registration.setOrder(1);
+        return registration;
+    }
+
 
 
     @Bean

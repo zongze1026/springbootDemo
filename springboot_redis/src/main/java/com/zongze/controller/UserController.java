@@ -43,6 +43,11 @@ public class UserController {
         service.testLock();
     }
 
+    @GetMapping("/test3")
+    public String test3()  {
+        return "SUCCESS";
+    }
+
 
 
 

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Create By xzz on 2019/12/13
@@ -27,7 +26,7 @@ public class DlockAspectHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(DlockAspectHandler.class);
 
-    private final ConcurrentHashMap<String, Lock> lockContext = new ConcurrentHashMap<>();
+    private final ThreadLocal<Lock> lockContext = new InheritableThreadLocal<>();
 
 
     @Autowired
@@ -44,15 +43,13 @@ public class DlockAspectHandler {
             logger.info("当前线程：{}获取所失败", Thread.currentThread().getName());
             return null;
         }
-        String currentId = dlockInfoProducer.getCurrentId(joinPoint, dlock);
-        lockContext.put(currentId, lock);
+        lockContext.set(lock);
         return joinPoint.proceed();
     }
 
     @AfterReturning(value = "@annotation(dlock)")
     public void releaseLock(JoinPoint joinPoint, Dlock dlock) {
-        String currentId = dlockInfoProducer.getCurrentId(joinPoint, dlock);
-        Lock lock = lockContext.remove(currentId);
+        Lock lock = lockContext.get();
         if (!Objects.isNull(lock)) {
             lock.unlock();
         }
@@ -60,8 +57,7 @@ public class DlockAspectHandler {
 
     @AfterThrowing(value = "@annotation(dlock)")
     public void releaseLockBeforeThrowException(JoinPoint joinPoint, Dlock dlock) {
-        String currentId = dlockInfoProducer.getCurrentId(joinPoint, dlock);
-        Lock lock = lockContext.remove(currentId);
+        Lock lock = lockContext.get();
         if (!Objects.isNull(lock)) {
             lock.unlock();
         }

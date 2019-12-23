@@ -3,7 +3,6 @@ package com.zongze.core;
 import com.zongze.RedissonLockConfig;
 import com.zongze.annotation.Dlock;
 import com.zongze.model.LockInfo;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,6 @@ public class DlockInfoProducer {
         return lockConfig.getWaitTime() == Long.MIN_VALUE ? dlock.waitTime() : lockConfig.getWaitTime();
     }
 
-
-    public String getCurrentId(JoinPoint joinPoint, Dlock dlock) {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        return String.format(CURRENT_ID, getLockName(methodSignature, dlock), Thread.currentThread().getId());
-    }
 
     private String getLockName(MethodSignature methodSignature, Dlock dlock) {
         if (StringUtils.isEmpty(dlock.name())) {

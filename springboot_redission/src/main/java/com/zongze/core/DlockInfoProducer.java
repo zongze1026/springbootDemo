@@ -19,7 +19,6 @@ public class DlockInfoProducer {
     private RedissonLockConfig lockConfig;
 
     private final String LOCK_NAME_TEMPLATE = "lock:%s";
-    private final String CURRENT_ID = "lock:%s:%s";
     private final String SEPARATOR = ".";
 
     private long getWaitTime(Dlock dlock) {

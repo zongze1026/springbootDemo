@@ -28,7 +28,6 @@ public class DlockAspectHandler {
 
     private final ThreadLocal<Lock> lockContext = new InheritableThreadLocal<>();
 
-
     @Autowired
     private DistributedLockFactory lockFactory;
     @Autowired

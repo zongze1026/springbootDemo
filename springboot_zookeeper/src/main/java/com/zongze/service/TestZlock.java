@@ -3,6 +3,9 @@ package com.zongze.service;
 import com.zongze.annotation.Zlock;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Create By xzz on 2019/12/23
  */
@@ -14,8 +17,9 @@ public class TestZlock {
 
     @Zlock("order")
     public void zlockTest() throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + "is running");
-        System.out.println(Thread.currentThread().getName() + "is stop");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Thread.sleep(2000);
+        System.out.println(Thread.currentThread().getName() + "is stop"+format.format(new Date()));
     }
 
 

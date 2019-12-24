@@ -1,12 +1,10 @@
 package com.zongze.core;
 
-import com.alibaba.fastjson.JSON;
 import com.zongze.config.ZlockConfig;
 import com.zongze.model.ZlockInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.*;
 import org.springframework.util.ObjectUtils;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -175,10 +173,6 @@ public class ZookeeperClient {
         zlockConfig.setRootPath(buffer.toString());
     }
 
-    public static void main(String[] args) {
-        String s = "/test/root/";
-        System.out.println(JSON.toJSONString(s.split("/")));
-    }
 
 
 }

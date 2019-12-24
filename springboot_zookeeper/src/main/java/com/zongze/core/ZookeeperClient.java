@@ -32,7 +32,7 @@ public class ZookeeperClient {
         if (ObjectUtils.isEmpty(zooKeeper)) {
             synchronized (ZookeeperClient.class) {
                 if (ObjectUtils.isEmpty(zooKeeper)) {
-                    zooKeeper = new ZooKeeper(zlockConfig.getHost(), zlockConfig.getSessionTimeout(), new Watcher() {
+                    zooKeeper = new ZooKeeper(zlockConfig.getHost().trim(), zlockConfig.getSessionTimeout(), new Watcher() {
                         @Override
                         public void process(WatchedEvent watchedEvent) {
                             logger.info("成功连接zookeeper:{}", JSON.toJSONString(watchedEvent));

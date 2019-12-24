@@ -1,17 +1,21 @@
 package com.zongze.core;
 
+import com.alibaba.fastjson.JSON;
 import com.zongze.config.ZlockConfig;
 import com.zongze.model.ZlockInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.*;
 import org.springframework.util.ObjectUtils;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
  * 操作zookeeper的客户端
- *
+ * <p>
  * Create By xzz on 2019/12/23
  */
 public class ZookeeperClient {
@@ -42,12 +46,35 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public String createNode(String path) throws IOException, KeeperException, InterruptedException {
+    public String initNode(String path, CreateMode createMode) throws IOException, KeeperException, InterruptedException {
+        return createNode(zlockConfig.getRootPath() + zlockConfig.getSEPARATE() + path, createMode);
+    }
+
+
+    /**
+     * 初始化根目录
+     *
+     * @param:
+     * @return:
+     */
+    public String createNode(String path, CreateMode createMode) throws IOException, KeeperException, InterruptedException {
         if (ObjectUtils.isEmpty(zooKeeper)) {
             connect();
         }
-        return zooKeeper.create(zlockConfig.getParentPath() + zlockConfig.getSEPARATE() + path,
-                null, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        return zooKeeper.create(path, null, ZooDefs.Ids.OPEN_ACL_UNSAFE, createMode);
+    }
+
+    /**
+     * 判断节点是否存在
+     *
+     * @param:
+     * @return:
+     */
+    public boolean existNode(String path) throws IOException, KeeperException, InterruptedException {
+        if (ObjectUtils.isEmpty(zooKeeper)) {
+            connect();
+        }
+        return zooKeeper.exists(path, false) == null ? false : true;
     }
 
 
@@ -58,10 +85,10 @@ public class ZookeeperClient {
         if (ObjectUtils.isEmpty(zooKeeper)) {
             connect();
         }
-        return zooKeeper.getChildren(zlockConfig.getParentPath(), false)
+        return zooKeeper.getChildren(zlockConfig.getRootPath(), false)
                 .stream()
                 .sorted()
-                .map(node -> node = zlockConfig.getParentPath() + zlockConfig.getSEPARATE() + node)
+                .map(node -> node = zlockConfig.getRootPath() + zlockConfig.getSEPARATE() + node)
                 .collect(Collectors.toList());
     }
 
@@ -108,14 +135,50 @@ public class ZookeeperClient {
             }
         });
         countDownLatch.await();
-        //todo 考虑线程是否中断
         if (!lockInfo.isActive()) {
             tryLock(lockInfo.getPreNode(), lockInfo);
         }
         return lockInfo;
     }
 
+
     public ZookeeperClient(ZlockConfig zlockConfig) {
         this.zlockConfig = zlockConfig;
+        initRootPath();
     }
+
+    /**
+     * 初始化根目录
+     *
+     * @param:
+     * @return:
+     */
+    private void initRootPath() {
+        String separate = zlockConfig.getSEPARATE();
+        StringBuilder buffer = new StringBuilder();
+        Arrays.asList(zlockConfig.getRootPath().split(separate)).forEach(path -> {
+            if (StringUtils.isNotBlank(path)) {
+                buffer.append(separate).append(path);
+                try {
+                    if (!existNode(buffer.toString())) {
+                        createNode(buffer.toString(), CreateMode.PERSISTENT);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (KeeperException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        zlockConfig.setRootPath(buffer.toString());
+    }
+
+    public static void main(String[] args) {
+        String s = "/test/root/";
+        System.out.println(JSON.toJSONString(s.split("/")));
+    }
+
+
 }

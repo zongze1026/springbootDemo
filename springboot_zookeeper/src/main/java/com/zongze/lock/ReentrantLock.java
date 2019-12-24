@@ -3,7 +3,9 @@ package com.zongze.lock;
 import com.zongze.core.ZookeeperClient;
 import com.zongze.model.ZlockInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class ReentrantLock implements Lock {
 
     /**
      * 存储锁信息
+     *
      * @param:
      * @return:
      */
@@ -28,7 +31,7 @@ public class ReentrantLock implements Lock {
      * @return:
      */
     private ZlockInfo createZkLock(String path) throws InterruptedException, IOException, KeeperException {
-        return new ZlockInfo(zkClient.createNode(path));
+        return new ZlockInfo(zkClient.initNode(path, CreateMode.EPHEMERAL_SEQUENTIAL));
     }
 
 

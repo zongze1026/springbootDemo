@@ -14,7 +14,7 @@ public class ZlockConfig {
      * @param:
      * @return:
      */
-    private String parentPath;
+    private String rootPath;
 
     /**
      * zookeeper服务器的host

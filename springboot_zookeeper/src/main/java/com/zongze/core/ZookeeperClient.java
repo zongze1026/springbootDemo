@@ -1,10 +1,14 @@
 package com.zongze.core;
 
+import com.alibaba.fastjson.JSON;
 import com.zongze.config.ZlockConfig;
 import com.zongze.model.ZlockInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -12,11 +16,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
- * 操作zookeeper的客户端
+ * 操作zookeeper的客户端实现，初始化根目录
  * <p>
  * Create By xzz on 2019/12/23
  */
 public class ZookeeperClient {
+
+    private final Logger logger = LoggerFactory.getLogger(ZookeeperClient.class);
 
     private ZlockConfig zlockConfig;
 
@@ -29,7 +35,7 @@ public class ZookeeperClient {
                     zooKeeper = new ZooKeeper(zlockConfig.getHost(), zlockConfig.getSessionTimeout(), new Watcher() {
                         @Override
                         public void process(WatchedEvent watchedEvent) {
-                            System.out.println("成功连接zookeeper");
+                            logger.info("成功连接zookeeper:{}", JSON.toJSONString(watchedEvent));
                         }
                     });
                 }
@@ -140,11 +146,6 @@ public class ZookeeperClient {
     }
 
 
-    public ZookeeperClient(ZlockConfig zlockConfig) {
-        this.zlockConfig = zlockConfig;
-        initRootPath();
-    }
-
     /**
      * 初始化根目录
      *
@@ -173,6 +174,9 @@ public class ZookeeperClient {
         zlockConfig.setRootPath(buffer.toString());
     }
 
-
+    public ZookeeperClient(ZlockConfig zlockConfig) {
+        this.zlockConfig = zlockConfig;
+        initRootPath();
+    }
 
 }

@@ -56,7 +56,7 @@ public class ZookeeperClient {
 
 
     /**
-     * 初始化根目录
+     * 创建节点
      *
      * @param:
      * @return:

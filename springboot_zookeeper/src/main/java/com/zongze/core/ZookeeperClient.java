@@ -10,6 +10,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
+ * 操作zookeeper的客户端
+ *
  * Create By xzz on 2019/12/23
  */
 public class ZookeeperClient {
@@ -65,7 +67,7 @@ public class ZookeeperClient {
 
 
     /**
-     * 删除节点
+     * 删除节点，触发监听，唤醒下一个线程
      */
     public void unLock(String path) throws KeeperException, InterruptedException, IOException {
         if (ObjectUtils.isEmpty(zooKeeper)) {
@@ -76,10 +78,12 @@ public class ZookeeperClient {
 
 
     /**
+     * 监听上一个序列节点，阻塞线程，直到上一个节点被删除
+     *
      * @param:
      * @return:
      */
-    public ZlockInfo isActive(String preNode, ZlockInfo lockInfo) throws KeeperException, InterruptedException {
+    public ZlockInfo tryLock(String preNode, ZlockInfo lockInfo) throws KeeperException, InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         zooKeeper.exists(preNode, new Watcher() {
             @Override
@@ -106,7 +110,7 @@ public class ZookeeperClient {
         countDownLatch.await();
         //todo 考虑线程是否中断
         if (!lockInfo.isActive()) {
-            isActive(lockInfo.getPreNode(), lockInfo);
+            tryLock(lockInfo.getPreNode(), lockInfo);
         }
         return lockInfo;
     }

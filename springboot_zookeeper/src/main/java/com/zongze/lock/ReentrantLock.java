@@ -38,7 +38,7 @@ public class ReentrantLock implements Lock {
         threadLocal.set(lockInfo);
         List<String> allChildPath = zkClient.getAllChild();
         if (!StringUtils.equals(allChildPath.get(0), lockInfo.getPath())) {
-            ZlockInfo active = zkClient.isActive(allChildPath.get(allChildPath.indexOf(lockInfo.getPath()) - 1), lockInfo);
+            ZlockInfo active = zkClient.tryLock(allChildPath.get(allChildPath.indexOf(lockInfo.getPath()) - 1), lockInfo);
             if (active.isActive()) {
                 return true;
             }

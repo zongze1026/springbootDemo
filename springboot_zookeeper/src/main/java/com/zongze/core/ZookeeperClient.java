@@ -4,7 +4,6 @@ import com.zongze.config.ZlockConfig;
 import com.zongze.model.ZlockInfo;
 import org.apache.zookeeper.*;
 import org.springframework.util.ObjectUtils;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;

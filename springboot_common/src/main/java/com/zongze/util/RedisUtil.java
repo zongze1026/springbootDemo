@@ -85,30 +85,6 @@ public class RedisUtil {
     }
 
 
-    /**
-     * 如果存在key不存在则设置
-     */
-    public static boolean setIfAbsent(Object key, Object value, long timeOut, TimeUnit timeUnit) {
-        try {
-            return redisTemplate.opsForValue().setIfAbsent(key, value, timeOut, timeUnit);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /**
-     * 如果存在key不存在则设置
-     */
-    public static boolean setIfAbsent(Object key, Object value) {
-        try {
-            return redisTemplate.opsForValue().setIfAbsent(key, value);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 
     /**
      * redis自增

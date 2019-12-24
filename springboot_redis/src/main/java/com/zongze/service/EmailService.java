@@ -21,10 +21,6 @@ public class EmailService {
         emailUtil.sendSimpleMail(address, title, content);
     }
 
-    public void setIfAbsent(String key, String value) {
-        boolean b = RedisUtil.setIfAbsent(key, value);
-        System.out.println(b);
-    }
 
     @Dlock(lockType = LockType.Read, name = "com.zongze.service.EmailService")
     public void testLock() throws InterruptedException {

@@ -12,7 +12,6 @@
     <modules>
         <module>springboot_mybatis</module>
         <module>springboot_transaction_propagation</module>
-        <module>springboot_shiro</module>
         <module>springboot_redis</module>
         <module>springboot_common</module>
         <module>springboot_redission</module>

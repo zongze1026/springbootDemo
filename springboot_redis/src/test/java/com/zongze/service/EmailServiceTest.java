@@ -21,17 +21,5 @@ public class EmailServiceTest {
     }
 
 
-    @Test
-    public void testRedisSetAbsent() {
-        for (int i = 0; i < 10; i++) {
-            new Thread() {
-                @Override
-                public void run() {
-                    emailService.setIfAbsent("hellow", Thread.currentThread().getId() + "");
-                }
-            }.start();
-        }
-    }
-
 
 }

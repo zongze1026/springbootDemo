@@ -1,7 +1,7 @@
 package com.zongze.core;
 
 import com.zongze.annotation.Zlock;
-import com.zongze.lock.Lock;
+import com.zongze.lock.ReentrantLock;
 import org.apache.zookeeper.KeeperException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,9 +9,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
@@ -19,11 +17,9 @@ import java.io.IOException;
  */
 @Order(0)
 @Aspect
-@Component
 public class ZlockAspectHandler {
 
-    @Autowired
-    private Lock lock;
+    private ReentrantLock lock;
 
 
     @Around(value = "@annotation(zlock)")
@@ -43,5 +39,7 @@ public class ZlockAspectHandler {
         lock.unLock();
     }
 
-
+    public ZlockAspectHandler(ReentrantLock lock) {
+        this.lock = lock;
+    }
 }

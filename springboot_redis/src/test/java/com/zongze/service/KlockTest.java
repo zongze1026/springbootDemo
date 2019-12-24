@@ -1,38 +1,33 @@
-package com.zongze;
+package com.zongze.service;
 
-import com.zongze.annotation.Zlock;
-import com.zongze.service.TestZlock;
-import org.apache.zookeeper.KeeperException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * Create By xzz on 2019/12/23
+ * Create By xzz on 2019/12/24
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class ZlockTest {
+public class KlockTest {
+
 
     @Autowired
-    private TestZlock testZlock;
+    private ZlockTestService zlockTestService;
 
 
     @Test
-    public void testZlock() throws InterruptedException, IOException, KeeperException {
-
+    public void testZlock() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(10);
         for (int i = 0; i < 10; i++) {
             new Thread() {
                 @Override
                 public void run() {
                     try {
-                        testZlock.zlockTest();
+                        zlockTestService.testZlock();
                         countDownLatch.countDown();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -41,9 +36,10 @@ public class ZlockTest {
             }.start();
         }
         countDownLatch.await();
+
     }
 
 
-
-
 }
+
+

@@ -2,13 +2,11 @@ package com.zongze.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * Create By xzz on 2019/12/23
  */
 @Data
-@Component
 @ConfigurationProperties(prefix = "spring.zlock")
 public class ZlockConfig {
     /**

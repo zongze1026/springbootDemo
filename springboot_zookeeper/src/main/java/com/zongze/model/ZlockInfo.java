@@ -6,7 +6,7 @@ import lombok.Data;
  * Create By xzz on 2019/12/23
  */
 @Data
-public class LockInfo {
+public class ZlockInfo {
 
     /**
      * 临时序列节点路径
@@ -30,7 +30,7 @@ public class LockInfo {
      */
     private String preNode;
 
-    public LockInfo(String path) {
+    public ZlockInfo(String path) {
         this.path = path;
     }
 }

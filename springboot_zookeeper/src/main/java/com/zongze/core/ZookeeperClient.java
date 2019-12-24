@@ -1,11 +1,10 @@
 package com.zongze.core;
 
 import com.zongze.config.ZlockConfig;
-import com.zongze.model.LockInfo;
+import com.zongze.model.ZlockInfo;
 import org.apache.zookeeper.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -14,10 +13,8 @@ import java.util.stream.Collectors;
 /**
  * Create By xzz on 2019/12/23
  */
-@Component
 public class ZookeeperClient {
 
-    @Autowired
     private ZlockConfig zlockConfig;
 
     private ZooKeeper zooKeeper;
@@ -83,7 +80,7 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public LockInfo isActive(String preNode, LockInfo lockInfo) throws KeeperException, InterruptedException {
+    public ZlockInfo isActive(String preNode, ZlockInfo lockInfo) throws KeeperException, InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         zooKeeper.exists(preNode, new Watcher() {
             @Override
@@ -115,5 +112,7 @@ public class ZookeeperClient {
         return lockInfo;
     }
 
-
+    public ZookeeperClient(ZlockConfig zlockConfig) {
+        this.zlockConfig = zlockConfig;
+    }
 }

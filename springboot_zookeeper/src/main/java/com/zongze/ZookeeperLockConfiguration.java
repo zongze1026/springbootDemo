@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties({ZlockConfig.class})
-@ConditionalOnProperty(prefix = "spring.zlock",name = "enable",havingValue = "true",matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.zlock",name = {"enable"},havingValue = "true")
 public class ZookeeperLockConfiguration {
 
     @Autowired

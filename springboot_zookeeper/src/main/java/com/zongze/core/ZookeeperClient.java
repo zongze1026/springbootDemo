@@ -8,7 +8,6 @@ import org.apache.zookeeper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class ZookeeperClient {
 
-    private final Logger logger = LoggerFactory.getLogger(ZookeeperClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(ZookeeperClient.class);
 
     private ZlockConfig zlockConfig;
 
@@ -51,7 +50,7 @@ public class ZookeeperClient {
      * @return:
      */
     public String initNode(String path, CreateMode createMode) throws IOException, KeeperException, InterruptedException {
-        return createNode(zlockConfig.getRootPath() + zlockConfig.getSEPARATE() + path, createMode);
+        return createNode(zlockConfig.getRootPath() + zlockConfig.getSeparate() + path, createMode);
     }
 
 
@@ -92,7 +91,7 @@ public class ZookeeperClient {
         return zooKeeper.getChildren(zlockConfig.getRootPath(), false)
                 .stream()
                 .sorted()
-                .map(node -> node = zlockConfig.getRootPath() + zlockConfig.getSEPARATE() + node)
+                .map(node -> node = zlockConfig.getRootPath() + zlockConfig.getSeparate() + node)
                 .collect(Collectors.toList());
     }
 
@@ -153,7 +152,7 @@ public class ZookeeperClient {
      * @return:
      */
     private void initRootPath() {
-        String separate = zlockConfig.getSEPARATE();
+        String separate = zlockConfig.getSeparate();
         StringBuilder buffer = new StringBuilder();
         Arrays.asList(zlockConfig.getRootPath().split(separate)).forEach(path -> {
             if (StringUtils.isNotBlank(path)) {

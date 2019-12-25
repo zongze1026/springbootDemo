@@ -27,7 +27,7 @@ public class ZlockConfig {
      * @param:
      * @return:
      */
-    private final String SEPARATE = "/";
+    private final String separate = "/";
 
     /**
      * session过期时间，默认20秒

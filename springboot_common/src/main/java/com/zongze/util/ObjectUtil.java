@@ -144,16 +144,16 @@ public class ObjectUtil {
     private static JSONObject parseXml(Document document) {
         JSONObject jsonObject = new JSONObject();
         Element root = document.getRootElement();
-        return eleToJson(root, jsonObject);
+        return xmlStringToJson(root, jsonObject);
     }
 
 
-    private static JSONObject eleToJson(Element document, JSONObject jsonObject) {
+    private static JSONObject xmlStringToJson(Element document, JSONObject jsonObject) {
         Iterator<Element> iterator = document.elementIterator();
         while (iterator.hasNext()) {
             Element element = iterator.next();
             if (element.elements().size() > 0) {
-                eleToJson(element, jsonObject);
+                xmlStringToJson(element, jsonObject);
             } else {
                 jsonObject.put(element.getName().toLowerCase().replaceAll("_", ""), element.getData());
             }

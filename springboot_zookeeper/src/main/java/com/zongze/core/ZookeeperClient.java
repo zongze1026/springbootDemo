@@ -15,8 +15,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
- * 操作zookeeper的客户端实现，初始化根目录
- * <p>
+ * 操作zookeeper的客户端实现
+ *
  * Create By xzz on 2019/12/23
  */
 public class ZookeeperClient {

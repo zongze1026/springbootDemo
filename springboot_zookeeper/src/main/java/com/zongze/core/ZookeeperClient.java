@@ -1,5 +1,4 @@
 package com.zongze.core;
-
 import com.alibaba.fastjson.JSON;
 import com.zongze.config.ZlockConfig;
 import com.zongze.model.ZlockInfo;
@@ -9,9 +8,7 @@ import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
-
 import java.io.IOException;
-import java.lang.management.LockInfo;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;

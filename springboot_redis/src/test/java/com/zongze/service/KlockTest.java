@@ -21,8 +21,8 @@ public class KlockTest {
 
     @Test
     public void testZlock() throws InterruptedException {
-        CountDownLatch countDownLatch = new CountDownLatch(10);
-        for (int i = 0; i < 10; i++) {
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+        for (int i = 0; i < 2; i++) {
             new Thread() {
                 @Override
                 public void run() {

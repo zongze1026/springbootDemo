@@ -5,10 +5,13 @@ import com.zongze.config.ZlockConfig;
 import com.zongze.model.ZlockInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
+
 import java.io.IOException;
+import java.lang.management.LockInfo;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -108,23 +111,41 @@ public class ZookeeperClient {
 
 
     /**
+     * 如果当前是第一个节点的话，就激活当前节点
+     *
+     * @param:
+     * @return:
+     */
+    public ZlockInfo tryActive(ZlockInfo lockInfo) throws InterruptedException, IOException, KeeperException {
+        List<String> childList = getAllChild();
+        if (childList.get(0).equals(lockInfo.getPath())) {
+            lockInfo.setActive(true);
+        } else {
+            lockInfo.setPreNode(childList.get(childList.indexOf(lockInfo.getPath()) - 1));
+        }
+        return lockInfo;
+    }
+
+
+    /**
      * 监听上一个序列节点，阻塞线程，直到上一个节点被删除
      *
      * @param:
      * @return:
      */
-    public ZlockInfo tryLock(String preNode, ZlockInfo lockInfo) throws KeeperException, InterruptedException {
+    public ZlockInfo tryLock(ZlockInfo lockInfo) throws KeeperException, InterruptedException, IOException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        zooKeeper.exists(preNode, new Watcher() {
+        ZlockInfo finalLockInfo = lockInfo;
+        Stat stat = zooKeeper.exists(lockInfo.getPreNode(), new Watcher() {
             @Override
             public void process(WatchedEvent event) {
                 if (event.getType().equals(Event.EventType.NodeDeleted)) {
                     try {
                         List<String> childList = getAllChild();
-                        if (childList.get(0).equals(lockInfo.getPath())) {
-                            lockInfo.setActive(true);
+                        if (childList.get(0).equals(finalLockInfo.getPath())) {
+                            finalLockInfo.setActive(true);
                         } else {
-                            lockInfo.setPreNode(childList.get(childList.indexOf(lockInfo.getPath()) - 1));
+                            finalLockInfo.setPreNode(childList.get(childList.indexOf(finalLockInfo.getPath()) - 1));
                         }
                         countDownLatch.countDown();
                     } catch (KeeperException e) {
@@ -137,9 +158,15 @@ public class ZookeeperClient {
                 }
             }
         });
+        if (ObjectUtils.isEmpty(stat)) {
+            lockInfo = tryActive(lockInfo);
+            if (lockInfo.isActive()) {
+                return lockInfo;
+            }
+        }
         countDownLatch.await();
         if (!lockInfo.isActive()) {
-            tryLock(lockInfo.getPreNode(), lockInfo);
+            tryLock(lockInfo);
         }
         return lockInfo;
     }

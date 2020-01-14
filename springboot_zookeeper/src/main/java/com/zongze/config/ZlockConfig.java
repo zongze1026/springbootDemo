@@ -34,6 +34,6 @@ public class ZlockConfig {
      * @param:
      * @return:
      */
-    private int sessionTimeout = 20000;
+    private int sessionTimeout = 2000000000;
 
 }

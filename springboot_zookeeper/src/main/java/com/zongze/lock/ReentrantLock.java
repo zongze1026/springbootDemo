@@ -5,6 +5,7 @@ import com.zongze.model.ZlockInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -38,13 +39,11 @@ public class ReentrantLock implements Lock {
     public boolean lock(String lockName) throws InterruptedException, IOException, KeeperException {
         ZlockInfo lockInfo = createZkLock(lockName);
         threadLocal.set(lockInfo);
-        List<String> allChildPath = zkClient.getAllChild();
-        if (!StringUtils.equals(allChildPath.get(0), lockInfo.getPath())) {
-            ZlockInfo active = zkClient.tryLock(allChildPath.get(allChildPath.indexOf(lockInfo.getPath()) - 1), lockInfo);
-            if (active.isActive()) {
-                return true;
-            }
+        lockInfo = zkClient.tryActive(lockInfo);
+        if (lockInfo.isActive()) {
+            return true;
         }
+        zkClient.tryLock(lockInfo);
         return true;
     }
 

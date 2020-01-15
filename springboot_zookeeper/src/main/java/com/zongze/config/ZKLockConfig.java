@@ -8,9 +8,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties(prefix = "spring.zlock")
-public class ZlockConfig {
+public class ZKLockConfig {
     /**
-     * zookeeper的父节点
+     * zookeeper根节点
      * @param:
      * @return:
      */
@@ -30,10 +30,10 @@ public class ZlockConfig {
     private final String separate = "/";
 
     /**
-     * session过期时间，默认20秒
+     * session过期时间，默认30秒
      * @param:
      * @return:
      */
-    private int sessionTimeout = 2000000000;
+    private int sessionTimeout = 30000;
 
 }

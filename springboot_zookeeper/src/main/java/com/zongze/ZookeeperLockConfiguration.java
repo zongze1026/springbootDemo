@@ -1,6 +1,6 @@
 package com.zongze;
 
-import com.zongze.config.ZlockConfig;
+import com.zongze.config.ZKLockConfig;
 import com.zongze.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,27 +12,27 @@ import org.springframework.context.annotation.Configuration;
  * Create By xzz on 2019/12/24
  */
 @Configuration
-@EnableConfigurationProperties({ZlockConfig.class})
+@EnableConfigurationProperties({ZKLockConfig.class})
 @ConditionalOnProperty(prefix = "spring.zlock", name = {"enable"}, havingValue = "true")
 public class ZookeeperLockConfiguration {
 
     @Autowired
-    private ZlockConfig zlockConfig;
+    private ZKLockConfig zkLockConfig;
 
     @Bean
     public ZKClientFactory zkClientFactory() {
-        return new ZKClientFactory(zlockConfig);
+        return new ZKClientFactory(zkLockConfig);
     }
 
 
     @Bean
-    public ZlockPathConfigInitRunner zlockPathConfigInitRunner(ZKClientFactory zkClientFactory, ZlockConfig zlockConfig) {
-        return new ZlockPathConfigInitRunner(zlockConfig, zkClientFactory);
+    public ZKLockPathConfigInitRunner zkLockPathConfigInitRunner(ZKClientFactory zkClientFactory, ZKLockConfig zkLockConfig) {
+        return new ZKLockPathConfigInitRunner(zkLockConfig, zkClientFactory);
     }
 
     @Bean
-    public ZlockAspectHandler zlockAspectHandler(ZKClientFactory zkClientFactory) {
-        return new ZlockAspectHandler(zkClientFactory);
+    public ZKLockAspectHandler zkLockAspectHandler(ZKClientFactory zkClientFactory) {
+        return new ZKLockAspectHandler(zkClientFactory);
     }
 
 

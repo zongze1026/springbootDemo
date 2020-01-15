@@ -1,7 +1,7 @@
 package com.zongze.core;
 
 import com.alibaba.fastjson.JSON;
-import com.zongze.config.ZlockConfig;
+import com.zongze.config.ZKLockConfig;
 import com.zongze.lock.ZKReentrantLock;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -17,7 +17,7 @@ public class ZKClientFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ZKClientFactory.class);
 
-    private ZlockConfig zlockConfig;
+    private ZKLockConfig zkLockConfig;
 
     /**
      * 获取分布式锁
@@ -30,7 +30,7 @@ public class ZKClientFactory {
      * 获取zookeeper操作客户端
      */
     public ZookeeperClient getZookeeperClient() throws IOException {
-        return new ZookeeperClient(getConnect(), zlockConfig);
+        return new ZookeeperClient(getConnect(), zkLockConfig);
     }
 
 
@@ -38,7 +38,7 @@ public class ZKClientFactory {
      * 获取zookeeper连接
      */
     private ZooKeeper getConnect() throws IOException {
-        return new ZooKeeper(zlockConfig.getHost().trim(), zlockConfig.getSessionTimeout(), new Watcher() {
+        return new ZooKeeper(zkLockConfig.getHost().trim(), zkLockConfig.getSessionTimeout(), new Watcher() {
             @Override
             public void process(WatchedEvent watchedEvent) {
                 logger.info("成功连接zookeeper:{}", JSON.toJSONString(watchedEvent));
@@ -46,7 +46,7 @@ public class ZKClientFactory {
         });
     }
 
-    public ZKClientFactory(ZlockConfig zlockConfig) {
-        this.zlockConfig = zlockConfig;
+    public ZKClientFactory(ZKLockConfig zkLockConfig) {
+        this.zkLockConfig = zkLockConfig;
     }
 }

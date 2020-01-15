@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Order(0)
 @Aspect
-public class ZlockAspectHandler {
+public class ZKLockAspectHandler {
 
     private ZKClientFactory zkClientFactory;
     private Map<String, ZKReentrantLock> lockContext = new ConcurrentHashMap<>();
@@ -44,7 +44,7 @@ public class ZlockAspectHandler {
         lockContext.remove(String.valueOf(Thread.currentThread().getId())).unLock();
     }
 
-    public ZlockAspectHandler(ZKClientFactory zkClientFactory) {
+    public ZKLockAspectHandler(ZKClientFactory zkClientFactory) {
         this.zkClientFactory = zkClientFactory;
     }
 }

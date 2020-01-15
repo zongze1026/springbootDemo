@@ -1,6 +1,6 @@
 package com.zongze.core;
-import com.zongze.config.ZlockConfig;
-import com.zongze.model.ZlockInfo;
+import com.zongze.config.ZKLockConfig;
+import com.zongze.model.ZKLockInfo;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.springframework.util.ObjectUtils;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class ZookeeperClient {
 
-    private ZlockConfig zlockConfig;
+    private ZKLockConfig zkLockConfig;
 
     private ZooKeeper zooKeeper;
 
@@ -27,7 +27,7 @@ public class ZookeeperClient {
      * @return:
      */
     public String initNode(String path, CreateMode createMode) throws KeeperException, InterruptedException {
-        return createNode(zlockConfig.getRootPath() + zlockConfig.getSeparate() + path, createMode);
+        return createNode(zkLockConfig.getRootPath() + zkLockConfig.getSeparate() + path, createMode);
     }
 
 
@@ -57,10 +57,10 @@ public class ZookeeperClient {
      */
     public List<String> getAllChild() throws KeeperException, InterruptedException {
 
-        return zooKeeper.getChildren(zlockConfig.getRootPath(), false)
+        return zooKeeper.getChildren(zkLockConfig.getRootPath(), false)
                 .stream()
                 .sorted()
-                .map(node -> node = zlockConfig.getRootPath() + zlockConfig.getSeparate() + node)
+                .map(node -> node = zkLockConfig.getRootPath() + zkLockConfig.getSeparate() + node)
                 .collect(Collectors.toList());
     }
 
@@ -80,7 +80,7 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public ZlockInfo tryActive(ZlockInfo lockInfo) throws InterruptedException, KeeperException {
+    public ZKLockInfo tryActive(ZKLockInfo lockInfo) throws InterruptedException, KeeperException {
         List<String> childList = getAllChild();
         if (childList.get(0).equals(lockInfo.getPath())) {
             lockInfo.setActive(true);
@@ -97,9 +97,9 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public ZlockInfo tryLock(ZlockInfo lockInfo) throws KeeperException, InterruptedException {
+    public ZKLockInfo tryLock(ZKLockInfo lockInfo) throws KeeperException, InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        ZlockInfo finalLockInfo = lockInfo;
+        ZKLockInfo finalLockInfo = lockInfo;
         Stat stat = zooKeeper.exists(lockInfo.getPreNode(), new Watcher() {
             @Override
             public void process(WatchedEvent event) {
@@ -135,8 +135,8 @@ public class ZookeeperClient {
 
 
 
-    public ZookeeperClient(ZooKeeper zooKeeper, ZlockConfig zlockConfig) {
-        this.zlockConfig = zlockConfig;
+    public ZookeeperClient(ZooKeeper zooKeeper, ZKLockConfig zkLockConfig) {
+        this.zkLockConfig = zkLockConfig;
         this.zooKeeper = zooKeeper;
     }
 

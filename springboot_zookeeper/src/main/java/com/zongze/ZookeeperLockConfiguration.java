@@ -1,7 +1,7 @@
 package com.zongze;
+
 import com.zongze.config.ZlockConfig;
-import com.zongze.core.ZlockAspectHandler;
-import com.zongze.core.ZookeeperClient;
+import com.zongze.core.*;
 import com.zongze.lock.ReentrantLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,29 +14,31 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties({ZlockConfig.class})
-@ConditionalOnProperty(prefix = "spring.zlock",name = {"enable"},havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.zlock", name = {"enable"}, havingValue = "true")
 public class ZookeeperLockConfiguration {
 
     @Autowired
     private ZlockConfig zlockConfig;
 
     @Bean
-    public ZookeeperClient zookeeperClient(){
-        return new ZookeeperClient(zlockConfig);
+    public ZKClientFactory zkClientFactory() {
+        return new ZKClientFactory(zlockConfig);
     }
 
     @Bean
-    public ReentrantLock reentrantLock(){
-        return new ReentrantLock(zookeeperClient());
+    public ZlockProducer zlockProducer(ZKClientFactory zkClientFactory) {
+        return new ZlockProducer(zkClientFactory);
     }
 
     @Bean
-    public ZlockAspectHandler zlockAspectHandler(){
-        return new ZlockAspectHandler(reentrantLock());
+    public ZlockPathConfigInitRunner zlockPathConfigInitRunner(ZKClientFactory zkClientFactory, ZlockConfig zlockConfig) {
+        return new ZlockPathConfigInitRunner(zlockConfig, zkClientFactory);
     }
 
-
-
+    @Bean
+    public ZlockAspectHandler zlockAspectHandler(ZlockProducer zlockProducer) {
+        return new ZlockAspectHandler(zlockProducer);
+    }
 
 
 }

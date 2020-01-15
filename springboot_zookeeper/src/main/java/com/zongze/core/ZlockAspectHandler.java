@@ -11,6 +11,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Create By xzz on 2019/12/23
@@ -19,27 +21,30 @@ import java.io.IOException;
 @Aspect
 public class ZlockAspectHandler {
 
-    private ReentrantLock lock;
+    private ZlockProducer zlockProducer;
+    private Map<String, ReentrantLock> lockContext = new ConcurrentHashMap<>();
 
 
     @Around(value = "@annotation(zlock)")
     public Object handler(ProceedingJoinPoint joinPoint, Zlock zlock) throws Throwable {
+        ReentrantLock lock = zlockProducer.getLock();
+        lockContext.put(String.valueOf(Thread.currentThread().getId()), lock);
         lock.lock(zlock.value());
         return joinPoint.proceed();
     }
 
     @AfterReturning(value = "@annotation(zlock)")
     public void releaseLock(JoinPoint joinPoint, Zlock zlock) throws InterruptedException, IOException, KeeperException {
-        lock.unLock();
+        lockContext.remove(String.valueOf(Thread.currentThread().getId())).unLock();
     }
 
 
     @AfterThrowing(value = "@annotation(zlock)")
     public void releaseLockBeforeThrowException(JoinPoint joinPoint, Zlock zlock) throws InterruptedException, IOException, KeeperException {
-        lock.unLock();
+        lockContext.remove(String.valueOf(Thread.currentThread().getId())).unLock();
     }
 
-    public ZlockAspectHandler(ReentrantLock lock) {
-        this.lock = lock;
+    public ZlockAspectHandler(ZlockProducer zlockProducer) {
+        this.zlockProducer = zlockProducer;
     }
 }

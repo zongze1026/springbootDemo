@@ -2,12 +2,9 @@ package com.zongze.lock;
 
 import com.zongze.core.ZookeeperClient;
 import com.zongze.model.ZlockInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
-
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Create By xzz on 2019/12/23

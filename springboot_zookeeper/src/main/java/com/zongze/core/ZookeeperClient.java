@@ -1,46 +1,23 @@
 package com.zongze.core;
-import com.alibaba.fastjson.JSON;
 import com.zongze.config.ZlockConfig;
 import com.zongze.model.ZlockInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
  * 操作zookeeper的客户端实现
- *
+ * <p>
  * Create By xzz on 2019/12/23
  */
 public class ZookeeperClient {
 
-    private static final Logger logger = LoggerFactory.getLogger(ZookeeperClient.class);
-
     private ZlockConfig zlockConfig;
 
     private ZooKeeper zooKeeper;
-
-    private void connect() throws IOException {
-        if (ObjectUtils.isEmpty(zooKeeper)) {
-            synchronized (ZookeeperClient.class) {
-                if (ObjectUtils.isEmpty(zooKeeper)) {
-                    zooKeeper = new ZooKeeper(zlockConfig.getHost().trim(), zlockConfig.getSessionTimeout(), new Watcher() {
-                        @Override
-                        public void process(WatchedEvent watchedEvent) {
-                            logger.info("成功连接zookeeper:{}", JSON.toJSONString(watchedEvent));
-                        }
-                    });
-                }
-            }
-        }
-    }
 
 
     /**
@@ -49,7 +26,7 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public String initNode(String path, CreateMode createMode) throws IOException, KeeperException, InterruptedException {
+    public String initNode(String path, CreateMode createMode) throws KeeperException, InterruptedException {
         return createNode(zlockConfig.getRootPath() + zlockConfig.getSeparate() + path, createMode);
     }
 
@@ -60,10 +37,7 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public String createNode(String path, CreateMode createMode) throws IOException, KeeperException, InterruptedException {
-        if (ObjectUtils.isEmpty(zooKeeper)) {
-            connect();
-        }
+    public String createNode(String path, CreateMode createMode) throws KeeperException, InterruptedException {
         return zooKeeper.create(path, null, ZooDefs.Ids.OPEN_ACL_UNSAFE, createMode);
     }
 
@@ -73,10 +47,7 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public boolean existNode(String path) throws IOException, KeeperException, InterruptedException {
-        if (ObjectUtils.isEmpty(zooKeeper)) {
-            connect();
-        }
+    public boolean existNode(String path) throws KeeperException, InterruptedException {
         return zooKeeper.exists(path, false) == null ? false : true;
     }
 
@@ -84,10 +55,8 @@ public class ZookeeperClient {
     /**
      * 获取子节点
      */
-    public List<String> getAllChild() throws KeeperException, InterruptedException, IOException {
-        if (ObjectUtils.isEmpty(zooKeeper)) {
-            connect();
-        }
+    public List<String> getAllChild() throws KeeperException, InterruptedException {
+
         return zooKeeper.getChildren(zlockConfig.getRootPath(), false)
                 .stream()
                 .sorted()
@@ -99,10 +68,7 @@ public class ZookeeperClient {
     /**
      * 删除节点，触发监听，唤醒下一个线程
      */
-    public void unLock(String path) throws KeeperException, InterruptedException, IOException {
-        if (ObjectUtils.isEmpty(zooKeeper)) {
-            connect();
-        }
+    public void unLock(String path) throws KeeperException, InterruptedException {
         zooKeeper.delete(path, -1); //-1表示删除所有版本
     }
 
@@ -113,7 +79,7 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public ZlockInfo tryActive(ZlockInfo lockInfo) throws InterruptedException, IOException, KeeperException {
+    public ZlockInfo tryActive(ZlockInfo lockInfo) throws InterruptedException, KeeperException {
         List<String> childList = getAllChild();
         if (childList.get(0).equals(lockInfo.getPath())) {
             lockInfo.setActive(true);
@@ -130,7 +96,7 @@ public class ZookeeperClient {
      * @param:
      * @return:
      */
-    public ZlockInfo tryLock(ZlockInfo lockInfo) throws KeeperException, InterruptedException, IOException {
+    public ZlockInfo tryLock(ZlockInfo lockInfo) throws KeeperException, InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         ZlockInfo finalLockInfo = lockInfo;
         Stat stat = zooKeeper.exists(lockInfo.getPreNode(), new Watcher() {
@@ -148,8 +114,6 @@ public class ZookeeperClient {
                     } catch (KeeperException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -169,37 +133,10 @@ public class ZookeeperClient {
     }
 
 
-    /**
-     * 初始化根目录
-     *
-     * @param:
-     * @return:
-     */
-    private void initRootPath() {
-        String separate = zlockConfig.getSeparate();
-        StringBuilder buffer = new StringBuilder();
-        Arrays.asList(zlockConfig.getRootPath().split(separate)).forEach(path -> {
-            if (StringUtils.isNotBlank(path)) {
-                buffer.append(separate).append(path);
-                try {
-                    if (!existNode(buffer.toString())) {
-                        createNode(buffer.toString(), CreateMode.PERSISTENT);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (KeeperException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        zlockConfig.setRootPath(buffer.toString());
-    }
 
-    public ZookeeperClient(ZlockConfig zlockConfig) {
+    public ZookeeperClient(ZooKeeper zooKeeper, ZlockConfig zlockConfig) {
         this.zlockConfig = zlockConfig;
-        initRootPath();
+        this.zooKeeper = zooKeeper;
     }
 
 }

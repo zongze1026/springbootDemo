@@ -1,7 +1,7 @@
 package com.zongze.core;
 
 import com.zongze.annotation.Zlock;
-import com.zongze.lock.ReentrantLock;
+import com.zongze.lock.ZKReentrantLock;
 import org.apache.zookeeper.KeeperException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -22,12 +22,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ZlockAspectHandler {
 
     private ZKClientFactory zkClientFactory;
-    private Map<String, ReentrantLock> lockContext = new ConcurrentHashMap<>();
+    private Map<String, ZKReentrantLock> lockContext = new ConcurrentHashMap<>();
 
 
     @Around(value = "@annotation(zlock)")
     public Object handler(ProceedingJoinPoint joinPoint, Zlock zlock) throws Throwable {
-        ReentrantLock lock = zkClientFactory.getLock();
+        ZKReentrantLock lock = zkClientFactory.getLock();
         lockContext.put(String.valueOf(Thread.currentThread().getId()), lock);
         lock.lock(zlock.value());
         return joinPoint.proceed();

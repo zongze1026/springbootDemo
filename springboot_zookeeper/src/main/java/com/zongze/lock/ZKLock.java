@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Create By xzz on 2019/12/23
  */
-public interface Lock {
+public interface ZKLock {
 
 
     /**

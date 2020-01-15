@@ -8,7 +8,7 @@ import org.apache.zookeeper.KeeperException;
 /**
  * Create By xzz on 2019/12/23
  */
-public class ReentrantLock implements Lock {
+public class ZKReentrantLock implements ZKLock {
 
     private ZookeeperClient zkClient;
 
@@ -48,7 +48,7 @@ public class ReentrantLock implements Lock {
         zkClient.unLock(threadLocal.get().getPath());
     }
 
-    public ReentrantLock(ZookeeperClient zkClient) {
+    public ZKReentrantLock(ZookeeperClient zkClient) {
         this.zkClient = zkClient;
     }
 }

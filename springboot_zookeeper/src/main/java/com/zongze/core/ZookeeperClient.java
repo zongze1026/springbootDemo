@@ -70,6 +70,7 @@ public class ZookeeperClient {
      */
     public void unLock(String path) throws KeeperException, InterruptedException {
         zooKeeper.delete(path, -1); //-1表示删除所有版本
+        zooKeeper.close();
     }
 
 

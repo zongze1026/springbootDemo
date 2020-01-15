@@ -4,7 +4,6 @@ import com.zongze.core.ZookeeperClient;
 import com.zongze.model.ZlockInfo;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
-import java.io.IOException;
 
 /**
  * Create By xzz on 2019/12/23
@@ -27,13 +26,13 @@ public class ReentrantLock implements Lock {
      * @param:
      * @return:
      */
-    private ZlockInfo createZkLock(String path) throws InterruptedException, IOException, KeeperException {
+    private ZlockInfo createZkLock(String path) throws InterruptedException, KeeperException {
         return new ZlockInfo(zkClient.initNode(path, CreateMode.EPHEMERAL_SEQUENTIAL));
     }
 
 
     @Override
-    public boolean lock(String lockName) throws InterruptedException, IOException, KeeperException {
+    public boolean lock(String lockName) throws InterruptedException, KeeperException {
         ZlockInfo lockInfo = createZkLock(lockName);
         threadLocal.set(lockInfo);
         lockInfo = zkClient.tryActive(lockInfo);
@@ -45,7 +44,7 @@ public class ReentrantLock implements Lock {
     }
 
     @Override
-    public void unLock() throws InterruptedException, IOException, KeeperException {
+    public void unLock() throws InterruptedException, KeeperException {
         zkClient.unLock(threadLocal.get().getPath());
     }
 

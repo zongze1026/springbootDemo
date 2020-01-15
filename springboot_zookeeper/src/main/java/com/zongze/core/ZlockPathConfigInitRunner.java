@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 /**
  * Create By xzz on 2020/1/15
+ * 用于初始化zookeeper锁的根目录
  */
 public class ZlockPathConfigInitRunner implements CommandLineRunner {
 

@@ -21,13 +21,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Aspect
 public class ZlockAspectHandler {
 
-    private ZlockProducer zlockProducer;
+    private ZKClientFactory zkClientFactory;
     private Map<String, ReentrantLock> lockContext = new ConcurrentHashMap<>();
 
 
     @Around(value = "@annotation(zlock)")
     public Object handler(ProceedingJoinPoint joinPoint, Zlock zlock) throws Throwable {
-        ReentrantLock lock = zlockProducer.getLock();
+        ReentrantLock lock = zkClientFactory.getLock();
         lockContext.put(String.valueOf(Thread.currentThread().getId()), lock);
         lock.lock(zlock.value());
         return joinPoint.proceed();
@@ -44,7 +44,7 @@ public class ZlockAspectHandler {
         lockContext.remove(String.valueOf(Thread.currentThread().getId())).unLock();
     }
 
-    public ZlockAspectHandler(ZlockProducer zlockProducer) {
-        this.zlockProducer = zlockProducer;
+    public ZlockAspectHandler(ZKClientFactory zkClientFactory) {
+        this.zkClientFactory = zkClientFactory;
     }
 }

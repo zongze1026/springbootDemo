@@ -25,10 +25,6 @@ public class ZookeeperLockConfiguration {
         return new ZKClientFactory(zlockConfig);
     }
 
-    @Bean
-    public ZlockProducer zlockProducer(ZKClientFactory zkClientFactory) {
-        return new ZlockProducer(zkClientFactory);
-    }
 
     @Bean
     public ZlockPathConfigInitRunner zlockPathConfigInitRunner(ZKClientFactory zkClientFactory, ZlockConfig zlockConfig) {
@@ -36,8 +32,8 @@ public class ZookeeperLockConfiguration {
     }
 
     @Bean
-    public ZlockAspectHandler zlockAspectHandler(ZlockProducer zlockProducer) {
-        return new ZlockAspectHandler(zlockProducer);
+    public ZlockAspectHandler zlockAspectHandler(ZKClientFactory zkClientFactory) {
+        return new ZlockAspectHandler(zkClientFactory);
     }
 
 

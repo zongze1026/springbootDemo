@@ -2,6 +2,7 @@ package com.zongze.core;
 
 import com.alibaba.fastjson.JSON;
 import com.zongze.config.ZlockConfig;
+import com.zongze.lock.ReentrantLock;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
@@ -18,6 +19,12 @@ public class ZKClientFactory {
 
     private ZlockConfig zlockConfig;
 
+    /**
+     * 获取分布式锁
+     */
+    public ReentrantLock getLock() throws IOException {
+        return new ReentrantLock(getZookeeperClient());
+    }
 
     /**
      * 获取zookeeper操作客户端

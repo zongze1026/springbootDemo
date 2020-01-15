@@ -2,7 +2,6 @@ package com.zongze;
 
 import com.zongze.config.ZlockConfig;
 import com.zongze.core.*;
-import com.zongze.lock.ReentrantLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

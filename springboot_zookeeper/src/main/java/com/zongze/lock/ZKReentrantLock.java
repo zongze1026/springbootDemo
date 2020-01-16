@@ -1,7 +1,7 @@
 package com.zongze.lock;
 
 import com.zongze.core.ZookeeperClient;
-import com.zongze.model.ZlockInfo;
+import com.zongze.model.ZKLockInfo;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 
@@ -18,7 +18,7 @@ public class ZKReentrantLock implements ZKLock {
      * @param:
      * @return:
      */
-    private ThreadLocal<ZlockInfo> threadLocal = new InheritableThreadLocal<>();
+    private ThreadLocal<ZKLockInfo> threadLocal = new InheritableThreadLocal<>();
 
     /**
      * 将争抢锁的线程封装成LockInfo
@@ -26,14 +26,14 @@ public class ZKReentrantLock implements ZKLock {
      * @param:
      * @return:
      */
-    private ZlockInfo createZkLock(String path) throws InterruptedException, KeeperException {
-        return new ZlockInfo(zkClient.initNode(path, CreateMode.EPHEMERAL_SEQUENTIAL));
+    private ZKLockInfo createZkLock(String path) throws InterruptedException, KeeperException {
+        return new ZKLockInfo(zkClient.initNode(path, CreateMode.EPHEMERAL_SEQUENTIAL));
     }
 
 
     @Override
     public boolean lock(String lockName) throws InterruptedException, KeeperException {
-        ZlockInfo lockInfo = createZkLock(lockName);
+        ZKLockInfo lockInfo = createZkLock(lockName);
         threadLocal.set(lockInfo);
         lockInfo = zkClient.tryActive(lockInfo);
         if (lockInfo.isActive()) {

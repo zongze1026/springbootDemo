@@ -35,5 +35,11 @@ public class DirectSender {
         mqSender.send("directExchange", "direct.message", content);
     }
 
+    public void send3(int i) {
+        String content = i + ":this is direct test %s";
+        System.out.println(String.format(content, "发送成功"));
+        mqSender.send("directExchange", "direct.message2", content);
+    }
+
 
 }

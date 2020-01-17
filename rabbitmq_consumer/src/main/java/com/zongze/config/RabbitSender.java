@@ -3,9 +3,8 @@ import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.CorrelationData;
-import org.springframework.stereotype.Service;
 
 /**
  * Create By xzz on 2019/3/30
@@ -58,7 +57,6 @@ public class RabbitSender implements RabbitTemplate.ConfirmCallback, RabbitTempl
         logger.info("message:[{}] i={};s={};s1={};s2={}", message.toString(), i, s, s1, s2);
         logger.info("==============消息发送到队列失败==========");
     }
-
 
 
 }

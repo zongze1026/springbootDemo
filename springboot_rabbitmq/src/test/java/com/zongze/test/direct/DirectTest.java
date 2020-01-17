@@ -39,6 +39,13 @@ public class DirectTest {
         directSender.send2();
     }
 
+    @Test
+    public void send3(){
+        for (int i=0;i<10;i++){
+            directSender.send3(i);
+        }
+    }
+
 
 
 

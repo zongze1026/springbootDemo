@@ -33,12 +33,12 @@ public class ApiBuffer {
         buffer.flip();
 
         /**
-         * 将position置为0;可以重新读取数据
+         * 将position置为0;可以重新读取数据，limit的位置不变
          */
         buffer.rewind();
 
         /**
-         * 清除buffer的数据;回复到刚新建buffer的状态
+         * 清除buffer的数据;回复到刚新建buffer的状态，limit置为capacity位置
          */
         buffer.clear();
 

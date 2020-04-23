@@ -1,12 +1,13 @@
-syntax = "proto3";
-option java_package = "com.zongze.netty.protobuf";
-option java_outer_classname = "StudentEntity";
+syntax = "proto3";  //定义protoBuf的版本
+option java_package = "com.zongze.netty.protobuf";  //生产java类所在的包
+option java_outer_classname = "StudentEntity";  //外部类名称，不指定的话默认是 XXXOuterClass
 
+//定义类
 message Student {
     int32 age = 1;
     string userName = 2;
     repeated string friends = 3;
-    repeated Book books = 4;
+    repeated Book books = 4;  //表示集合属性相当于java中的List<Book> books;
 }
 
 message Book {

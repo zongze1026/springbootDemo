@@ -6,6 +6,8 @@ import java.nio.channels.FileChannel;
 
 /**
  * Create By xzz on 2020/4/20
+ *
+ * 普通拷贝与零拷贝性能测试
  */
 public class CopyCompare {
 

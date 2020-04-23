@@ -1,0 +1,14 @@
+syntax = "proto3";
+option java_package = "com.zongze.netty.protobuf";
+option java_outer_classname = "StudentEntity";
+
+message Student {
+    int32 age = 1;
+    string userName = 2;
+    repeated string friends = 3;
+    repeated Book books = 4;
+}
+
+message Book {
+    string bookName = 1;
+}

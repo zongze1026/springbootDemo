@@ -38,6 +38,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ctx.channel().writeAndFlush(Unpooled.copiedBuffer(msg, Charset.defaultCharset()));
     }
 
+    @Override
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("handler is added .....");
+        super.handlerAdded(ctx);
+    }
 
     /**
      * 出现异常时需要关闭通道

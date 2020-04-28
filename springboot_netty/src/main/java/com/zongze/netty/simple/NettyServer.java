@@ -16,7 +16,7 @@ public class NettyServer {
     public static void main(String[] args) {
 
         //创建两个时间循环组
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
+        NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
         //创建服务端启动类，可以配置一系列参数

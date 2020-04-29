@@ -42,7 +42,7 @@
         <commons-httpclient.version>3.1</commons-httpclient.version>
         <xstream.version>1.4.4</xstream.version>
         <protobuf.version>3.6.1</protobuf.version>
-        <netty.version>4.1.29.Final</netty.version>
+        <netty.version>4.1.42.Final</netty.version>
         <zookeeper.version>3.4.14</zookeeper.version>
     </properties>
     <dependencyManagement>

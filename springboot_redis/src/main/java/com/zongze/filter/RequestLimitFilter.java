@@ -16,6 +16,8 @@ public class RequestLimitFilter implements Filter {
 
     private CounterLimiter counterLimiter;
 
+
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -27,6 +29,16 @@ public class RequestLimitFilter implements Filter {
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
 

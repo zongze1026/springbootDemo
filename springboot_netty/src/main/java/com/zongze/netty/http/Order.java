@@ -1,6 +1,5 @@
 package com.zongze.netty.http;
 
-import com.zongze.util.HttpUtil;
 
 /**
  * Create By xzz on 2020/4/21

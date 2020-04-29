@@ -23,6 +23,15 @@
             <artifactId>springboot_common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!--swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.zongze</groupId>
             <artifactId>dlock-spring-boot-starter</artifactId>

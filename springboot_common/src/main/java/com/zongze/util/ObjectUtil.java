@@ -7,6 +7,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.BeanUtils;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -37,7 +38,7 @@ public class ObjectUtil {
     }
 
 
-    public static <T> T copyProperties(Class<? extends T> targetClass,Object source) {
+    public static <T> T copyProperties(Class<? extends T> targetClass, Object source) {
         try {
             Class<?> sourceClass = source.getClass();
             T t = targetClass.newInstance();
@@ -199,14 +200,59 @@ public class ObjectUtil {
         return bytes;
     }
 
+    public static byte[] short2bytes(short i) {
+        byte[] bytes = new byte[2];
+        bytes[0] = (byte) (i >> 8);
+        bytes[1] = (byte) i;
+        return bytes;
+    }
+
 
     public static int bytes2int(byte[] bytes) {
         return (bytes[0] << 24) | ((bytes[1] & 0xff) << 16) | ((bytes[2] & 0xff) << 8) | (bytes[3] & 0xff);
     }
 
 
+    private static final char[] HEX_CHAR = {'0', '1', '2', '3', '4', '5',
+            '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+    /**
+     * byte[] to hex string
+     *
+     * @param bytes
+     * @return
+     */
+    public static String bytesToHexString(byte[] bytes) {
+        char[] buf = new char[bytes.length * 2];
+        int index = 0;
+        for (byte b : bytes) { // 利用位运算进行转换，可以看作方法一的变种
+            buf[index++] = HEX_CHAR[b >>> 4 & 0xf];
+            buf[index++] = HEX_CHAR[b & 0xf];
+        }
+
+        return new String(buf);
+    }
 
 
+    /**
+     * 将16进制字符串转换为byte[]
+     *
+     * @param str
+     * @return
+     */
+    public static byte[] hexStringToBytes(String str) {
+        if (str == null || str.trim().equals("")) {
+            return new byte[0];
+        }
+
+        byte[] bytes = new byte[str.length() / 2];
+        for (int i = 0; i < str.length() / 2; i++) {
+            String subStr = str.substring(i * 2, i * 2 + 2);
+            bytes[i] = (byte) Integer.parseInt(subStr, 16);
+        }
+
+        return bytes;
+    }
 
 
     public static void main(String[] args) {

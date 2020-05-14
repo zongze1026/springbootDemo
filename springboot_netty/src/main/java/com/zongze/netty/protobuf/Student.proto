@@ -4,6 +4,7 @@ option java_outer_classname = "StudentEntity";  //外部类名称，不指定的
 
 //定义类
 message Student {
+    //属性中的值表示的是序号
     int32 age = 1;
     string userName = 2;
     repeated string friends = 3;

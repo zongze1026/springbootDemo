@@ -18,13 +18,13 @@
 
     <dependencies>
         <!--图片模糊处理jar-->
-        <dependency>
-            <groupId>com.jhlabs.image</groupId>
-            <artifactId>ImageEditor</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ImageEditor.jar</systemPath>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.jhlabs.image</groupId>-->
+            <!--<artifactId>ImageEditor</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/lib/ImageEditor.jar</systemPath>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

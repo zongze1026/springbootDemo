@@ -1,6 +1,6 @@
 package com.zongze.util;
 
-import com.jhlabs.image.GaussianFilter;
+//import com.jhlabs.image.GaussianFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
@@ -102,80 +102,80 @@ public class FileUtil {
         }
     }
 
-    /**
-     * 下载添加水印
-     * storeDir 原图存储路径
-     * mimeType 文件类型，通过request获得
-     * thumbnailFont 水印文字
-     * fontType 字体
-     * fontSize 文字大小
-     * fontAlpha 文字透明度
-     * pictureSharpness 图片模糊处理清晰度
-     * @param:
-     * @return:
-     */
-    public static void downloadWithWater(String storeDir, HttpServletResponse response, String mimeType,
-                                         String thumbnailFont, String fontType, int fontSize, float fontAlpha, int pictureSharpness) {
-        OutputStream out = null;
-        InputStream in = null;
-        try {
-            response.setContentType(mimeType);
-            out = response.getOutputStream();
-            in = new FileInputStream(storeDir);
-            BufferedImage src = ImageIO.read(in);
-            int width = src.getWidth(null);
-            int height = src.getHeight(null);
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = image.createGraphics();
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g.drawImage(src.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
-            GaussianFilter gaussianFilter = new GaussianFilter();
-            gaussianFilter.setRadius(pictureSharpness);
-            gaussianFilter.filter(src, image);
-            g.setColor(Color.RED);
-            g.setFont(new Font(fontType, 3, fontSize));
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
-                    fontAlpha));
-            g.rotate(75.00, (double) width / 2, (double) height / 2);
-            int x = -width / 2;
-            int y = -height / 2;
-            int markWidth = fontSize * thumbnailFont.length();// 字体长度
-            int markHeight = fontSize;// 字体高度
-            // 循环添加水印
-            while (x < width * 1.5) {
-                y = -height / 2;
-                while (y < height * 1.5) {
-                    g.drawString(thumbnailFont, x, y);
-                    y += markHeight + 120;
-                }
-                x += markWidth + 120;
-            }
-            g.drawString(thumbnailFont, x, y);
-            g.dispose();
-            ImageIO.write(image, "jpeg", out);
-            out.flush();
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
+//    /**
+//     * 下载添加水印
+//     * storeDir 原图存储路径
+//     * mimeType 文件类型，通过request获得
+//     * thumbnailFont 水印文字
+//     * fontType 字体
+//     * fontSize 文字大小
+//     * fontAlpha 文字透明度
+//     * pictureSharpness 图片模糊处理清晰度
+//     * @param:
+//     * @return:
+//     */
+//    public static void downloadWithWater(String storeDir, HttpServletResponse response, String mimeType,
+//                                         String thumbnailFont, String fontType, int fontSize, float fontAlpha, int pictureSharpness) {
+//        OutputStream out = null;
+//        InputStream in = null;
+//        try {
+//            response.setContentType(mimeType);
+//            out = response.getOutputStream();
+//            in = new FileInputStream(storeDir);
+//            BufferedImage src = ImageIO.read(in);
+//            int width = src.getWidth(null);
+//            int height = src.getHeight(null);
+//            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+//            Graphics2D g = image.createGraphics();
+//            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+//            g.drawImage(src.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
+//            GaussianFilter gaussianFilter = new GaussianFilter();
+//            gaussianFilter.setRadius(pictureSharpness);
+//            gaussianFilter.filter(src, image);
+//            g.setColor(Color.RED);
+//            g.setFont(new Font(fontType, 3, fontSize));
+//            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
+//                    fontAlpha));
+//            g.rotate(75.00, (double) width / 2, (double) height / 2);
+//            int x = -width / 2;
+//            int y = -height / 2;
+//            int markWidth = fontSize * thumbnailFont.length();// 字体长度
+//            int markHeight = fontSize;// 字体高度
+//            // 循环添加水印
+//            while (x < width * 1.5) {
+//                y = -height / 2;
+//                while (y < height * 1.5) {
+//                    g.drawString(thumbnailFont, x, y);
+//                    y += markHeight + 120;
+//                }
+//                x += markWidth + 120;
+//            }
+//            g.drawString(thumbnailFont, x, y);
+//            g.dispose();
+//            ImageIO.write(image, "jpeg", out);
+//            out.flush();
+//        } catch (
+//                IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (out != null) {
+//                try {
+//                    out.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (in != null) {
+//                try {
+//                    in.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//    }
 
 
     /**

@@ -4,12 +4,18 @@ import com.alibaba.fastjson.JSON;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
 /**
  * Create By xzz on 2020/4/21
+ * 1.{@link SimpleChannelInboundHandler}相对于{@link ChannelInboundHandlerAdapter}来说有一个好处就是会自动帮你释放
+ * 资源，而不需要手动释放；如果直接使用ChannelInboundHandlerAdapter的话，如果不手动释放资源的话可能会导致
+ * 内存异常
+ * 2.SimpleChannelInboundHandler是怎么实现自动释放资源的呢？可以发现该类也是继承了ChannelInboundHandlerAdapter
+ *  它是通过重写了channelRead方法中释放资源的;并且调用了扩展方法channelRead0(该方法就是业务逻辑需要实现的方法)
  */
 public class HttpChannelHandler extends SimpleChannelInboundHandler<HttpObject> {
 

@@ -46,6 +46,8 @@
         <netty.version>4.1.29.Final</netty.version>
         <zookeeper.version>3.4.14</zookeeper.version>
         <zxing.version>3.3.3</zxing.version>
+        <swagger.annotations>1.5.21</swagger.annotations>
+        <swagger.models>1.5.21</swagger.models>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -103,11 +105,31 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${springfox-swagger2.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.annotations}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger.models}</version>
             </dependency>
             <!--  spring aop-->
             <dependency>

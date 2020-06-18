@@ -5,41 +5,9 @@
 
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.zongze.domain.User">
-      insert into user(userName,age)VALUES(#{userName},#{age})
+      insert into user(user_name,age)VALUES(#{userName},#{age})
     </insert>
 
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.zongze.domain.User">
-      insert into user(userName,age)VALUES(#{userName},#{age})
-    </insert>
-
-    <select id="find" resultType="com.zongze.domain.User">
-        select id,userName,age from user
-    </select>
-
-    <select id="findAll" resultType="com.zongze.domain.User">
-        select id,userName,age from user
-    </select>
-
-    <select id="findAllByForEach" parameterType="com.zongze.domain.User" resultType="com.zongze.domain.User">
-        select id,userName,age from user
-        <if test="ids != null and ids.size()>0">
-            where id in
-            <foreach collection="ids" item="id" open="(" close=")" separator=",">
-            #{id}
-            </foreach>
-        </if>
-    </select>
-
-
-    <select id="findAllByIds" parameterType="java.util.ArrayList"  resultType="com.zongze.domain.User">
-        select id,userName,age from user
-        <if test="ids != null and ids.size()>0">
-            where id in
-            <foreach collection="ids" item="id" open="(" close=")" separator=",">
-                #{id}
-            </foreach>
-        </if>
-    </select>
 
 
 </mapper>

@@ -26,21 +26,6 @@ public class DynamicDataSourceAspect {
 
 
     /**
-     * 使用slave1数据源来查询，匹配切面
-     */
-    @Pointcut("execution(* com.zongze.service.slave1..*.*(..))")
-    public void slave1() {
-    }
-
-    /**
-     * 使用slave2数据源来查询，匹配切面
-     */
-    @Pointcut("execution(* com.zongze.service.slave2..*.*(..))")
-    public void slave2() {
-    }
-
-
-    /**
      * 移除数据源匹配的切面
      */
     @Pointcut("execution(* com.zongze.service..*.*(..))")
@@ -51,19 +36,11 @@ public class DynamicDataSourceAspect {
     /**
      * 选择数据源
      */
-    @Before("slave1()")
+    @Before("pointCut()")
     public void setSlave1DataSource(JoinPoint point) {
-        selectDataSource(point, DataSourceType.SLAVE);
+        selectDataSource(point, DataSourceType.MASTER);
     }
 
-
-    /**
-     * 选择数据源
-     */
-    @Before("slave2()")
-    public void setSlave2DataSource(JoinPoint point) {
-        selectDataSource(point, DataSourceType.SLAVE_02);
-    }
 
 
     /**
@@ -71,6 +48,7 @@ public class DynamicDataSourceAspect {
      * 否则使用默认数据源
      */
     private void selectDataSource(JoinPoint point, DataSourceType dataSourceType) {
+
         try {
             //获取当前方法的字节码对象
             Method method = ((MethodSignature) point.getSignature()).getMethod();

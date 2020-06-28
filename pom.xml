@@ -48,9 +48,15 @@
         <zxing.version>3.3.3</zxing.version>
         <swagger.annotations>1.5.21</swagger.annotations>
         <swagger.models>1.5.21</swagger.models>
+        <jol-core.version>0.8</jol-core.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.openjdk.jol</groupId>
+                <artifactId>jol-core</artifactId>
+                <version>0.8</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>

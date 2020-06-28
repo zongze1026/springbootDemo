@@ -17,6 +17,11 @@
 
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.openjdk.jol/jol-core -->
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.zongze</groupId>
             <artifactId>springboot_common</artifactId>

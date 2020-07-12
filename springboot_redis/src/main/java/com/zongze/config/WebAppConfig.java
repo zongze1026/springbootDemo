@@ -1,5 +1,6 @@
-package com.zongze.component;
+package com.zongze.config;
 
+import com.zongze.component.CounterLimiter;
 import com.zongze.filter.RequestLimitFilter;
 import com.zongze.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;

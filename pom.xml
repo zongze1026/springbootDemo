@@ -48,6 +48,7 @@
         <zxing.version>3.3.3</zxing.version>
         <swagger.annotations>1.5.21</swagger.annotations>
         <swagger.models>1.5.21</swagger.models>
+        <rocketmq.version>2.0.3</rocketmq.version>
         <jol-core.version>0.8</jol-core.version>
     </properties>
     <dependencyManagement>
@@ -221,7 +222,11 @@
                 <artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
                 <version>${netty.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq.version}</version>
+            </dependency>
             <!-- rabbitmq -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

@@ -127,11 +127,11 @@ public class HttpUtil {
 
 
     public static void main(String[] args) throws IOException {
-        Map<String, String> headers = new HashMap();
+        Map<String, String> headers = new HashMap(2);
         headers.put("Authorization", "APPCODE 86d51f5a987c4c6382389f7ac3d745f1");
         headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         String url = "http://yunyidata.market.alicloudapi.com/bankAuthenticate4";
-        Map<String, String> body = new HashMap<>();
+        Map<String, String> body = new HashMap<>(5);
         body.put("ReturnBankInfo", "YES");
         body.put("cardNo", "6222081204001911076");
         body.put("idNo", "330481198910010033");

@@ -5,6 +5,7 @@ package com.zongze.rocketmq.entity;
  */
 public class Order {
 
+    private int id;
     private String orderName;
 
     private String orderId;
@@ -12,7 +13,16 @@ public class Order {
     public Order() {
     }
 
-    public Order(String orderName, String orderId) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Order(int id, String orderName, String orderId) {
+        this.id = id;
         this.orderName = orderName;
         this.orderId = orderId;
     }
@@ -31,5 +41,14 @@ public class Order {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderName='" + orderName + '\'' +
+                ", orderId='" + orderId + '\'' +
+                '}';
     }
 }

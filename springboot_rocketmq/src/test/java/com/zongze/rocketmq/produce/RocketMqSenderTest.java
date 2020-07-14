@@ -17,13 +17,19 @@ public class RocketMqSenderTest {
 
 
     @Autowired
-    private RocketMqSender rocketMqSender;
+    private RocketMqSimpleSender rocketMqSender;
 
 
     @Test
     public void sendSimple(){
-        Order order = new Order("商品订单", UUID.randomUUID().toString());
-        rocketMqSender.sendMsg(order);
+        Order order = new Order(1,"商品订单", UUID.randomUUID().toString());
+        rocketMqSender.sendSimpleMsg(order);
+    }
+
+    @Test
+    public void sendTX(){
+        Order order = new Order(11,"商品订单", UUID.randomUUID().toString());
+        rocketMqSender.sendTransactionMessage(order);
     }
 
 

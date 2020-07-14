@@ -7,6 +7,7 @@ import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
+
 import static com.zongze.rocketmq.entity.Constant.ORDER_GROUP;
 
 /**
@@ -24,6 +25,7 @@ public class RocketMQTransactionOrderListener implements RocketMQLocalTransactio
         Order order = (Order) o;
         try {
             System.out.println(order);
+            System.out.println( message.getHeaders().get("transactionId"));
             int i = orderService.saveOrder(order);
             if (i > 0) {
                 return RocketMQLocalTransactionState.COMMIT;
@@ -32,14 +34,15 @@ public class RocketMQTransactionOrderListener implements RocketMQLocalTransactio
             e.printStackTrace();
         }
         if (order.getId() % 2 != 0 && order.getId() > 10) {
-            System.exit(-1);
+//            System.exit(-1);
+            return RocketMQLocalTransactionState.COMMIT;
         }
         return RocketMQLocalTransactionState.ROLLBACK;
     }
 
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
-        System.out.println("事务进行了会查");
+        System.out.println("事务进行了会查" + message.getHeaders().get("transactionId"));
         return RocketMQLocalTransactionState.COMMIT;
     }
 }

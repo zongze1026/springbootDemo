@@ -147,11 +147,7 @@ public class UserManageService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void have_nested_error() {
         /**
-         *当前虽然带有事务，但是事务会被挂起，两个方法都会开启子事务执行
-         *
-         * user1插入成功
-         * user2抛出异常，插入失败
-         * 两个子事务互补影响
+         *两个插入都回滚
          */
         nested();
         throw new RuntimeException();

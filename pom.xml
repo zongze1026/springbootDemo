@@ -16,6 +16,7 @@
         <module>springboot_common</module>
         <module>springboot_redission</module>
         <module>springboot_rabbitmq</module>
+        <module>springboot_rocketmq</module>
         <module>springboot_zookeeper</module>
     </modules>
 

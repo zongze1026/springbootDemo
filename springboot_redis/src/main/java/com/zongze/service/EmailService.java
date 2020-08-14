@@ -17,6 +17,7 @@ public class EmailService {
     private EmailUtil emailUtil;
 
 
+
     public void sendEmail(String address, String title, String content) {
         emailUtil.sendSimpleMail(address, title, content);
     }

@@ -18,6 +18,7 @@
         <module>springboot_rabbitmq</module>
         <module>springboot_rocketmq</module>
         <module>springboot_zookeeper</module>
+        <module>springboot_mongo</module>
     </modules>
 
     <parent>

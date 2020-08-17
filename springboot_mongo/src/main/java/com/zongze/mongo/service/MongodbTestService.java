@@ -49,14 +49,12 @@ public class MongodbTestService implements MongoService{
         return  mongoTemplate.remove(query, User.class);
     }
 
-
-
-
-
-
-
-
-
+    @Override
+    public long count(String name) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(name));
+        return mongoTemplate.count(query, User.class);
+    }
 
 
 }

@@ -16,5 +16,7 @@ public interface MongoService {
 
     Object remove(String userName);
 
+    long count(String name);
+
 
 }

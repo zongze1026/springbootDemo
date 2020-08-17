@@ -46,4 +46,11 @@ public class MongodbTestServiceTest {
         User user = mongodbTestService.select("张无忌");
         System.out.println(user);
     }
+
+    @Test
+    public void count(){
+        long number = mongodbTestService.count("张无忌");
+        System.out.println(number);
+    }
+
 }

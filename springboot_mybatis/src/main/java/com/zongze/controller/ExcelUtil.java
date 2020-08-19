@@ -1,6 +1,5 @@
-package com.zongze.util;
+package com.zongze.controller;
 
-import com.zongze.annotation.Excel;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -8,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -80,7 +80,7 @@ public class ExcelUtil {
                                     cell.setCellValue(dateFormat.format(interField.get(vo)));
                                 } else if (classType == String.class) {
                                     cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-                                    cell.setCellValue(interField.get(vo) == null ? "" : String.valueOf(interField.get(vo)));
+                                    cell.setCellValue(String.valueOf(interField.get(vo)));
                                 } else {
                                     //数字过长就保存成字符串
                                     if (String.valueOf(interField.get(vo)).length() > 10) {

@@ -1,5 +1,7 @@
 package com.zongze.controller;
 
+import java.util.Date;
+
 /**
  * @Date 2020/8/18 10:38
  * @Created by xzz
@@ -17,6 +19,17 @@ public class User {
 
     @Excel(name = "身份表示")
     private Long id;
+
+    @Excel(name = "生日")
+    private Date birthdays;
+
+    public Date getBirthday() {
+        return birthdays;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthdays = birthday;
+    }
 
     public User(String name, int age, double price, Long id) {
         this.name = name;

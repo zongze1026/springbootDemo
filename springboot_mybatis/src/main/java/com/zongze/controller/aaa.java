@@ -5,4 +5,10 @@ package com.zongze.controller;
  * @Created by xzz
  */
 public class aaa {
+
+    public static void main(String[] args) {
+        System.out.println("");
+    }
+
+
 }

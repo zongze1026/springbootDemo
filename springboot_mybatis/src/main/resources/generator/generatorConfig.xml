@@ -16,17 +16,17 @@
 
         <jdbcConnection driverClass="${jdbc.driverClass}"
                         connectionURL="${jdbc.url}"
-                        userId="${jdbc.user}"
+                        userId="${jdbc.username}"
                         password="${jdbc.password}">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.yitkej.entity.model"
+        <javaModelGenerator targetPackage="com.zongze.domain"
                             targetProject="src/main/java"/>
 
         <sqlMapGenerator targetPackage="mapper"
                          targetProject="src/main/resources"/>
 
-        <javaClientGenerator targetPackage="com.yitkej.mapper"
+        <javaClientGenerator targetPackage="com.zongze.mapper"
                              targetProject="src/main/java"
                              type="XMLMAPPER"/>
 

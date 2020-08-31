@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zongze.mapper.MallProtocolUploadFileMapper">
+  <resultMap id="BaseResultMap" type="com.zongze.domain.MallProtocolUploadFile">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mall_protocol_id" jdbcType="BIGINT" property="mallProtocolId" />
+    <result column="mall_file_name" jdbcType="VARCHAR" property="mallFileName" />
+    <result column="mall_file_path" jdbcType="VARCHAR" property="mallFilePath" />
+    <result column="mall_file_type" jdbcType="INTEGER" property="mallFileType" />
+    <result column="mall_file_desc" jdbcType="VARCHAR" property="mallFileDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+</mapper>

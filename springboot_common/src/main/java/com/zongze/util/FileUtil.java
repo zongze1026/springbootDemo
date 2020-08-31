@@ -1,5 +1,4 @@
 package com.zongze.util;
-
 //import com.jhlabs.image.GaussianFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -102,18 +101,18 @@ public class FileUtil {
         }
     }
 
-//    /**
-//     * 下载添加水印
-//     * storeDir 原图存储路径
-//     * mimeType 文件类型，通过request获得
-//     * thumbnailFont 水印文字
-//     * fontType 字体
-//     * fontSize 文字大小
-//     * fontAlpha 文字透明度
-//     * pictureSharpness 图片模糊处理清晰度
-//     * @param:
-//     * @return:
-//     */
+    /**
+     * 下载添加水印
+     * storeDir 原图存储路径
+     * mimeType 文件类型，通过request获得
+     * thumbnailFont 水印文字
+     * fontType 字体
+     * fontSize 文字大小
+     * fontAlpha 文字透明度
+     * pictureSharpness 图片模糊处理清晰度
+     * @param:
+     * @return:
+     */
 //    public static void downloadWithWater(String storeDir, HttpServletResponse response, String mimeType,
 //                                         String thumbnailFont, String fontType, int fontSize, float fontAlpha, int pictureSharpness) {
 //        OutputStream out = null;
@@ -176,6 +175,8 @@ public class FileUtil {
 //        }
 //
 //    }
+
+
 
 
     /**

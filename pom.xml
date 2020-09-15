@@ -52,6 +52,7 @@
         <swagger.models>1.5.21</swagger.models>
         <rocketmq.version>2.0.3</rocketmq.version>
         <jol-core.version>0.8</jol-core.version>
+        <hutool.version>5.2.0</hutool.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -64,6 +65,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

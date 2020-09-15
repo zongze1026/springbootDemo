@@ -19,9 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) //开启@PreAuthorize
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Autowired
     private LoginSuccessHandler loginSuccessHandler;
@@ -30,9 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
     @Autowired
-    private TokenFilter tokenFilter;
+    private TokenAuthFilter tokenAuthFilter;
     @Autowired
-    private UserService userService;
+    private AuthUserDetailService authUserDetailService;
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
     @Autowired
@@ -41,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(encoder);
+        auth.userDetailsService(authUserDetailService).passwordEncoder(encoder);
     }
 
     @Override
@@ -61,10 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .httpBasic().authenticationEntryPoint(accessDeniedHandler)
                 .and()
-                //改配置有多个子节点；执行的顺序会根据配置的顺序执行
+                //配置有多个子节点；执行的顺序会根据配置的顺序执行
             .authorizeRequests()
-                .antMatchers("/role/**").hasRole("root")
-                .antMatchers("/admin/**").hasRole("admin")
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/", "/login","/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //认证失败处理器
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
-        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 

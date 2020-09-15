@@ -20,7 +20,7 @@ public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> 
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        System.out.println("================");
+        System.out.println(ctx.channel().id().asLongText());
         scatterMsg(ctx, msg);
     }
 

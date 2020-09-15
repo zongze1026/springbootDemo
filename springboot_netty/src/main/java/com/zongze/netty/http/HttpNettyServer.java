@@ -23,7 +23,7 @@ public class HttpNettyServer {
                     .childHandler(new HttpChannelInitializer());
 
 
-            ChannelFuture channelFuture = serverBootstrap.bind(8888).sync();
+            ChannelFuture channelFuture = serverBootstrap.bind(8866).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

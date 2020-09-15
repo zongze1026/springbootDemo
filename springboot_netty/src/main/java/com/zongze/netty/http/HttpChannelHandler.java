@@ -9,6 +9,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
+import java.util.Set;
+
 /**
  * Create By xzz on 2020/4/21
  * 1.{@link SimpleChannelInboundHandler}相对于{@link ChannelInboundHandlerAdapter}来说有一个好处就是会自动帮你释放
@@ -32,11 +34,15 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<HttpObject> 
         //判断请求是否是http请求
         if (msg instanceof HttpRequest) {
             //获取http请求的uri，可以根据不同的uri执行不同的业务
-            HttpRequest httpRequest = (HttpRequest) msg;
+            DefaultHttpRequest httpRequest = (DefaultHttpRequest) msg;
             //获取服务器图标请求就拦截
-            if ("/favicon.ico".equals(httpRequest.uri())) {
+            String uri = httpRequest.uri();
+            System.out.println(uri);
+            if ("/favicon.ico".equals(uri)) {
                 return;
             }
+            Set<String> names = httpRequest.headers().names();
+            names.stream().forEach(httpHeaderName-> System.out.println(httpHeaderName));
             System.out.println("pipeline哈希：" + ctx.pipeline().hashCode() + " channel哈希：" + ctx.channel().hashCode());
             //指定http版本、响应状态、响应内容
             DefaultFullHttpResponse httpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, byteBuf);

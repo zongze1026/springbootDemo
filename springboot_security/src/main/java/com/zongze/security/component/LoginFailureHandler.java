@@ -1,26 +1,33 @@
 package com.zongze.security.component;
+
+import com.zongze.security.component.entity.ResultCode;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @Date 2020/8/27 10:24
  * @Created by xzz
  */
 @Component
-public class LoginFailureHandler implements AuthenticationFailureHandler {
+public class LoginFailureHandler extends ResponseClientHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        e.printStackTrace();
-        httpServletResponse.setContentType("text/html;charset=utf-8");
-        PrintWriter writer = httpServletResponse.getWriter();
-        writer.write("登入失败");
-        writer.flush();
-        writer.close();
+        ResultCode resultCode ;
+        if (e instanceof BadCredentialsException) {
+            resultCode = ResultCode.LOGINERROR;
+        } else if (e instanceof LockedException) {
+            resultCode = ResultCode.USERLOCK;
+        } else {
+            resultCode = ResultCode.INTERNAL_SERVER_ERROR;
+        }
+        responseFail(httpServletResponse, resultCode);
     }
 }

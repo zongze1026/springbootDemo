@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zongze.mapper.ManagerMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.zongze.model.ManagerMenu" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="menu_sort" property="menuSort" jdbcType="INTEGER" />
+    <result column="menu_path" property="menuPath" jdbcType="VARCHAR" />
+    <result column="menu_level" property="menuLevel" jdbcType="INTEGER" />
+    <result column="menu_status" property="menuStatus" jdbcType="INTEGER" />
+    <result column="menu_logo" property="menuLogo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, menu_name, parent_id, menu_sort, menu_path, menu_level, menu_status, menu_logo, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from manager_menu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from manager_menu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zongze.model.ManagerMenu" >
+    insert into manager_menu (id, menu_name, parent_id, 
+      menu_sort, menu_path, menu_level, 
+      menu_status, menu_logo, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{menuName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{menuSort,jdbcType=INTEGER}, #{menuPath,jdbcType=VARCHAR}, #{menuLevel,jdbcType=INTEGER}, 
+      #{menuStatus,jdbcType=INTEGER}, #{menuLogo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zongze.model.ManagerMenu" >
+    insert into manager_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="menuSort != null" >
+        menu_sort,
+      </if>
+      <if test="menuPath != null" >
+        menu_path,
+      </if>
+      <if test="menuLevel != null" >
+        menu_level,
+      </if>
+      <if test="menuStatus != null" >
+        menu_status,
+      </if>
+      <if test="menuLogo != null" >
+        menu_logo,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="menuSort != null" >
+        #{menuSort,jdbcType=INTEGER},
+      </if>
+      <if test="menuPath != null" >
+        #{menuPath,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="menuStatus != null" >
+        #{menuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="menuLogo != null" >
+        #{menuLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zongze.model.ManagerMenu" >
+    update manager_menu
+    <set >
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="menuSort != null" >
+        menu_sort = #{menuSort,jdbcType=INTEGER},
+      </if>
+      <if test="menuPath != null" >
+        menu_path = #{menuPath,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        menu_level = #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="menuStatus != null" >
+        menu_status = #{menuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="menuLogo != null" >
+        menu_logo = #{menuLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zongze.model.ManagerMenu" >
+    update manager_menu
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      menu_sort = #{menuSort,jdbcType=INTEGER},
+      menu_path = #{menuPath,jdbcType=VARCHAR},
+      menu_level = #{menuLevel,jdbcType=INTEGER},
+      menu_status = #{menuStatus,jdbcType=INTEGER},
+      menu_logo = #{menuLogo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

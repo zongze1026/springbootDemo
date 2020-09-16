@@ -1,5 +1,4 @@
 package com.zongze.security.component;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zongze.security.component.entity.AuthUser;
@@ -99,9 +98,11 @@ public class UserTokenOperationHandler {
         if (!CollectionUtils.isEmpty(roles)) {
             for (ManagerRole role : roles) {
                 List<String> tokens = this.tokens.get(String.valueOf(role.getId()));
-                match = tokens.stream().anyMatch(t -> token.equals(t));
-                if (match) {
-                    break;
+                if (!CollectionUtils.isEmpty(tokens)) {
+                    match = tokens.stream().anyMatch(t -> token.equals(t));
+                    if (match) {
+                        break;
+                    }
                 }
             }
         }
@@ -131,9 +132,9 @@ public class UserTokenOperationHandler {
      * @param token
      */
     public void delTokenForMap(String roleId, String token) {
-        if(StringUtils.isEmpty(token)){
+        if (StringUtils.isEmpty(token)) {
             tokens.remove(roleId);
-        }else{
+        } else {
             List<String> tokens = this.tokens.get(roleId);
             if (!CollectionUtils.isEmpty(tokens)) {
                 Iterator<String> iterator = tokens.iterator();
@@ -169,6 +170,8 @@ public class UserTokenOperationHandler {
                     }
                 }
             }
+        }else{
+            tokens.clear();
         }
     }
 

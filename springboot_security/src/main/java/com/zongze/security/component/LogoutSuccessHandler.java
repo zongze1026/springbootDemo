@@ -1,6 +1,6 @@
 package com.zongze.security.component;
 
-import com.dayu.model.base.ResultCode;
+import com.zongze.security.component.entity.ResultCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 

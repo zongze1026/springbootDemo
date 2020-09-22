@@ -10,8 +10,11 @@ import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +32,88 @@ public class ExcelUtil {
 
 
     /**
+     * excel导入数据
+     *
+     * @param in      输入流
+     * @param skipNum 跳过行数
+     * @param clazz   需要封装的实体
+     */
+    @SuppressWarnings("all")
+    public static <T> List<T> importExcel(InputStream in, int skipNum, Class<T> clazz) {
+        List<Field> fields = getFields(clazz);
+        List<T> data = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            HSSFWorkbook workbook = new HSSFWorkbook(in);
+            HSSFSheet sheet;
+            int totalSheet = workbook.getNumberOfSheets();
+            if (totalSheet > 0) {
+                for (int i = 0; i < totalSheet; i++) {
+                    sheet = workbook.getSheetAt(i);
+                    if (null != sheet) {
+                        int totalRow = sheet.getLastRowNum();
+                        for (int n = 0; n <= totalRow; n++) {
+                            HSSFRow hssfrow = sheet.getRow(n + skipNum);
+                            HSSFCell cell;
+                            if (null != hssfrow) {
+                                T t = clazz.newInstance();
+                                for (int m = 0; m < fields.size(); m++) {
+                                    cell = hssfrow.getCell(m);
+                                    if (null != cell) {
+                                        Field field = fields.get(m);
+                                        field.setAccessible(true);
+                                        getCellValue(t, cell, field);
+                                    }
+                                }
+                                data.add(t);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("数据导入失败", e);
+        }
+        return data;
+    }
+
+
+    /**
+     * @param t
+     * @param cell
+     * @param field
+     * @return void
+     */
+    private static <T> void getCellValue(T t, HSSFCell cell, Field field) throws IllegalAccessException, ParseException {
+        BigDecimal numFormat;
+        if (field.getType().equals(String.class)) {
+            field.set(t, cell.getStringCellValue());
+        } else if (field.getType().equals(Integer.class)) {
+            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+            field.set(t, numFormat.intValue());
+        } else if (field.getType().equals(Long.class)) {
+            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+            field.set(t, numFormat.longValue());
+        } else if (field.getType().equals(Double.class)) {
+            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+            numFormat.setScale(2, RoundingMode.HALF_DOWN);
+            field.set(t, numFormat.doubleValue());
+        } else if (field.getType().equals(Float.class)) {
+            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+            numFormat.setScale(2, RoundingMode.HALF_DOWN);
+            field.set(t, numFormat.floatValue());
+        } else if (field.getType().equals(Boolean.class)) {
+            field.set(t, Boolean.valueOf(cell.getBooleanCellValue()));
+        } else if (field.getType().equals(Byte.class)) {
+            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+            field.set(t, numFormat.byteValue());
+        } else {
+            field.set(t, cell.getDateCellValue());
+        }
+    }
+
+
+    /**
      * @param data:数据列表
      * @param response
      * @param clazz:导出的类型
@@ -37,15 +122,7 @@ public class ExcelUtil {
     public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends T> clazz, String fileName) {
         SimpleDateFormat dateFormat;
         HSSFWorkbook workbook = new HSSFWorkbook();
-        List<Field> fields = new ArrayList<>();
-
-        //获取导出的列
-        Field[] fieldList = clazz.getDeclaredFields();
-        for (Field field : fieldList) {
-            if (field.isAnnotationPresent(Excel.class)) {
-                fields.add(field);
-            }
-        }
+        List<Field> fields = getFields(clazz);
 
         if (!ObjectUtils.isEmpty(data) && !CollectionUtils.isEmpty(data)) {
             logger.info("开始导出excel表格,数据量：{}", data.size());
@@ -80,7 +157,7 @@ public class ExcelUtil {
                                     cell.setCellValue(dateFormat.format(interField.get(vo)));
                                 } else if (classType == String.class) {
                                     cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-                                    cell.setCellValue(String.valueOf(interField.get(vo)));
+                                    cell.setCellValue(interField.get(vo) == null ? "" : String.valueOf(interField.get(vo)));
                                 } else {
                                     //数字过长就保存成字符串
                                     if (String.valueOf(interField.get(vo)).length() > 10) {
@@ -117,6 +194,24 @@ public class ExcelUtil {
         }
         write(workbook, response, fileName);
     }
+
+
+    /**
+     * 获取需要导入的字段
+     *
+     * @param clazz
+     */
+    private static <T> List<Field> getFields(Class<? extends T> clazz) {
+        List<Field> fields = new ArrayList<>();
+        Field[] fieldList = clazz.getDeclaredFields();
+        for (Field field : fieldList) {
+            if (field.isAnnotationPresent(Excel.class)) {
+                fields.add(field);
+            }
+        }
+        return fields;
+    }
+
 
     /**
      * 构建表头

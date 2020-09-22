@@ -1,5 +1,6 @@
 package com.zongze.util;
 
+import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import com.zongze.annotation.Excel;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -8,10 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +34,64 @@ public class ExcelUtil {
 
 
     /**
+     * excel导入数据
+     *
+     * @param in      输入流
+     * @param skipNum 跳过行数
+     * @param clazz   需要封装的实体
+     */
+    public static <T> List<T> importExcel(InputStream in, int skipNum, Class<T> clazz) {
+        List<Field> fields = getFields(clazz);
+        List<T> data = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            HSSFWorkbook workbook = new HSSFWorkbook(in);
+            HSSFSheet sheet;
+            int totalSheet = workbook.getNumberOfSheets();
+            if (totalSheet > 0) {
+                for (int i = 0; i < totalSheet; i++) {
+                    sheet = workbook.getSheetAt(i);
+                    if(null != sheet){
+                        int totalRow = sheet.getLastRowNum();
+                        T t = clazz.newInstance();
+                        for (int n = 0; n < totalRow; n++) {
+                            HSSFRow hssfrow = sheet.getRow(n + skipNum);
+                            HSSFCell cell;
+                            for (int m = 0; m < fields.size(); m++) {
+                                cell= hssfrow.getCell(m);
+                                Field field = fields.get(m);
+                                field.setAccessible(true);
+                                if (field.getType().equals(String.class)) {
+                                    field.set(t, cell.getStringCellValue());
+                                } else if (field.getType().equals(Integer.class)) {
+                                    field.set(t, Integer.valueOf(cell.getStringCellValue()));
+                                } else if (field.getType().equals(Long.class)) {
+                                    field.set(t, Long.valueOf(cell.getStringCellValue()));
+                                } else if (field.getType().equals(Double.class)) {
+                                    field.set(t, Double.valueOf(cell.getStringCellValue()));
+                                } else if (field.getType().equals(Float.class)) {
+                                    field.set(t, Float.valueOf(cell.getStringCellValue()));
+                                } else if (field.getType().equals(Boolean.class)) {
+                                    field.set(t, Boolean.valueOf(cell.getStringCellValue()));
+                                } else if (field.getType().equals(Byte.class)) {
+                                    field.set(t, Byte.valueOf(cell.getStringCellValue()));
+                                } else {
+                                    field.set(t, dateFormat.parse(cell.getStringCellValue()));
+                                }
+                                data.add(t);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+
+    /**
      * @param data:数据列表
      * @param response
      * @param clazz:导出的类型
@@ -37,15 +100,7 @@ public class ExcelUtil {
     public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends T> clazz, String fileName) {
         SimpleDateFormat dateFormat;
         HSSFWorkbook workbook = new HSSFWorkbook();
-        List<Field> fields = new ArrayList<>();
-
-        //获取导出的列
-        Field[] fieldList = clazz.getDeclaredFields();
-        for (Field field : fieldList) {
-            if (field.isAnnotationPresent(Excel.class)) {
-                fields.add(field);
-            }
-        }
+        List<Field> fields = getFields(clazz);
 
         if (!ObjectUtils.isEmpty(data) && !CollectionUtils.isEmpty(data)) {
             logger.info("开始导出excel表格,数据量：{}", data.size());
@@ -118,6 +173,24 @@ public class ExcelUtil {
         write(workbook, response, fileName);
     }
 
+
+    /**
+     * 获取需要导入的字段
+     *
+     * @param clazz
+     */
+    private static <T> List<Field> getFields(Class<? extends T> clazz) {
+        List<Field> fields = new ArrayList<>();
+        Field[] fieldList = clazz.getDeclaredFields();
+        for (Field field : fieldList) {
+            if (field.isAnnotationPresent(Excel.class)) {
+                fields.add(field);
+            }
+        }
+        return fields;
+    }
+
+
     /**
      * 构建表头
      *
@@ -172,6 +245,5 @@ public class ExcelUtil {
             logger.error("excel到处异常", e.getMessage());
         }
     }
-
 
 }

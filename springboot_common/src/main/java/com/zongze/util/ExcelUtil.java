@@ -1,9 +1,9 @@
 package com.zongze.util;
 
-import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import com.zongze.annotation.Excel;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.ParseException;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,9 +27,9 @@ import java.util.List;
 public class ExcelUtil {
 
     private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
-    private static final Integer SHEET_SIZE = 65535;  //excel支持最大行数
-    private static final int WIDTH = 3766;   //列宽
-    private static final String SHEET_NAME = "sheet";   //页名称
+    private static final Integer SHEET_SIZE = 65535;
+    private static final int WIDTH = 3766;
+    private static final String SHEET_NAME = "sheet";
 
 
     /**
@@ -40,10 +39,11 @@ public class ExcelUtil {
      * @param skipNum 跳过行数
      * @param clazz   需要封装的实体
      */
-    public static <T> List<T> importExcel(InputStream in, int skipNum, Class<T> clazz) {
+    @SuppressWarnings("all")
+    public static <T> List<T> importExcel(InputStream in, int skipNum, Class<T> clazz, DateTemplate dateTemplate) {
         List<Field> fields = getFields(clazz);
         List<T> data = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(dateTemplate.getTemplate());
         try {
             HSSFWorkbook workbook = new HSSFWorkbook(in);
             HSSFSheet sheet;
@@ -51,32 +51,20 @@ public class ExcelUtil {
             if (totalSheet > 0) {
                 for (int i = 0; i < totalSheet; i++) {
                     sheet = workbook.getSheetAt(i);
-                    if(null != sheet){
+                    if (null != sheet) {
                         int totalRow = sheet.getLastRowNum();
-                        T t = clazz.newInstance();
-                        for (int n = 0; n < totalRow; n++) {
+                        for (int n = 0; n <= totalRow; n++) {
                             HSSFRow hssfrow = sheet.getRow(n + skipNum);
                             HSSFCell cell;
-                            for (int m = 0; m < fields.size(); m++) {
-                                cell= hssfrow.getCell(m);
-                                Field field = fields.get(m);
-                                field.setAccessible(true);
-                                if (field.getType().equals(String.class)) {
-                                    field.set(t, cell.getStringCellValue());
-                                } else if (field.getType().equals(Integer.class)) {
-                                    field.set(t, Integer.valueOf(cell.getStringCellValue()));
-                                } else if (field.getType().equals(Long.class)) {
-                                    field.set(t, Long.valueOf(cell.getStringCellValue()));
-                                } else if (field.getType().equals(Double.class)) {
-                                    field.set(t, Double.valueOf(cell.getStringCellValue()));
-                                } else if (field.getType().equals(Float.class)) {
-                                    field.set(t, Float.valueOf(cell.getStringCellValue()));
-                                } else if (field.getType().equals(Boolean.class)) {
-                                    field.set(t, Boolean.valueOf(cell.getStringCellValue()));
-                                } else if (field.getType().equals(Byte.class)) {
-                                    field.set(t, Byte.valueOf(cell.getStringCellValue()));
-                                } else {
-                                    field.set(t, dateFormat.parse(cell.getStringCellValue()));
+                            if (null != hssfrow) {
+                                T t = clazz.newInstance();
+                                for (int m = 0; m < fields.size(); m++) {
+                                    cell = hssfrow.getCell(m);
+                                    if (null != cell) {
+                                        Field field = fields.get(m);
+                                        field.setAccessible(true);
+                                        getCellValue(dateFormat, t, cell, field);
+                                    }
                                 }
                                 data.add(t);
                             }
@@ -85,9 +73,46 @@ public class ExcelUtil {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("数据导入失败", e);
         }
         return data;
+    }
+
+
+    /**
+     * @param t
+     * @param cell
+     * @param field
+     * @return void
+     */
+    private static <T> void getCellValue(SimpleDateFormat dateFormat, T t, HSSFCell cell, Field field) throws IllegalAccessException {
+        if ((Cell.CELL_TYPE_STRING == cell.getCellType())) {
+            field.set(t, cell.getStringCellValue());
+        } else if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
+            if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                field.set(t, dateFormat.format(cell.getDateCellValue()));
+            } else {
+                BigDecimal numFormat;
+                if (field.getType().equals(Integer.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    field.set(t, numFormat.intValue());
+                } else if (field.getType().equals(Long.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    field.set(t, numFormat.longValue());
+                } else if (field.getType().equals(Double.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    numFormat = numFormat.setScale(2, RoundingMode.HALF_DOWN);
+                    field.set(t, numFormat.doubleValue());
+                } else if (field.getType().equals(Float.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    numFormat = numFormat.setScale(2, RoundingMode.HALF_DOWN);
+                    field.set(t, numFormat.floatValue());
+                } else if (field.getType().equals(Byte.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    field.set(t, numFormat.byteValue());
+                }
+            }
+        }
     }
 
 
@@ -97,7 +122,8 @@ public class ExcelUtil {
      * @param clazz:导出的类型
      * @param fileName:excel文件名称
      */
-    public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends T> clazz, String fileName) {
+    public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends
+            T> clazz, String fileName) {
         SimpleDateFormat dateFormat;
         HSSFWorkbook workbook = new HSSFWorkbook();
         List<Field> fields = getFields(clazz);
@@ -245,5 +271,26 @@ public class ExcelUtil {
             logger.error("excel到处异常", e.getMessage());
         }
     }
+
+
+    static enum DateTemplate {
+        DATE("yyyy-MM-dd"),
+        DATE_TIME("yyyy-MM-dd HH:mm:ss");
+
+        DateTemplate(String template) {
+            this.template = template;
+        }
+
+        public String getTemplate() {
+            return template;
+        }
+
+        public void setTemplate(String template) {
+            this.template = template;
+        }
+
+        private String template;
+    }
+
 
 }

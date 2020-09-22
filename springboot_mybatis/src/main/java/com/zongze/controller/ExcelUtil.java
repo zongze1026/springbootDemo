@@ -2,6 +2,7 @@ package com.zongze.controller;
 
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,9 +26,9 @@ import java.util.List;
 public class ExcelUtil {
 
     private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
-    private static final Integer SHEET_SIZE = 65535;  //excel支持最大行数
-    private static final int WIDTH = 3766;   //列宽
-    private static final String SHEET_NAME = "sheet";   //页名称
+    private static final Integer SHEET_SIZE = 65535;
+    private static final int WIDTH = 3766;
+    private static final String SHEET_NAME = "sheet";
 
 
     /**
@@ -39,10 +39,10 @@ public class ExcelUtil {
      * @param clazz   需要封装的实体
      */
     @SuppressWarnings("all")
-    public static <T> List<T> importExcel(InputStream in, int skipNum, Class<T> clazz) {
+    public static <T> List<T> importExcel(InputStream in, int skipNum, Class<T> clazz, DateTemplate dateTemplate) {
         List<Field> fields = getFields(clazz);
         List<T> data = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(dateTemplate.getTemplate());
         try {
             HSSFWorkbook workbook = new HSSFWorkbook(in);
             HSSFSheet sheet;
@@ -62,7 +62,7 @@ public class ExcelUtil {
                                     if (null != cell) {
                                         Field field = fields.get(m);
                                         field.setAccessible(true);
-                                        getCellValue(t, cell, field);
+                                        getCellValue(dateFormat, t, cell, field);
                                     }
                                 }
                                 data.add(t);
@@ -84,31 +84,33 @@ public class ExcelUtil {
      * @param field
      * @return void
      */
-    private static <T> void getCellValue(T t, HSSFCell cell, Field field) throws IllegalAccessException, ParseException {
-        BigDecimal numFormat;
-        if (field.getType().equals(String.class)) {
+    private static <T> void getCellValue(SimpleDateFormat dateFormat, T t, HSSFCell cell, Field field) throws IllegalAccessException {
+        if ((Cell.CELL_TYPE_STRING == cell.getCellType())) {
             field.set(t, cell.getStringCellValue());
-        } else if (field.getType().equals(Integer.class)) {
-            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
-            field.set(t, numFormat.intValue());
-        } else if (field.getType().equals(Long.class)) {
-            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
-            field.set(t, numFormat.longValue());
-        } else if (field.getType().equals(Double.class)) {
-            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
-            numFormat.setScale(2, RoundingMode.HALF_DOWN);
-            field.set(t, numFormat.doubleValue());
-        } else if (field.getType().equals(Float.class)) {
-            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
-            numFormat.setScale(2, RoundingMode.HALF_DOWN);
-            field.set(t, numFormat.floatValue());
-        } else if (field.getType().equals(Boolean.class)) {
-            field.set(t, Boolean.valueOf(cell.getBooleanCellValue()));
-        } else if (field.getType().equals(Byte.class)) {
-            numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
-            field.set(t, numFormat.byteValue());
-        } else {
-            field.set(t, cell.getDateCellValue());
+        } else if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
+            if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                field.set(t, dateFormat.format(cell.getDateCellValue()));
+            } else {
+                BigDecimal numFormat;
+                if (field.getType().equals(Integer.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    field.set(t, numFormat.intValue());
+                } else if (field.getType().equals(Long.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    field.set(t, numFormat.longValue());
+                } else if (field.getType().equals(Double.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    numFormat = numFormat.setScale(2, RoundingMode.HALF_DOWN);
+                    field.set(t, numFormat.doubleValue());
+                } else if (field.getType().equals(Float.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    numFormat = numFormat.setScale(2, RoundingMode.HALF_DOWN);
+                    field.set(t, numFormat.floatValue());
+                } else if (field.getType().equals(Byte.class)) {
+                    numFormat = new BigDecimal(String.valueOf(cell.getNumericCellValue()));
+                    field.set(t, numFormat.byteValue());
+                }
+            }
         }
     }
 
@@ -119,7 +121,8 @@ public class ExcelUtil {
      * @param clazz:导出的类型
      * @param fileName:excel文件名称
      */
-    public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends T> clazz, String fileName) {
+    public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends
+            T> clazz, String fileName) {
         SimpleDateFormat dateFormat;
         HSSFWorkbook workbook = new HSSFWorkbook();
         List<Field> fields = getFields(clazz);
@@ -266,6 +269,26 @@ public class ExcelUtil {
             e.printStackTrace();
             logger.error("excel到处异常", e.getMessage());
         }
+    }
+
+
+    static enum DateTemplate {
+        DATE("yyyy-MM-dd"),
+        DATE_TIME("yyyy-MM-dd HH:mm:ss");
+
+        DateTemplate(String template) {
+            this.template = template;
+        }
+
+        public String getTemplate() {
+            return template;
+        }
+
+        public void setTemplate(String template) {
+            this.template = template;
+        }
+
+        private String template;
     }
 
 

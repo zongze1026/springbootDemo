@@ -19,9 +19,9 @@ public class TestExportExcelController {
     @GetMapping("test")
     public void testExport(HttpServletResponse response){
         ArrayList<User> users = new ArrayList<>();
-//        for (int i=0;i<100;i++){
-//            users.add(new User("toms",12 ,2500.12 ,251l ));
-//        }
+        for (int i=0;i<100;i++){
+            users.add(new User("toms",12 ,2500.12 ,251l ));
+        }
 
         ExcelUtil.exportExcel(users,response ,User.class , "人员登记表");
     }

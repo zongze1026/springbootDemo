@@ -1,15 +1,16 @@
 package com.zongze.util;
 
+import com.zongze.annotation.Excel;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +29,7 @@ public class ExcelUtil {
 
     private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
     private static final Integer SHEET_SIZE = 65535;
-    private static final int WIDTH = 3766;
+    private static final int WIDTH = 3000;
     private static final String SHEET_NAME = "sheet";
 
 
@@ -250,6 +251,14 @@ public class ExcelUtil {
             HSSFCellStyle cellStyle = workbook.createCellStyle();
             cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+            cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
+            cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderTop(CellStyle.BORDER_THIN);
+            cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
+            cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderRight(CellStyle.BORDER_THIN);
+            cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
 
             HSSFFont font = workbook.createFont();
             // 粗体显示

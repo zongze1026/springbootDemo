@@ -65,7 +65,7 @@ public class ExcelUtil {
                                         effective = true;
                                         Field field = fields.get(m);
                                         field.setAccessible(true);
-                                        getCellValue(dateFormat, t, cell, field);
+                                        setCellValue(dateFormat, t, cell, field);
                                     }
                                 }
                                 if(effective){
@@ -90,21 +90,21 @@ public class ExcelUtil {
      * @return void
      */
     @SuppressWarnings("all")
-    private static <T> void getCellValue(SimpleDateFormat dateFormat, T t, HSSFCell cell, Field field) throws IllegalAccessException {
+    private static <T> void setCellValue(SimpleDateFormat dateFormat, T t, HSSFCell cell, Field field) throws IllegalAccessException {
         if ((Cell.CELL_TYPE_STRING == cell.getCellType())) {
-            setFieldValue(t, cell.getStringCellValue(), field);
+            doSetFieldValue(t, cell.getStringCellValue(), field);
         } else if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
             if (HSSFDateUtil.isCellDateFormatted(cell)) {
                 field.set(t, dateFormat.format(cell.getDateCellValue()));
             } else {
-                setFieldValue(t, String.valueOf(cell.getNumericCellValue()), field);
+                doSetFieldValue(t, String.valueOf(cell.getNumericCellValue()), field);
             }
         }
     }
 
 
     @SuppressWarnings("all")
-    private static <T> void setFieldValue(T t, String cellValue, Field field) throws IllegalAccessException {
+    private static <T> void doSetFieldValue(T t, String cellValue, Field field) throws IllegalAccessException {
         BigDecimal numFormat;
         if (field.getType().equals(String.class)) {
             field.set(t, StringUtils.isEmpty(cellValue) ? null : cellValue);

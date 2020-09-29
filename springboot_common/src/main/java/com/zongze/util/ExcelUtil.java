@@ -100,6 +100,8 @@ public class ExcelUtil {
             } else {
                 doSetFieldValue(t, String.valueOf(cell.getNumericCellValue()), field);
             }
+        }else if(Cell.CELL_TYPE_FORMULA == cell.getCellType()){
+            doSetFieldValue(t, String.valueOf(cell.getNumericCellValue()), field);
         }
     }
 

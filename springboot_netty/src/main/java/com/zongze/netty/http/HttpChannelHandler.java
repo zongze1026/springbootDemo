@@ -9,6 +9,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
+import java.nio.charset.Charset;
 import java.util.Set;
 
 /**
@@ -32,9 +33,11 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<HttpObject> 
         String message = JSON.toJSONString(new Order(12, "羽绒服", 288.00));
         ByteBuf byteBuf = Unpooled.copiedBuffer(message, CharsetUtil.UTF_8);
         //判断请求是否是http请求
-        if (msg instanceof HttpRequest) {
+        if (msg instanceof FullHttpRequest) {
             //获取http请求的uri，可以根据不同的uri执行不同的业务
-            DefaultHttpRequest httpRequest = (DefaultHttpRequest) msg;
+            FullHttpRequest httpRequest = (FullHttpRequest) msg;
+            String content = httpRequest.content().toString(Charset.forName("utf-8"));
+            System.out.println(content);
             //获取服务器图标请求就拦截
             String uri = httpRequest.uri();
             System.out.println(uri);

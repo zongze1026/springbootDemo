@@ -20,14 +20,14 @@ import java.util.Set;
  * 2.SimpleChannelInboundHandler是怎么实现自动释放资源的呢？可以发现该类也是继承了ChannelInboundHandlerAdapter
  *  它是通过重写了channelRead方法中释放资源的;并且调用了扩展方法channelRead0(该方法就是业务逻辑需要实现的方法)
  */
-public class HttpChannelHandler extends SimpleChannelInboundHandler<HttpObject> {
+public class HttpChannelHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
 
     /**
      * @param msg 该参数是对客户端和服务器端通讯的数据封装，封装成一个HttpObject类型的对象
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
 
         //响应给客户端的消息
         String message = JSON.toJSONString(new Order(12, "羽绒服", 288.00));

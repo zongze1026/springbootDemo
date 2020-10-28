@@ -66,7 +66,7 @@ public class NettyServer{
         // 设置NIO类型的channel
         bootstrap.channel(NioServerSocketChannel.class);
         // 设置监听端口
-        bootstrap.localAddress(new InetSocketAddress(port));
+//        bootstrap.localAddress(new InetSocketAddress(port));
         // 连接到达时会创建一个通道
         bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
 
@@ -97,7 +97,7 @@ public class NettyServer{
             }
         });
         // 配置完成，开始绑定server，通过调用sync同步方法阻塞直到绑定成功
-        ChannelFuture channelFuture = bootstrap.bind().sync();
+        ChannelFuture channelFuture = bootstrap.bind(port).sync();
         log.info("Server started and listen on:{}",channelFuture.channel().localAddress());
         // 对关闭通道进行监听
         channelFuture.channel().closeFuture().sync();

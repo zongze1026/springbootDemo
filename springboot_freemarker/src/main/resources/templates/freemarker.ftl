@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>${msg}</h1>
+<h1>${msg}</h1>
 <h2><img src="${image}" width="300px" height="300px"/> <img src="${image}" width="300px" height="300px"/></h2>
 <h2><img src="${image}" width="300px" height="300px"/> <img src="${image}" width="300px" height="300px"/></h2>
 <h2><img src="${image}" width="300px" height="300px"/> <img src="${image}" width="300px" height="300px"/></h2>

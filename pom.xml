@@ -54,9 +54,15 @@
         <rocketmq.version>2.0.3</rocketmq.version>
         <jol-core.version>0.8</jol-core.version>
         <hutool.version>5.2.0</hutool.version>
+        <guava.version>20.0</guava.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.openjdk.jol</groupId>
                 <artifactId>jol-core</artifactId>

@@ -13,7 +13,7 @@ public class HttpChannelInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) throws Exception {
         //添加netty自带的http编解码器
         ch.pipeline().addLast(new HttpServerCodec());
-        ch.pipeline().addLast(new HttpObjectAggregator(1024*64));
+        ch.pipeline().addLast(new HttpObjectAggregator(Integer.MAX_VALUE));
         ch.pipeline().addLast(new HttpChannelHandler());
     }
 }

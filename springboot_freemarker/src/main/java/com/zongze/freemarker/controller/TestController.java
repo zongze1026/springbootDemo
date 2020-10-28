@@ -1,12 +1,10 @@
 package com.zongze.freemarker.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,14 +16,21 @@ import java.util.Map;
  * @email 397600342@qq.com
  * @date 2018/3/14
  */
-@RestController
+@Controller
 public class TestController {
 
 
     @GetMapping("test")
     public String testFreemarker(ModelMap modelMap){
-        modelMap.addAttribute("msg", "Hello dalaoyang , this is freemarker");
-        return "freemarker";
+        User user = new User();
+        user.setName("张三");
+        user.setAge(20);
+        user.setBirthday(new Date());
+        user.add("李四");
+        user.add("王五");
+        user.add("赵柳");
+        modelMap.addAttribute("user", user);
+        return "test";
     }
 
 

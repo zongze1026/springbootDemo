@@ -29,8 +29,9 @@ public class PushController {
      * @param msg
      */
     @PostMapping("/pushOne")
-    public void pushMsgToOne(@RequestParam("userId") String userId,@RequestParam("msg") String msg){
+    public String pushMsgToOne(@RequestParam("userId") String userId,@RequestParam("msg") String msg){
         pushService.pushMsgToOne(userId,msg);
+        return "success";
     }
 
 }

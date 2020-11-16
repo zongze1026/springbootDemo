@@ -60,4 +60,19 @@ public class UserVO {
                 ", id=" + id +
                 '}';
     }
+
+
+    public static void main(String[] args) {
+        double random = Math.random();
+        System.out.println(random);
+        String s = genSixRandom(random);
+        System.out.println(s);
+    }
+
+    public static String genSixRandom(Double random){
+        int s=(int)((random*9+1)*100000);
+        return String.valueOf(s);
+    }
+
+
 }

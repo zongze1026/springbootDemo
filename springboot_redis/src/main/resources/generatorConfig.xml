@@ -7,7 +7,7 @@
     <properties resource="generatorConfig.properties"/>
 
     <classPathEntry
-            location="D:\maven\repo4\mysql\mysql-connector-java\8.0.15\mysql-connector-java-8.0.15.jar"/>
+            location="F:\repository\desheng\mysql\mysql-connector-java\8.0.15\mysql-connector-java-8.0.15.jar"/>
     <context id="my" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressDate" value="false"/>
@@ -20,18 +20,18 @@
                         password="${jdbc.password}"/>
 
         <javaModelGenerator targetPackage="com.dayu.model.domain"
-                            targetProject="D:\work\springbootDemo\springboot_redis\src\main\java">
+                            targetProject="F:\project\springbootDemo\springboot_redis\src\main\java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="mapper"
-                         targetProject="D:\work\springbootDemo\springboot_redis\src\main\java">
+                         targetProject="F:\project\springbootDemo\springboot_redis\src\main\java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <javaClientGenerator targetPackage="com.dayu.mapper"
-                             targetProject="D:\work\springbootDemo\springboot_redis\src\main\java" type="XMLMAPPER">
+                             targetProject="F:\project\springbootDemo\springboot_redis\src\main\java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 

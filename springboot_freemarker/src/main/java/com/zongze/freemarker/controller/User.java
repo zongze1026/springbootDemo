@@ -1,5 +1,7 @@
 package com.zongze.freemarker.controller;
 
+import com.zongze.freemarker.annotation.PhoneCheck;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
  */
 public class User {
 
+    @PhoneCheck(message = "姓名不能为空")
     private String name;
 
     private int age;

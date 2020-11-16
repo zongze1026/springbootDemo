@@ -39,11 +39,11 @@ public class TestController {
     public String testFreemarker2(HttpServletResponse response) throws IOException {
         Map<String,String>model = new HashMap<>();
         model.put("msg", "这时一个导出pdf测试");
-        model.put("image", "http://statics.haibaobaoxian.com/cw/image/1598952893513.jpg");
+        model.put("image", "https://statics.haibaobaoxian.com/cw/image/1598952893513.jpg");
         String html = FreemarkerUtil.createHTML("freemarker.ftl",model);
         System.out.println(html);
-//        response.setHeader("Content-disposition", "attachment; filename=" + new String("pdf导出测试".getBytes("utf-8"), "iso8859-1") + ".pdf");
-//        response.setContentType("application/pdf");
+        response.setHeader("Content-disposition", "attachment; filename=" + new String("pdf导出测试".getBytes("utf-8"), "iso8859-1") + ".pdf");
+        response.setContentType("application/pdf");
         PDFUtils.writeStringToOutputStreamAsPDF(html, response.getOutputStream());
         return "success";
     }

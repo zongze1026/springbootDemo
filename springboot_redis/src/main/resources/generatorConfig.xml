@@ -19,7 +19,7 @@
                         userId="${jdbc.username}"
                         password="${jdbc.password}"/>
 
-        <javaModelGenerator targetPackage="com.dayu.model.domain"
+        <javaModelGenerator targetPackage="com.ds.appapi.domain.model"
                             targetProject="F:\project\springbootDemo\springboot_redis\src\main\java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
@@ -30,7 +30,7 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator targetPackage="com.dayu.mapper"
+        <javaClientGenerator targetPackage="com.ds.appapi.mapper"
                              targetProject="F:\project\springbootDemo\springboot_redis\src\main\java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>

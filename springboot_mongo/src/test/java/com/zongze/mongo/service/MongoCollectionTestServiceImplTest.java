@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.sql.SQLOutput;
 import java.util.List;
 
-import static org.junit.Assert.*;
 
 /**
  * @Date 2020/8/16 10:46

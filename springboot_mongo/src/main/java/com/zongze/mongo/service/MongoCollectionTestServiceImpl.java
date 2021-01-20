@@ -6,11 +6,15 @@ import com.zongze.mongo.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import sun.management.Agent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +62,9 @@ public class MongoCollectionTestServiceImpl implements MongoCollectionTestServic
     @Override
     public List<User> findAll(String name, String collectionName) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").is(name));
+        query.addCriteria(Criteria.where("name").is(name)); //条件
+        query.with(Sort.by("age").descending()); //单字段排序
+//        query.with(Sort.by(Sort.Order.asc("age"),Sort.Order.asc("name")));//多字段排序
         return mongoTemplate.find(query, User.class, TABLE_NAME);
     }
 

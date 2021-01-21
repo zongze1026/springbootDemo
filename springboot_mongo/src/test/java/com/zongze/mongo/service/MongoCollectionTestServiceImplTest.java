@@ -109,4 +109,25 @@ public class MongoCollectionTestServiceImplTest {
     }
 
 
+
+    /**
+     * 测试分页性能；每隔1000页拉一次数据
+     * @param
+     * @return void
+     */
+    @Test
+    public void queryByPage02() {
+        for (int i = 1; i <= 25; i++) {
+            long start = System.currentTimeMillis();
+            PageResult<User> pageResult = new PageResult<>();
+            int n = i * 1000;
+            pageResult.setPageNo(n);
+            pageResult.setPageSize(20);
+            mongoCollectionTestService.queryByPage(pageResult, new User());
+            long l = System.currentTimeMillis() - start;
+            System.out.println("查询页码：" + n + "查询耗时:" + l);
+        }
+    }
+
+
 }

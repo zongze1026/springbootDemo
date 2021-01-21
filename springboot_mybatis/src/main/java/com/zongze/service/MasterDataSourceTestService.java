@@ -2,7 +2,6 @@ package com.zongze.service;
 
 import com.zongze.annotation.DynamicDatasource;
 import com.zongze.domain.User;
-import com.zongze.mapper.MallProtocolUploadFileMapper;
 import com.zongze.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

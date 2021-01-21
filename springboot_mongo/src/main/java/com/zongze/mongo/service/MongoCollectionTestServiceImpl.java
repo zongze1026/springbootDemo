@@ -2,21 +2,21 @@ package com.zongze.mongo.service;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import com.zongze.mongo.domain.PageResult;
 import com.zongze.mongo.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import sun.management.Agent;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @Date 2020/8/16 10:24
@@ -33,13 +33,16 @@ public class MongoCollectionTestServiceImpl implements MongoCollectionTestServic
 
     private static final Logger logger = LoggerFactory.getLogger(MongoCollectionTestServiceImpl.class);
 
-    private static List<User> users =  new ArrayList<User>(){{
-        add(new User("张无忌", 18));
-        add(new User("张无忌", 20));
-        add(new User("张无忌", 25));
-        add(new User("张三", 25));
-        add(new User("李四", 25));
-    }};
+    private static List<User> users =  new ArrayList<User>();
+
+    static{
+        String[] name = {"张三", "李四", "王五"};
+        Random random = new Random();
+        for (int i=0;i<20;i++){
+            int n = i%3;
+            users.add(new User(i,name[n],Math.abs( random.nextInt(99))));
+        }
+    }
 
     @Override
     public User save(User o) {
@@ -99,4 +102,53 @@ public class MongoCollectionTestServiceImpl implements MongoCollectionTestServic
         query.addCriteria(Criteria.where("name").is(name));
         return mongoTemplate.count(query, TABLE_NAME);
     }
+
+    @Override
+    public List<User> queryConditionUser(String userName, Integer minAge, Integer maxAge) {
+        Query query = new Query();
+        //指定姓名条件
+        query.addCriteria(Criteria.where("name").is(userName));
+        //mongodb搜索条件：大于（gt）、大于等于（gte）、小于（lt）、小于等于（lte）
+        query.addCriteria(new Criteria().andOperator(Criteria.where("age").gte(minAge),Criteria.where("age").lte(maxAge)));
+        //根据年龄排序
+        query.with(Sort.by(Sort.Order.desc("age")));
+        return mongoTemplate.find(query, User.class, TABLE_NAME);
+    }
+
+
+    @Override
+    public List<User> queryUserByLike(String userName) {
+        //查找名字中包含“三”的用户
+        Query query = Query.query(Criteria.where("name").regex(userName));
+        return mongoTemplate.find(query, User.class, TABLE_NAME);
+    }
+
+
+    @Override
+    public PageResult queryByPage(PageResult pageResult, User user) {
+        Query query = new Query();
+        //获取从条数
+        long count = mongoTemplate.count(query, TABLE_NAME);
+        pageResult.setTotalNum(count);
+        query.with(PageRequest.of(pageResult.getPageNo()-1, pageResult.getPageSize()));
+        List<User> users = mongoTemplate.find(query, User.class, TABLE_NAME);
+        pageResult.setData(users);
+        pageResult.setTotalPage((int)Math.ceil(count/pageResult.getPageSize()));
+        return pageResult;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -36,7 +36,7 @@ public class Builder {
         if(this.birthday == null){
             return null;
         }
-        return DateUtil.format(this.birthday,DateUtil.DATE_TIME);
+        return DateUtil.formatDate(birthday);
     }
 
     public void setBirthday(Date birthday) {

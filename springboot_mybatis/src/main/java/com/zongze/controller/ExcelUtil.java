@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Create By xzz on 2020-08-18
@@ -68,7 +69,7 @@ public class ExcelUtil {
                                         setCellValue(dateFormat, t, cell, field);
                                     }
                                 }
-                                if(effective){
+                                if (effective) {
                                     data.add(t);
                                 }
                             }
@@ -99,6 +100,8 @@ public class ExcelUtil {
             } else {
                 doSetFieldValue(t, String.valueOf(cell.getNumericCellValue()), field);
             }
+        } else if (Cell.CELL_TYPE_FORMULA == cell.getCellType()) {
+            doSetFieldValue(t, String.valueOf(cell.getNumericCellValue()), field);
         }
     }
 
@@ -131,12 +134,10 @@ public class ExcelUtil {
 
     /**
      * @param data:数据列表
-     * @param response
      * @param clazz:导出的类型
-     * @param fileName:excel文件名称
      */
-    public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends
-            T> clazz, String fileName) {
+    @SuppressWarnings("all")
+    private static <T> HSSFWorkbook doExportExcel(List<T> data, Class<? extends T> clazz) {
         SimpleDateFormat dateFormat;
         HSSFWorkbook workbook = new HSSFWorkbook();
         List<Field> fields = getFields(clazz);
@@ -209,7 +210,128 @@ public class ExcelUtil {
             HSSFRow row = sheet.createRow(0);
             buildHeader(workbook, fields, row, sheet);
         }
-        write(workbook, response, fileName);
+       return workbook;
+    }
+
+
+
+    public static <T> void exportExcel(List<T> data, Class<? extends T> clazz, String filePath) throws IOException {
+        HSSFWorkbook hssfWorkbook = doExportExcel(data, clazz);
+        FileOutputStream out = new FileOutputStream(filePath);
+        write(hssfWorkbook,out);
+    }
+
+
+    public static <T> void exportExcel(List<T> data, HttpServletResponse response, Class<? extends
+            T> clazz, String fileName) throws IOException {
+        HSSFWorkbook hssfWorkbook = doExportExcel(data, clazz);
+        response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "iso8859-1") + ".xls");
+        response.setContentType("application/vnd.ms-excel");
+        write(hssfWorkbook, response.getOutputStream());
+    }
+
+
+
+
+    public static <T> void exportExcel(Map<String, List<T>> map, HttpServletResponse response, Class<? extends
+            T> clazz, String fileName) throws IOException {
+        HSSFWorkbook hssfWorkbook = doExportExcel(map, clazz);
+        response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "iso8859-1") + ".xls");
+        response.setContentType("application/vnd.ms-excel");
+        write(hssfWorkbook, response.getOutputStream());
+    }
+
+
+
+    public static <T> void exportExcel(Map<String, List<T>> map,Class<? extends T> clazz, String filePath) throws FileNotFoundException {
+        HSSFWorkbook hssfWorkbook = doExportExcel(map, clazz);
+        FileOutputStream out = new FileOutputStream(filePath);
+        write(hssfWorkbook,out);
+    }
+
+
+
+
+
+
+    /**
+     * @param data:数据列表
+     * @param response
+     * @param clazz:导出的类型
+     * @param fileName:excel文件名称
+     */
+    @SuppressWarnings("all")
+    private static <T> HSSFWorkbook doExportExcel(Map<String, List<T>> baseData, Class<? extends T> clazz) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        List<Field> fields = getFields(clazz);
+        int sheetNo = 0;
+        for (Map.Entry<String, List<T>> entry : baseData.entrySet()) {
+            String key = entry.getKey();
+            List<T> data = entry.getValue();
+            if (!ObjectUtils.isEmpty(data) && !CollectionUtils.isEmpty(data)) {
+                logger.info("开始导出excel表格,数据量：{}", data.size());
+                HSSFRow row;
+                HSSFCell cell;
+                HSSFSheet sheet = workbook.createSheet();
+                workbook.setSheetName(sheetNo++, key);
+                row = sheet.createRow(0);
+                buildHeader(workbook, fields, row, sheet);
+                //开始写入数据
+                HSSFCellStyle cs = workbook.createCellStyle();
+                cs.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                cs.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+                for (int i = 1; i < data.size(); i++) {
+                    row = sheet.createRow(i);
+                    T vo = data.get(i);
+                    for (int j = 0; j < fields.size(); j++) {
+                        Field interField = fields.get(j);
+                        interField.setAccessible(true);
+                        try {
+                            cell = row.createCell(j);
+                            cell.setCellStyle(cs);
+                            Class<?> classType = interField.getType();
+                            try {
+                                if (classType == Date.class) {
+                                    cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+                                    cell.setCellValue(dateFormat.format(interField.get(vo)));
+                                } else if (classType == String.class) {
+                                    cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+                                    cell.setCellValue(interField.get(vo) == null ? "" : String.valueOf(interField.get(vo)));
+                                } else {
+                                    //数字过长就保存成字符串
+                                    if (String.valueOf(interField.get(vo)).length() > 10) {
+                                        throw new RuntimeException("数字长度过长！");
+                                    }
+                                    BigDecimal decimal = new BigDecimal(String.valueOf(interField.get(vo)));
+                                    cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+                                    cell.setCellValue(decimal.doubleValue());
+                                }
+                            } catch (Exception e) {
+                                if (vo == null) {
+                                    // 如果数据存在就填入,不存在填入空格.
+                                    cell.setCellValue("");
+                                } else {
+                                    // 如果数据存在就填入,不存在填入空格.
+                                    cell.setCellValue(interField.get(vo) == null ? "" : String.valueOf(interField.get(vo)));
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            logger.error("excel导出异常", e.getMessage());
+                        }
+                    }
+
+                }
+            } else {
+                logger.info("没有可导出的数据");
+                HSSFSheet sheet = workbook.createSheet();
+                workbook.setSheetName(0, SHEET_NAME + 0);
+                HSSFRow row = sheet.createRow(0);
+                buildHeader(workbook, fields, row, sheet);
+            }
+        }
+        return workbook;
     }
 
 
@@ -279,17 +401,13 @@ public class ExcelUtil {
      * 输出文件流
      *
      * @param workbook
-     * @param response
-     * @param fileName
      */
-    private static void write(HSSFWorkbook workbook, HttpServletResponse response, String fileName) {
+    private static void write(HSSFWorkbook workbook, OutputStream out) {
         try {
-            response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "iso8859-1") + ".xls");
-            response.setContentType("application/vnd.ms-excel");
-            workbook.write(response.getOutputStream());
+            workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("excel到处异常", e.getMessage());
+            logger.error("excel导出异常", e.getMessage());
         }
     }
 

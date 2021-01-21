@@ -1,131 +1,82 @@
 package com.zongze.util;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * Create By xzz on 2018/11/1
- * 线程安全的时间工具类,每个线程单独保存一个dateformat实例
+ * @Date 2020/12/4 15:37
+ * @Created by xiezz
  */
 public class DateUtil {
 
-    public static final String DATE = "yyyy-MM-dd";
-    public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
-
-    private static final ThreadLocal<SimpleDateFormat> threadLocal = new InheritableThreadLocal<>();
-
-    private DateUtil() {
-    }
-
-    static {
-        threadLocal.set(new SimpleDateFormat(DATE_TIME));
-    }
-
-    private static SimpleDateFormat getInstance(String dateType) {
-        SimpleDateFormat simpleDateFormat = threadLocal.get();
-        simpleDateFormat.applyPattern(dateType);
-        return simpleDateFormat;
-    }
+    private static final String FORMAT_DATE = "yyyy-MM-dd";
+    private static final String FORMAT_DATE_TIME = "yyyy-MM-dd HH:mm:ss";
 
 
-    public static Date parse(String date, String dateType) {
-        try {
-            return getInstance(dateType).parse(date);
-        } catch (ParseException e) {
-            System.out.println("-------------时间转换异常------------");
-        }
-        return null;
-    }
-
-
-    public static String format(Date date, String dateType) {
-        return getInstance(dateType).format(date);
+    /**
+     * 日期格式化：2020-12-04
+     *
+     * @param date
+     */
+    public static String formatDate(Date date) {
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return DateTimeFormatter.ofPattern(FORMAT_DATE).format(localDate);
     }
 
 
     /**
-     * 当前时间是否在指定的时间范围内
+     * 时间格式化：2020-12-04 15:30:25
+     *
+     * @param date
      */
-    public static boolean isMiddleTime(Date startTime, Date endTime) {
-        Calendar currentTime = Calendar.getInstance();
-        Calendar start = Calendar.getInstance();
-        start.setTime(startTime);
-        Calendar end = Calendar.getInstance();
-        end.setTime(endTime);
-        return currentTime.after(start) && currentTime.before(end);
+    public static String formatTime(Date date) {
+        LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return DateTimeFormatter.ofPattern(FORMAT_DATE_TIME).format(localDateTime);
     }
 
 
     /**
-     * 计算两个时间间隔多少时间
+     * 计算时间相差多少个小时
+     *
+     * @param start
+     * @param end
      */
-    public static long diffTimeMillis(Date start, Date end) {
-        long startTimeMillis = start.getTime();
-        long endTimeMillis = end.getTime();
-        return endTimeMillis - startTimeMillis;
-    }
-
-    /**
-     * 计算两个时间间隔多少天
-     */
-    public static long diffDays(Date start, Date end) {
-        long timeMillis = diffTimeMillis(start, end);
-        return timeMillis / (24 * 3600 * 1000);
-    }
-
-
-    /**
-     * 获取当天0点时间戳
-     */
-    public static Date getStartDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取当天23:59:59秒时间戳
-     */
-    public static Date getEndDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(getStartDate());
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
-        calendar.setTimeInMillis(calendar.getTimeInMillis() - 1);
-        return calendar.getTime();
+    public static double diffHours(Date start, Date end) {
+        LocalDateTime timeStart = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime timeEnd = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        Duration between = Duration.between(timeStart, timeEnd);
+        long totalMinutes = between.toMinutes();
+        BigDecimal bigDecimal = new BigDecimal(String.valueOf(totalMinutes));
+        BigDecimal b = new BigDecimal("60");
+        return bigDecimal.divide(b, 2, BigDecimal.ROUND_DOWN).doubleValue();
     }
 
 
     /**
-     * 获取指定天数后的起始时间
+     * 计算时间相差多少分钟
+     *
+     * @param start
+     * @param end
      */
-    public static Date getStartDate(int days) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(getStartDate());
-        calendar.add(Calendar.DAY_OF_YEAR, days);
-        return calendar.getTime();
+    public static long diffMinutes(Date start, Date end) {
+        LocalDateTime timeStart = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime timeEnd = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        Duration duration = Duration.between(timeStart, timeEnd);
+        return duration.toMinutes();
     }
 
 
-    /**
-     * 获取指定天数后的结束时间
-     */
-    public static Date getEndDate(int days) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(getEndDate());
-        calendar.add(Calendar.DAY_OF_YEAR, days);
-        return calendar.getTime();
-    }
-
-    public static void main(String[] args) {
-        String start = "2019-05-27 14:13:30";
-        String end = "2019-05-27 16:20:30";
-        boolean betweenDate = DateUtil.isMiddleTime(DateUtil.parse(start, DateUtil.DATE_TIME), DateUtil.parse(end, DateUtil.DATE_TIME));
-        System.out.println(betweenDate);
+    public static void main(String[] args) throws ParseException {
+        String str = "2020-12-04 06:00:00";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMAT_DATE_TIME);
+        System.out.println(DateUtil.diffHours(simpleDateFormat.parse(str), new Date()));
     }
 
 

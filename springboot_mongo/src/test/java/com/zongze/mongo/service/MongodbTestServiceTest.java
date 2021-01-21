@@ -21,7 +21,7 @@ public class MongodbTestServiceTest {
 
     @Test
     public void add() {
-        User user = new User("张三丰", 100);
+        User user = new User(2,"张三丰", 100);
         mongodbTestService.add(user);
     }
 

@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class User {
 
+    private Integer id;
 
     private String name;
 
@@ -16,6 +17,14 @@ public class User {
     private String clazz;
 
     private List<User> friends;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -49,9 +58,13 @@ public class User {
         this.clazz = clazz;
     }
 
-    public User(String name, Integer age) {
+    public User(Integer id,String name, Integer age) {
+        this.id=id;
         this.name = name;
         this.age = age;
+    }
+
+    public User() {
     }
 
     @Override

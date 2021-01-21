@@ -20,6 +20,7 @@
         <module>springboot_zookeeper</module>
         <module>springboot_freemarker</module>
         <module>springboot_mongo</module>
+        <module>zkClient</module>
     </modules>
 
     <parent>
@@ -55,6 +56,7 @@
         <jol-core.version>0.8</jol-core.version>
         <hutool.version>5.2.0</hutool.version>
         <guava.version>20.0</guava.version>
+        <com.101tec>0.11</com.101tec>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -72,6 +74,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${com.101tec}</version>
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>

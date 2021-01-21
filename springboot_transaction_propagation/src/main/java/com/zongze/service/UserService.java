@@ -21,5 +21,9 @@ public interface UserService {
 
     void add_error3(User user);
 
+    void transactionTemplate(User user);
+
+    void addUserAndCourse();
+
 
 }

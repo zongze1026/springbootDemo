@@ -130,4 +130,35 @@ public class MongoCollectionTestServiceImplTest {
     }
 
 
+    /**
+     * 测试索引
+     *
+     * @param
+     * @return void
+     */
+    @Test
+    public void testIndex() {
+        //name有素引
+        User user = new User();
+        user.setName("张三");
+        queryPageList(user);
+
+        //age没有索引
+        User user02 = new User();
+        user02.setAge(42);
+        queryPageList(user);
+
+    }
+
+    private void queryPageList(User user) {
+        long start = System.currentTimeMillis();
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPageNo(2);
+        pageResult.setPageSize(2000);
+        pageResult = mongoCollectionTestService.queryByPage(pageResult, user);
+        long l = System.currentTimeMillis() - start;
+        System.out.println("查询页码：" + 2 + "查询耗时:" + l+"查询的数据总数："+pageResult.getData().size());
+    }
+
+
 }

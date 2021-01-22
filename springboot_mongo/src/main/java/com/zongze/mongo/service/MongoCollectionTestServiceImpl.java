@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -127,6 +129,13 @@ public class MongoCollectionTestServiceImpl implements MongoCollectionTestServic
     @Override
     public PageResult queryByPage(PageResult pageResult, User user) {
         Query query = new Query();
+        //设置查询条件
+        if(!StringUtils.isEmpty(user.getName())){
+            query.addCriteria(Criteria.where("name").is(user.getName()));
+        }
+        if(null != user.getAge()&& user.getAge()>0){
+            query.addCriteria(Criteria.where("age").is(user.getAge()));
+        }
         //获取从条数
         long count = mongoTemplate.count(query, TABLE_NAME);
         pageResult.setTotalNum(count);

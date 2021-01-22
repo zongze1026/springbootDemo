@@ -70,11 +70,5 @@ public class MongodbGeohashServiceImpl implements MongodbGeohashService {
     }
 
 
-    public static void main(String[] args) {
-        Distance distance = new Distance(20.00,Metrics.NEUTRAL);
-        System.out.println(distance.getNormalizedValue());
-        System.out.println(distance.getValue());
-    }
-
 
 }

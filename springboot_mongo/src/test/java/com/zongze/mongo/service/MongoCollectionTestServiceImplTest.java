@@ -123,9 +123,7 @@ public class MongoCollectionTestServiceImplTest {
             int n = i * 1000;
             pageResult.setPageNo(n);
             pageResult.setPageSize(20);
-            User user = new User();
-            user.setName("张三");
-            pageResult = mongoCollectionTestService.queryByPage(pageResult, user);
+            pageResult = mongoCollectionTestService.queryByPage(pageResult, new User());
             long l = System.currentTimeMillis() - start;
             System.out.println("查询页码：" + n + "查询耗时:" + l+"查询的数据总数："+pageResult.getData().size());
         }

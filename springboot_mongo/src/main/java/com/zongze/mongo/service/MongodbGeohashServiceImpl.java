@@ -53,9 +53,9 @@ public class MongodbGeohashServiceImpl implements MongodbGeohashService {
 
     @Override
     public void findFixedDistance(double x, double y, Integer minDistance, Integer maxDistance, boolean spherical) {
-        NearQuery nearQuery = NearQuery.near(new GeoJsonPoint(x, y),Metrics.KILOMETERS) //指定坐标,返回距离指定距离单位（公里）
-                .minDistance(minDistance) //最小距离
-                .maxDistance(maxDistance) //最大距离
+        NearQuery nearQuery = NearQuery.near(new GeoJsonPoint(x, y)) //指定坐标,返回距离指定距离单位（公里）
+                .minDistance(minDistance,Metrics.KILOMETERS) //最小距离
+                .maxDistance(maxDistance,Metrics.KILOMETERS) //最大距离
                 .spherical(true)
                 .query(Query.query(Criteria.where("name").is("张三"))); //增加筛选条件
 

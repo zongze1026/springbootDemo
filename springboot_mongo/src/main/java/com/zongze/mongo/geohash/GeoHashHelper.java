@@ -73,4 +73,13 @@ public class GeoHashHelper {
         list.add(encode(lat - latUnit, lng - lngUnit));
         return list;
     }
+
+
+    public static void main(String[] args) {
+        GeoHashHelper geoHashHelper = new GeoHashHelper();
+        List<String> around = geoHashHelper.around(30.875829, 120.658232);
+        around.stream().forEach(e-> System.out.println(e));
+    }
+
+
 }

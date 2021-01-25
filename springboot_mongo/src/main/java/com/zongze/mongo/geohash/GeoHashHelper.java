@@ -8,7 +8,7 @@ public class GeoHashHelper {
     public final double Min_Lat = -90;
     public final double Max_Lng = 180;
     public final double Min_Lng = -180;
-    private final int length = 20;
+    private final int length = 30;
     private final double latUnit = (Max_Lat - Min_Lat) / (1 << 20);
     private final double lngUnit = (Max_Lng - Min_Lng) / (1 << 20);
     private final String[] base32Lookup =

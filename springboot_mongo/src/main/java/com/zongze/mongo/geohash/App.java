@@ -14,6 +14,8 @@ public class App {
         // System.out.println("waste time: " + (System.currentTimeMillis() - start));
         //30.316284,120.176482  30.316488,120.172555
         System.out.println(DistanceHepler.distance(30.314558,120.172638 , 30.316497,120.172491));
+        //0.21597588679375132
+        //0.21597588679375132
     }
 
 }

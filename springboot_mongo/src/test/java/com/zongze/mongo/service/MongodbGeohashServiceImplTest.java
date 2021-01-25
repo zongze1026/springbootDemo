@@ -49,7 +49,7 @@ public class MongodbGeohashServiceImplTest {
     @Test
     public void findFixedDistance() {
         //x=120.671264, y=30.854961
-        mongodbGeohashService.findFixedDistance(120.658232, 30.875829, 1, 10, true);
+        mongodbGeohashService.findFixedDistance(120.658232, 30.875829, 1, 10, false);
     }
 
 

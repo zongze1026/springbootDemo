@@ -9,8 +9,8 @@ public class GeoHashHelper {
     public final double Max_Lng = 180;
     public final double Min_Lng = -180;
     private final int length = 30;
-    private final double latUnit = (Max_Lat - Min_Lat) / (1 << 20);
-    private final double lngUnit = (Max_Lng - Min_Lng) / (1 << 20);
+    private final double latUnit = (Max_Lat - Min_Lat) / (1 << 30);
+    private final double lngUnit = (Max_Lng - Min_Lng) / (1 << 30);
     private final String[] base32Lookup =
             {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "b", "c", "d", "e", "f", "g", "h",
                     "j", "k", "m", "n", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};

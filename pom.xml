@@ -171,11 +171,11 @@
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>${druid.verison}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.alibaba</groupId>-->
+                <!--<artifactId>druid</artifactId>-->
+                <!--<version>${druid.verison}</version>-->
+            <!--</dependency>-->
             <!--二维码合成-->
             <dependency>
                 <groupId>com.google.zxing</groupId>

@@ -256,34 +256,10 @@ public class ObjectUtil {
 
 
     public static void main(String[] args) {
-        String xmlString = "<?xml version = \"1.0\" encoding=\"UTF-8\" ?>\n" +
-                "<DOCUMENT>\n" +
-                "\t<RETURN_CODE>000000</RETURN_CODE>\n" +
-                "    <RETURN_MSG></RETURN_MSG>\n" +
-                "\t<CURPAGE>1</CURPAGE>\n" +
-                "\t<PAGECOUNT>1</PAGECOUNT>\n" +
-                "\t<TOTAL>1</TOTAL>\n" +
-                "\t<PAYAMOUNT>0.00</PAYAMOUNT>\n" +
-                "\t<REFUNDAMOUNT>0.00</REFUNDAMOUNT>\n" +
-                "\n" +
-                "\t<QUERYORDER>\n" +
-                "\t\t<MERCHANTID>105335000000965</MERCHANTID>\n" +
-                "\t\t<BRANCHID>330000000</BRANCHID>\n" +
-                "\t\t<POSID>006080355</POSID>\n" +
-                "\t\t<ORDERID>590125157926830080</ORDERID>\n" +
-                "\t\t<ORDERDATE>20190617102737</ORDERDATE>\n" +
-                "\t\t<ACCDATE>20190617</ACCDATE>\n" +
-                "\t\t<AMOUNT>0.03</AMOUNT>\n" +
-                "\t\t<STATUSCODE>1</STATUSCODE>\n" +
-                "\t\t<STATUS>成功</STATUS>\n" +
-                "\t\t\n" +
-                "\t\t<REFUND>0.00</REFUND>\n" +
-                "\t\t<SIGN>4d062c7fc04001ed81c1ca1f48eee5459b157a683e25be98f41a844622517c189802f39d1bea737b8270be0db0b0aaff59d337112ec808671391a1388a51abfcb23c4129499ab07afe66ba7541c484b5566532f5ba62de8b88df41362fca37e14c1a9f1837b80718e6fb24c58fc7661741d12c5e7ca2c15086eeea9734000172</SIGN>\n" +
-                "\t</QUERYORDER>\n" +
-                "\n" +
-                "</DOCUMENT>";
-        JSONObject jsonObject = ObjectUtil.convertXmlStr(xmlString);
-        System.out.println(jsonObject.toJSONString());
+        byte[] bytes = int2bytes(15);
+        System.out.println(bytesToHexString(bytes));
+        int i = Integer.parseUnsignedInt("0000000f", 16);
+        System.out.println(i);
     }
 
 

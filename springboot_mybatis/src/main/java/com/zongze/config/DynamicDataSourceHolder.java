@@ -47,11 +47,10 @@ public class DynamicDataSourceHolder {
         stack.pushString("a");
         stack.pushString("b");
         stack.pushString("c");
-        System.out.println(stack.size());
         System.out.println(stack.peekString());
-        System.out.println(stack.size());
         System.out.println(stack.popString());
-        System.out.println(stack.size());
+        System.out.println(stack.popString());
+        System.out.println(stack.popString());
 
 
 

@@ -69,7 +69,7 @@ public class MongoCollectionTestServiceImpl implements MongoCollectionTestServic
         Query query = new Query();
         query.addCriteria(Criteria.where("name").is(name)); //条件
         query.with(Sort.by("age").descending()); //单字段排序
-//        query.with(Sort.by(Sort.Order.asc("age"),Sort.Order.asc("name")));//多字段排序
+        query.with(Sort.by(Sort.Order.asc("age"),Sort.Order.asc("name")));//多字段排序
         return mongoTemplate.find(query, User.class, TABLE_NAME);
     }
 

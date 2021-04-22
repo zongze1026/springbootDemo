@@ -47,7 +47,7 @@
         <httpclient.version>4.5.5</httpclient.version>
         <xstream.version>1.4.4</xstream.version>
         <protobuf.version>3.6.1</protobuf.version>
-        <netty.version>4.1.29.Final</netty.version>
+        <netty.version>4.1.42.Final</netty.version>
         <zookeeper.version>3.4.14</zookeeper.version>
         <zxing.version>3.3.3</zxing.version>
         <swagger.annotations>1.5.21</swagger.annotations>

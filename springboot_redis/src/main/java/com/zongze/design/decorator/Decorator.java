@@ -14,8 +14,11 @@ public class Decorator implements Car {
     @Override
     public void run() {
         if(decorator instanceof SuperCar){
-            System.out.println("超级跑车只能跑80码");
+            decorator.run();
         }else{
+            System.out.println("普通汽车改装前");
+            decorator.run();
+            System.out.println("普通汽车改装后");
             System.out.println("普通汽车能跑180码");
         }
     }

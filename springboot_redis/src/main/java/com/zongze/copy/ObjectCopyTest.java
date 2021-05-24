@@ -8,7 +8,7 @@ import java.io.*;
  * 测试对象深浅拷贝
  *
  */
-public class AA {
+public class ObjectCopyTest {
 
 
     public static void main(String[] args) throws CloneNotSupportedException {
@@ -30,7 +30,7 @@ public class AA {
         Student student = new Student("小张");
         School school = new School(teacher,student);
 
-        School clone = (School) doCopyObject(school);
+        School clone = (School) copyObject(school);
         System.out.println(school == clone);
         System.out.println(school.getTeacher() == clone.getTeacher());
         System.out.println(school.getStudent() == clone.getStudent());
@@ -55,7 +55,7 @@ public class AA {
     /**
      * 序列化拷贝工具
      */
-    public static Object doCopyObject(Object source){
+    public static Object copyObject(Object source){
         Object target = null;
         ObjectOutputStream oos = null;
         ByteArrayOutputStream bos = null;

@@ -2,12 +2,14 @@ package com.zongze.copy;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @Date 2021/5/21 15:04
  * @Created by xiezz
  */
 @Data
-public class School implements Cloneable{
+public class School implements Cloneable,Serializable {
 
     private Teacher teacher;
 

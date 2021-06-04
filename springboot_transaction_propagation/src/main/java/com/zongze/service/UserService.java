@@ -23,7 +23,6 @@ public interface UserService {
 
     void transactionTemplate(User user);
 
-    void addUserAndCourse();
 
 
 }

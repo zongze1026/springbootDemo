@@ -62,7 +62,7 @@ public class UserManageService {
         user2.setUserName("lisi");
         user2.setAge(28);
         userService.add(user1);
-        userService.add_error(user2);
+//        userService.add_error(user2);
     }
 
     /***************************************************************************************/

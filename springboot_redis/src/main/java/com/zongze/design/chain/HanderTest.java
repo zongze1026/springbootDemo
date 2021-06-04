@@ -14,7 +14,7 @@ public class HanderTest {
         brother.setHander(mother);
         mother.setHander(father);
 
-        String result = brother.doHander(500.00);
+        String result = brother.doHander(20);
         System.out.println(result);
 
     }
